@@ -128,7 +128,7 @@ public void evaluateDistinction() {
 `
 ```
 
-**Pregunta: ** ¿Por qué?
+**Pregunta:** ¿Por qué?
 
 #### Demostración sin OCP
 
@@ -168,7 +168,7 @@ mayor beneficio.
 
 El LSP dice que deberías poder sustituir un tipo padre (o base) con un subtipo. Significa que en un segmento de programa. puedes usar una clase derivadaen lugar de una clase base sin alterar la correción del programa.
 
-#### Programa Inicial
+#### Programa inicial
 
 Utilizo un portal de pago en línea para pagar una factura. Como soy un usuario registrado, cuando realizo una solicitud de pago en este portal, también muestra mis pagos anteriores. Consideremos un ejemplo simplificado basado en este escenario de la vida real. 
 
@@ -181,7 +181,7 @@ Utilizas una instrucción for mejorada (a menudo se denomina bucle for mejorado)
 
 Dentro del código del cliente, crea dos usuarios y muestra sus solicitudes de pago actuales junto con los pagos anteriores. Todo está bien hasta ahora.
 
-#### Demostración son LSP
+#### Demostración con LSP
 
 - Payment.java
 - RegisteredUserPayment.java
@@ -189,3 +189,130 @@ Dentro del código del cliente, crea dos usuarios y muestra sus solicitudes de p
 - Cliente.java
 
 **Pregunta:**. Realiza una salida de muestra.
+
+Este programa parece estar bien. Ahora supongamos que tienes un nuevo requisito que dice que necesitas admitir usuarios invitados en el futuro. Puedes procesar la solicitud de pago de un usuario invitado, pero no se muestra su último detalle de pago. Entonces, creas la siguiente clase que implementa la interfaz de pago:
+
+
+```
+class GuestUserPayment implements Payment {
+String name;
+   public GuestUserPayment() {
+   this.name = "guest"; 
+   }
+   @Override
+   public void previousPaymentInfo(){
+      throw new UnsupportedOperationException();
+}
+@Override
+   public void newPayment(){
+   System.out.println("Procesando de "+name+ "pago actual
+   request.");
+   }
+}
+```
+**Pregunta:** Dentro del método main(), ahora crea una instancia de usuario invitado e intenta usar su clase auxiliar de la misma manera. 
+
+#### ¿Cuál es la solución con LSP ?
+
+La primera solución obvia que se te puede ocurrir es introducir una cadena if-else para verificar si la instancia de pago es un pago de usuario invitado (GuestUserPayment) o un pago de usuario registrado (RegisteredUserPayment). ¿Es una buena solución?
+
+**Pregunta:** Elimina el método newPayment() de la interfaz de payment. Coloca este método en otra interfaz llamada NewPayment. 
+
+Ahora tienes dos interfaces con las operaciones específicas. Dado que todos los tipos de usuarios pueden generar una nueva solicitud de pago, las clases concretas de RegisteredUserPayment y GuestUserPayment implementan la interfaz NewPayment y muestran el último detalle de pago solo para los usuarios registrados. Así la clase RegisteredUser implementa la interfaz payment. 
+Dado que Payment contiene el método previousPaymentInfo(), tiene sentido elegir un nombre mejor, como PreviousPayment en lugar de Payment.
+
+
+```
+interface PreviousPayment {
+   void previousPaymentInfo();
+}
+interface NewPayment {
+   void newPayment();
+}
+```
+
+Ajusta estos nuevos nombres en la clase auxilial. Debes tener completados los siguientes archivos.
+
+- PreviousPayment.java
+- NewPayment.java
+- RegisteredUserPayment.java
+- GuestUserPayment.java
+- PaymentHelper.java
+- Cliente.java
+
+**Problema:** ¿cuáles son los cambios clave?
+
+### Principio de segregación de interfaz
+
+Sugiere que no contamines una interfaz con  métodos innecesarios solo para admitir una (o algunas) de las clases de implementación de esta interfaz. La idea es que un cliente no debe depender de un método que no utiliza.
+
+#### Programa inicial
+
+Supongamos que tiene la interfaz Impresora con dos métodos, printDocument() y sendFax(). Hay varios usuarios de esta clase. Para simplificar, consideremos solo dos de ellos: BasicPrinter y AdvancedPrinter.
+
+Una impresora básica puede imprimir documentos. No es compatible con ninguna otra funcionalidad. Por lo tanto, BasicPrinter solo necesita el método printDocument(). Una impresora avanzada puede imprimir documentos y enviar faxes. Entonces, AdvancedPrinter necesita ambos métodos.
+
+En este caso, un cambio en el método sendFax() en AdvancedPrinter puede obligar a la interfaz Printer a cambiar, lo que a su vez obliga al código de BasicPrinter a recompilarse. Esta situación no es deseada y puede causarle problemas potenciales en el futuro.
+
+**Pregunta:** En este caso ISP sugiere que diseñes tu interfaz con los métodos adecuados que un cliente en particular pueda necesitar. ¿Por qué un usuario necesita cambiar una clase base (o una interfaz)?
+
+**Pregunta:** ¿Ayuda escribir código polimórfico como el siguiente?. Explica tu respuesta.
+
+```
+Impresora impresora = new ImpresoraAvanzada();
+impresora.printDocument();
+impresora.sendFax();
+impresora = new ImpresoraBasica();
+impresora.printDocument();
+// impresora.sendFax();
+``` 
+
+**Pregunta:** ¿Qué sucede si escribimos algo así en el código dado?
+
+
+```
+List<Impresora> impresoras = new ArrayList<Impresoras>();
+impresoras.add(new ImpresoraAvanzada());
+impresoras.add(new ImpresoraBasica());
+for (Impresora device : impresoras) {
+  device.printDocument();
+// device.sendFax();
+}
+```
+
+Realiza una demostración:
+
+- Impresora.java
+- ImpresoraBasica.java
+- ImpresoraAvanzada.java
+- Cliente.java
+
+#### Mejor programa
+
+Busquemos una mejor solución. Entiendes que hay dos actividades diferentes: una es imprimir unos documentos y la otra es enviar un fax. Entonces, en el siguiente ejemplo, crea dos interfaces llamada Impresora y DispositivoFax. Impresora contiene el método printDocument() y FaxDevice contiene el
+método SendFax(). La idea es sencilla:
+
+- La clase que desea la función de impresión implementa la interfaz Impresora y la clase que desea la función de fax implementa la interfaz DispositivoFax.
+- Si una clase quiere ambas funcionalidades, implementa ambas interfaces.
+-
+No debes asumir que el ISP dice que una interfaz debe tener solo un método. En este ejemplo, hay dos métodos en la interfaz de Impresora y la clase ImpresoraBasica necesita solo uno de ellos. Es por eso que ves las interfaces segregadas con un solo método.
+
+**Pregunta:** Realiza una salida de muestra
+
+- Impresora.java
+- DispositivoFax.java
+- ImpresoraBasica.java
+- ImpresoraAvanzada.java
+- Cliente.java
+
+**Pregunta:**¿Qué sucede si usa un método predeterminado dentro de la interfaz? Por ejemplo, si proporcionas un método de fax predeterminado en una interfaz (o una clase abstracta), ImpresoraBasica debes sobreescribirlo y decir algo similar a lo siguiente:
+
+
+```
+@Override
+public void sendFax() {
+  throw new UnsupportedOperationException();
+}
+```
+
+¿Viste el problema potencial con esto! . Pero, ¿qué sucede si usas un método vacío, en lugar de lanzar la excepción?.
