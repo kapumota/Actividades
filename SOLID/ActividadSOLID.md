@@ -162,6 +162,7 @@ mayor beneficio.
 - Cliente.java
 
 **Pregunta:**. Realiza una salida de muestra de tu respuesta. Explica los cambios realizados
+
 **Pregunta:**  ¿Cuáles son las principales ventajas ahora?
 
 ### Principio de Sustitución de Liskov
