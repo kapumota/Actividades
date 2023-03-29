@@ -395,7 +395,7 @@ En resumen, en OOP, sugiero seguir la cita de Robert C. Martin:
 
 Entonces, cuando tienes una clase base y una clase derivada, tu clase base no debe conocer ninguna de sus clases derivadas. Pero hay pocas excepciones a esta sugerencia. Por ejemplo, considera el caso en el que tu clase base necesita restringir el recuento de las instancias de la clase derivada en un punto
 determinado.
-.
+
 **Pregunta:** Puedes ver que en la demostración, el constructor de la clase InterfazUsuario acepta un parámetro de base de datos.
 Puedes proporcionar una instalación adicional a un usuario cuando utilizas tanto el constructor como el
 método setter (setDatabase) dentro de esta clase. Aquí hay un código de muestra.
@@ -433,5 +433,5 @@ usuario.setDatabase(new OracleDatabase());
 usuario.saveEmployeeId("E002");
 ``` 
 
-**Pregunta:** Verifica los resultados.
+**Pregunta:** Verifica tus resultados.
 
