@@ -35,10 +35,10 @@ empleado junior
 
 - Cliente.java
 
-**Pregunta 1**: Realiza una salida de muestra. Ten en cuenta que la identificación(ID) de un empleado puede
+**Pregunta**: Realiza una salida de muestra. Ten en cuenta que la identificación(ID) de un empleado puede
 variar en tu caso porque genera un número aleatorio para obtener la identificación (ID) del empleado.
 
-**Pregunta 2**: ¿Cuál es el problema con este diseño?
+**Pregunta**: ¿Cuál es el problema con este diseño?
 
 #### Mejor programa
 
@@ -53,17 +53,17 @@ Para mejorar la legibilidad del código y evitar torpezas dentro del método mai
 estático showEmpDetail(...). Este método llama al método displayEmpDetail() de Empleado, al método
 generateEmpId() de GeneradorIDEmpleado y al método checkSeniority() de SeniorityChecker. 
 
-Debes
-entender que este método no era necesario, pero hace que el código del cliente sea simple y fácilmente
+Debes entender que este método no era necesario, pero hace que el código del cliente sea simple y fácilmente
 comprensible.
 
 #### Demostración con SRP
 
-- Pregunta 3: realiza una demostración completa que sigue a SRP.
 - Empleado.java
 - GeneradorIdEmpleado.java
 - SeniorityChecker.java
 - Cliente.java
+
+**Pregunta:** Realiza una demostración completa que sigue a SRP.
 
 **Importante:** ten en cuenta que el SRP no dice que una clase deba tener como máximo un método. Aquí el
 énfasis está en la responsabilidad individual. puede haber métodos estrechamente relacionados que
@@ -128,7 +128,7 @@ public void evaluateDistinction() {
 `
 ```
 
-**Pregunta**¿Por qué?
+**Pregunta: ** ¿Por qué?
 
 #### Demostración sin OCP
 
