@@ -1,5 +1,12 @@
 ## Curso de desarrollo de software
 
+**Indicaciones**
+
+Inicia un repositorio llamado CC-3S2 y dentro una carpeta llamada Actividades. Dentro de esta carpeta abre una carpeta llamada Actividad1 y coloca todas tus respuestas.
+
+Esta actividad es grupal.
+
+
 ### Pruebas en sotware - parte1
 
 Una prueba es un ejemplo de un proceso más general llamado validación. El propósito de la validación es descubrir problemas en un programa y, por lo tanto, aumentar tu confianza en la corrección del programa.  
