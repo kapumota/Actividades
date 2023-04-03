@@ -4,8 +4,7 @@
 
 Descarga la actividad incompleta desde aquí:
 https://github.com/kapumota/Actividades/tree/main/SOLID/SOLID  
-Debes construir una carpeta llamada SOLID-CC3S2 en github y subir el proyecto
-desarrollado. 
+Inicia un repositorio llamado CC-3S2 y dentro una carpeta llamada Actividades. Dentro de esta carpeta abre una carpeta llamada SOLID y coloca todas tus respuestas.
 No es una tarea calificada, solo es un repaso de lo realizado en clase.
 
 ### Principio de responsabilidad única
