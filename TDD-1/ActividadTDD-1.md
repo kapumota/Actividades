@@ -15,7 +15,7 @@ Para este proyecto utilizaremos las siguientes herramientas:
 - El sistema de gestión de dependencias de Gradle 
 
 
-Una vez que se instala IntelliJ, podemos importar el proyecto de inicio proporcionado en el repositorio de GitHub adjunto. Esto configura un proyecto de Java que utiliza el kit de desarrollo de Java (JDK) de Amazon Corretto 17, el ejecutor de pruebas de unidades JUnit 5, el sistema de gestión de compilación Gradle y la biblioteca de aserciones fluidas AssertJ. Para ello, consulte los siguientes pasos: 
+Una vez que se instala IntelliJ, podemos importar el proyecto de inicio proporcionado en el repositorio de GitHub adjunto. Esto configura un proyecto de Java que utiliza el kit de desarrollo de Java (JDK) de Amazon Corretto 17, el ejecutor de pruebas de unidades JUnit 5, el sistema de gestión de compilación Gradle y la biblioteca de aserciones fluidas AssertJ. Para ello, consulta los siguientes pasos: 
 
 1. En tu navegador web, vaya a  https://github.com/kapumota/Actividades y selecciona TDD-1
 
@@ -86,9 +86,9 @@ El flujo de trabajo que usaremos es típico para un proyecto TDD ágil:
 
 - Escoge una historia de usuario priorizada por impacto. 
 - Piensa un poco en el diseño al que aspiras. 
-- Usa TDD para escribir la lógica de la aplicación en el núcleo. 
-- Usa TDD para escribir código para conectar el núcleo a una base de datos. 
-- Usa TDD para escribir código para conectarse a un punto final de API. 
+- Usa TDD para escribir la lógica de la aplicación en el core. 
+- Usa TDD para escribir código para conectar el core a una base de datos. 
+- Usa TDD para escribir código para conectarse a un punto final de la API. 
 
 Este proceso se repite. 
 
