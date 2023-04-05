@@ -176,7 +176,7 @@ Referencia: [Automated Regression Testing: Everything You Need To Know ﻿](http
 
 - Cuando una nueva prueba expone un error, debe ejecutarla en todas las versiones anteriores del código hasta que encuentre la versión en la que se introdujo el error.
 
-Referencia: []()
+
 **Ejercicio**
 
 ¿Cuáles de los siguientes son buenos momentos para volver a ejecutar todas tus pruebas JUnit?
