@@ -7,6 +7,55 @@ Descarga la actividad incompleta desde aquí:https://github.com/kapumota/Activid
 Inicia un repositorio llamado CC-3S2 y dentro una carpeta llamada Actividades. Dentro de esta carpeta abre una carpeta llamada TDD-1 y coloca todas tus respuestas.
 
 
+## Iniciando TDD: Arrange-Act-Assert
+
+Siempre es útil tener plantillas para seguir cuando hacemos cosas y las pruebas unitarias no son una excepción. Con base en el trabajo comercial realizado en el Proyecto de Compensación Integral de Chrysler , el inventor de TDD, Kent Beck, descubrió que las pruebas unitarias tenían ciertas características en común. Esto se resumió como una estructura recomendada para el código de prueba, llamada `Arrange-Act-Assert` o `AAA`. 
+
+La descripción original de `AAA` se puede encontrar aquí, en el wiki de C2: http://wiki.c2.com/?ArrangeActAssert. 
+
+Para explicar lo que hace cada sección, analicemos una prueba unitaria completa para un fragmento de código en el que queremos asegurarnos de que un nombre de usuario se muestre en minúsculas: 
+
+
+```
+import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.*;
+public class UsernameTest {
+    @Test
+    public void convertsToLowerCase() {
+        var username = new Username("SirLara35179");
+        String actual = username.asLowerCase();
+        assertThat(actual).isEqualTo("sirLara35179");
+    }
+}
+```
+
+Lo primero que debe notar es el nombre de la clase para nuestra prueba:  `UsernameTest`. ¿Qué comentario se puede hacer a partir de esto?  
+
+La prueba unitaria en sí es el método `convertsToLowerCase()`. Este método tiene la anotación `@Test` del framework de prueba JUnit5. La anotación le dice a JUnit que esta es una prueba que puede ejecutar para nosotros. 
+
+Dentro del método `@Test`, podemos ver la estructura `Arrange-Act-Assert`. 
+
+Primero `arrange` para que nuestro código pueda ejecutarse. Esto implica la creación de los objetos necesarios, el suministro de la configuración necesaria y la conexión de los objetos y funciones dependientes. A veces, no necesitamos este paso, por ejemplo, si estamos probando una función independiente simple. 
+
+En el código de ejemplo, ¿cuál es el paso `Arrange`? 
+
+El paso `Act` sigue. Esta es la parte en la que hacemos que nuestro código bajo prueba actúe: ejecutamos ese código. Esta es siempre una llamada al código bajo prueba, proporcionando los parámetros necesarios y organizando la captura de los resultados. 
+
+En el código de ejemplo, ¿cuál es el paso `Act`? 
+
+
+Completar nuestra prueba es el último paso `Assert`.  `AssertThat(actual).isEqualTo("sirLara35179");`  es la línea del paso `assert` aquí. Utiliza el método `assertThat()` y el método `isEqualTo()` de la biblioteca de aserciones fluidas `AssertJ`. 
+Tu trabajo es verificar si el resultado que obtuvimos del paso `Act` coincide con nuestras expectativas o no. Aquí, estamos probando si todas las letras mayúsculas del nombre original se han convertido en minúsculas. 
+
+
+La librería  JUnit es el framework de prueba de unidad estándar de la industria para Java. Nos proporciona un medio para anotar los métodos de Java como pruebas unitarias, nos permite ejecutar todas nuestras pruebas y muestra visualmente los resultados.
+
+Revisa: https://www.jetbrains.com/help/idea/tdd-with-intellij-idea.html 
+
+
+¿Puedes ejecutar la prueba del código anterior?, ¿la prueba pasa, sino puedes usar TDD?.
+
+
 ## Aplicación Wordz.
 
 En esta actividad vamos a comenzar con una clase que contendrá el core de la lógica de la aplicación, una que represente una palabra para adivinar y que pueda calcular el puntaje de una suposición. Comenzamos creando una clase de prueba unitaria y esto nos pone inmediatamente en modo de diseño de software: ¿cómo deberíamos llamar la prueba? 
