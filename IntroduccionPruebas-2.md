@@ -251,7 +251,7 @@ ayuda que puedas obtener para asegurarse de hacerlo bien.
 
 - Escribir un algoritmo de búsqueda lineal simple 
 
-**Ejercicios**
+**Ejercicio**
 
 ¿Cuál de estos pasos ayudará a validar tu conjunto de pruebas antes de implementar el algoritmo de búsqueda binaria? 
 
@@ -260,4 +260,124 @@ ayuda que puedas obtener para asegurarse de hacerlo bien.
 - ejecutar una herramienta de cobertura de código en una implementación simple
 
 - Verificación de tipos estáticos ejecutando el compilador de Java 
+
+### Documenta tu estrategia de prueba 
+
+Es una buena idea anotar la estrategia de prueba que se usó para crear un conjunto de pruebas: las particiones, tus subdominios y qué subdominios se eligió para cubrir cada caso de prueba. Escribir la estrategia hace que la minuciosidad de tu conjunto de pruebas sea mucho más visible para el lector.
+ 
+Documenta las particiones y los subdominios en un comentario en la parte superior de la clase de prueba JUnit. Por ejemplo, para documentar la estrategia para probar `max`, escribiríamos esto en `MaxTest.java`: 
+
+```
+public class MaxTest {
+  /*
+   * Estrategia de prueba
+   *
+   * particion:
+   *    a < b
+   *    a > b
+   *    a = b
+   */
+
+```
+
+Cada caso de prueba debe tener un comentario arriba que diga qué subdominio(s) cubre, por ejemplo: 
+
+```
+// cubre a < b
+  @Test
+  public void testALessThanB() {
+      assertEquals(2, Math.max(1, 2));
+  }
+
+
+```
+La mayoría de los conjuntos de pruebas tendrán más de una partición y la mayoría de los casos de prueba cubrirán varios subdominios. Por ejemplo, aquí hay una estrategia para `multiply`, usando siete particiones: 
+
+```
+public class Multiply {
+  /*
+   * Estrategia de prueba
+   *
+   * cubre el producto cartesiano de esas particiones:
+   *   particion en a: positivo, negativo, 0
+   *   particion en b: positivo, negativo, 0
+   *   particion en a: 1, !=1
+   *   particion en b: 1, !=1
+   *   particion en a: pequeño (este es un valor large), o grande
+   *   particion en b: pequeño, grande
+   * 
+   * cubre el subdominio de esas particiones:
+   *   particion de signos de a y b:
+   *      ambos positivos
+   *      ambos negativos
+   *      diferentes signos
+   *      uno o ambos ceros
+   */
+
+
+```
+Luego, cada caso de prueba tiene un comentario que identifica los subdominios que se eligió cubrir, por ejemplo: 
+
+```
+// cubre a positivo, b negativo, 
+  //        a cabe en  large, b cabe en large,
+  //        a y b tienen diferentes signos
+  @Test
+  public void testDifferentSigns() {
+      assertEquals(BigInteger.valueOf(-146), BigInteger.valueOf(73).multiply(BigInteger.valueOf(-2)));
+  }
+
+  // cubre a = 1, b != 1, a y b tienen el mismo signo
+  @Test
+  public void testIdentity() {
+      assertEquals(BigInteger.valueOf(33), BigInteger.valueOf(1).multiply(BigInteger.valueOf(33)));
+  }
+
+```
+**Ejercicios**
+
+Supongamos que está escribiendo un conjunto de pruebas para el método `max(int a, int b)` en `Math.java`. 
+Por convención, colocas tus pruebas JUnit en otro archivo `MathTest.java`. 
+
+¿Adónde va cada una de estas piezas de tu documentación de prueba?
+
+La partición para el parámetro `a`:
+
+- En un comentario al comienzo de `Math.java` 
+
+- En un comentario al comienzo de `MathTest.java` 
+
+- En un comentario justo antes del método `max()`
+
+- En un comentario justo antes de un método de prueba JUnit 
+
+La anotación `@Test` 
+
+- Justo antes de la clase `Math` 
+
+- Justo antes de la clase `MathTest` 
+
+- Justo antes del método `max()` 
+
+- Justo antes de un método de prueba JUnit
+
+El comentario `covers a < b` 
+
+- En un comentario al comienzo de `Math.java`
+
+- En un comentario al comienzo de `MathTest.java`
+
+- En un comentario justo antes del método `max()` 
+
+- En un comentario justo antes de un método de prueba JUnit
+
+El comentario `@return` el máximo de `a` y `b`
+
+- En un comentario al comienzo de `Math.java`
+
+- En un comentario al comienzo de `MathTest.java`
+
+- En un comentario justo antes del método `max()`
+
+- En un comentario justo antes de un método de prueba JUnit
 
