@@ -45,6 +45,7 @@ En el código de ejemplo, ¿cuál es el paso `Act`?
 
 
 Completar nuestra prueba es el último paso `Assert`.  `AssertThat(actual).isEqualTo("sirLara35179");`  es la línea del paso `assert` aquí. Utiliza el método `assertThat()` y el método `isEqualTo()` de la biblioteca de aserciones fluidas `AssertJ`. 
+
 Tu trabajo es verificar si el resultado que obtuvimos del paso `Act` coincide con nuestras expectativas o no. Aquí, estamos probando si todas las letras mayúsculas del nombre original se han convertido en minúsculas. 
 
 
@@ -54,6 +55,118 @@ Revisa: https://www.jetbrains.com/help/idea/tdd-with-intellij-idea.html
 
 
 ¿Puedes ejecutar la prueba del código anterior?, ¿la prueba pasa, sino puedes usar TDD?.
+
+
+Las pruebas más útiles también siguen el  principios FIRST y usan una aserción por prueba.
+
+
+### Aplicando FIRST
+
+Estos son un conjunto de cinco principios que hacen que las pruebas sean más efectivas: 
+
+- Rápidas 
+- Aisladas 
+- Repetibles 
+- Autoverificables 
+- Oportunas
+
+### Usando una aserción por prueba 
+
+Se centra en los mensajes de error que recibimos durante las pruebas fallidas y nos ayuda a controlar la complejidad de nuestro código. Nos obliga a desglosar las cosas un poco más. 
+
+### Detectar errores comunes
+
+Hay varios errores simples comunes que podemos cometer y las pruebas unitarias son excelentes para detectarlos todos. Los errores más probables son los siguientes: 
+
+- Errores de uno en uno (off-by-one)
+- Lógica condicional invertida 
+- Condiciones que faltan 
+- Datos no inicializados 
+- El algoritmo incorrecto 
+- Comprobaciones de igualdad rotas 
+
+Volviendo a la prueva anterior para un nombre de usuario en minúsculas, supongamos que decidimos no implementar esto usando el método `.toLowerCase()` incorporado de `String`, sino que intentamos generar nuestro propio código de bucle, así:
+
+```
+public class Username {
+    private final String name;
+    public Username(String username) {
+        name = username;
+    }
+    public String asLowerCase() {
+        var result = new StringBuilder();
+        for (int i=1; i < name.length(); i++) {
+            char current = name.charAt(i);
+            if (current > 'A' && current < 'Z') {
+                result.append(current + 'a' - 'A');
+            } else {
+                result.append( current );               
+            }
+        }
+        return result.toString() ;
+    }
+}
+```
+¿Qué tipo de error produce que la prueba falle?
+
+### Aserción de  excepciones 
+
+Un área en la que las pruebas unitarias sobresalen es en la prueba del código de manejo de errores. Como ejemplo de cómo probar el lanzamiento de excepciones, agreguemos un requisito comercial de manera que los nombres de usuario deben tener al menos cuatro caracteres. Pensamos en el diseño que queremos y decidimos lanzar una excepción personalizada si el nombre es demasiado corto. Decidimos representar esta excepción personalizada como clase `InvalidNameException`. Así es como se ve la prueba, usando AssertJ:
+
+```
+@Test
+public void rejectsShortName() {
+    assertThatExceptionOfType(InvalidNameException.class)
+            .isThrownBy(()->new Username("Abc"));
+}
+```
+
+Podemos considerar agregar otra prueba específicamente destinada a demostrar que se acepta un nombre de cuatro caracteres y no se lanza ninguna excepción: 
+
+```
+@Test
+public void acceptsMinimumLengthName() {
+    assertThatNoException()
+            .isThrownBy(()->new Username("Abcd"));
+}
+```
+
+Alternativamente, podemos simplemente decidir que esta prueba explícita no es necesaria. Podemos cubrirlo implícitamente con otras pruebas. 
+
+**Es una buena práctica agregar ambas pruebas para dejar claras nuestras intenciones**
+
+
+### Solo probando métodos públicos 
+
+TDD se trata de probar los comportamientos de los componentes, no sus implementaciones. Dentro de una prueba, esto aparece como llamar a métodos o funciones públicas en clases y paquetes públicos. Los métodos públicos son los comportamientos que elegimos exponer a una aplicación más amplia. Cualquier dato privado o código de soporte en clases, métodos o funciones permanece oculto.
+
+### Preservando la encapsulación 
+
+Si sentimos que necesitamos agregar `getters` a todos nuestros datos privados para que la prueba pueda verificar que cada uno es como se esperaba, a menudo es mejor tratar esto como un objeto de valor. Un **objeto de valor**  es un objeto que carece de identidad. 
+
+Dos objetos de valor que contengan los mismos datos se consideran iguales. Usando objetos de valor, podemos crear otro objeto que contenga los mismos datos privados y luego probar que los dos objetos son iguales. 
+
+En Java, esto requiere que codifiquemos un método `equals()` personalizado para nuestra clase. Si hacemos esto, también deberíamos codificar un método `hashcode()`, ya que los dos van de la mano. Cualquier implementación que funcione servirá.
+
+
+### Importante
+
+Cuando nuestro diseño no es bueno, las secciones AAA de nuestra prueba revelarán esos problemas de diseño a medida que el código huele mal en la prueba. 
+
+#### Arrange
+
+Si el código en el paso `Arrange` está desordenado, tu objeto puede ser difícil de crear y configurar. Puedes necesitar demasiados parámetros en un constructor o demasiados parámetros opcionales dejados como null en la prueba. 
+
+Puede ser que el objeto necesite inyectar demasiadas dependencias, lo que indica que tiene demasiadas responsabilidades o puedes necesitar demasiados parámetros de datos primitivos para pasar muchos elementos de configuración.
+
+
+### Act 
+
+Llamar a la parte principal del código en el paso `Act` suele ser sencillo, pero puede revelar algunos errores básicos de diseño. Por ejemplo, es posible que tengamos parámetros poco claros que pasamos, firmas como una lista de objetos booleanos o de cadena.
+
+### Assert
+
+El paso `Assert` revelará si los resultados del código son difíciles de usar. Podemos rediseñar para usar construcciones más seguras en cualquier caso. 
 
 
 ## Aplicación Wordz.
@@ -95,7 +208,7 @@ public void oneIncorrectLetter () {
 }
 ```
 
-3 . Usamos **autocomplet**e en este punto para crear una nueva clase `Word` en tu propio archivo. Doble click en  src/main folder tree y no en src/test. 
+3 . Usamos **autocomplete** en este punto para crear una nueva clase `Word` en tu propio archivo. Doble click en  src/main folder tree y no en src/test. 
 
 
 4 . Haz clic en **OK** para crear el archivo en el árbol fuente dentro del paquete correcto. 
