@@ -112,7 +112,7 @@ public class TestEmptyBoard {
 }
 
 ``` 
-El código de prueba anterior tiene varios errores de sintaxis porque el código de producción, es decir, la clase Board con los métodos getCell y getTurn, aún no está disponible. Entonces, escribimos el siguiente código de producción para que la prueba pase. 
+El código de prueba anterior tiene varios errores de sintaxis porque el código de producción, es decir, la clase `Board` con los métodos `getCell` y `getTurn`, aún no está disponible. Entonces, escribimos el siguiente código de producción para que la prueba pase. 
 
 ```
 public class Board {
@@ -132,7 +132,7 @@ public int getCell(int row, int column) {
 ``` 
 #### Programación en pares
 
-El trabajo anterior podría realizarse a través de la programación en pares o con el estilo conductor-navegador: el driver escribe el código en el teclado, mientras que el navegador piensa estratégicamente si el código debe ir (arquitectura, problemas, mejoras). 
+El trabajo anterior podría realizarse a través de la programación en pares o con el estilo conductor-navegador: el `conductor` escribe el código en el teclado, mientras que el navegador piensa estratégicamente si el código debe ir (arquitectura, problemas, mejoras). 
 
 Para completar la clase de GUI, primero escribimos una prueba de GUI. El objetivo es simplemente mostrar el tablero vacío visualizado, cuando la clase GUI está disponible. No se necesita una aserción. La prueba hará que la visualización se quede dos segundos para que podamos ver el efecto. 
 
@@ -247,7 +247,9 @@ Cuando se completó el código de producción para el primer criterio de aceptac
 
 Cuando escribimos un nuevo código de producción para pasar una nueva prueba, el código de producción se limita exactamente a lo que se necesita para pasar la prueba. Ningún código adicional fue al código de producción. 
 
-Sin embargo, un desarrollador puede escribir código de producción que sea más general de lo que necesita una prueba en particular. Por ejemplo, restablezcamos Sprint 1 desde cero. Comenzamos con la misma prueba para AC1.1, como se discutió antes. Para mayor comodidad, se copia a continuación.
+Sin embargo, un desarrollador puede escribir código de producción que sea más general de lo que necesita una prueba en particular. Por ejemplo, restablezcamos Sprint 1 desde cero. Comenzamos con la misma prueba para `AC1.1`. 
+
+Para mayor comodidad, se copia a continuación.
 
 ```
 public class TestEmptyBoard {
@@ -356,7 +358,7 @@ Entonces no se cambia la celda Y no se cambia el turno
  Entonces la celda no se cambia.
 
 ```   
-En Sprint 2, el objetivo es completar el segundo y tercer piso de las historias. Comenzamos con AC 2.1, que se describe a continuación:
+En Sprint 2, el objetivo es completar el segundo y tercer piso de las historias. Comenzamos con `AC 2.1`, que se describe a continuación:
 
 ```
 AC 2.1 Un movimiento X válido 
@@ -405,9 +407,11 @@ public void makeMove(int row, int columns) {
 }
 ```
 
-La prueba para AC 2.2 requerirá el código de producción para verificar si una celda está ocupada, como "movimiento ilegal dentro del tablero". Para AC 2.3, creamos dos pruebas para cubrir dos escenarios fuera de límite para "movimiento ilegal fuera del tablero" (fila no válida y columna no válida).  Se sugerirán actualizaciones del método makeMove para comprobar los límites del tablero. 
+La prueba para `AC 2.2` requerirá el código de producción para verificar si una celda está ocupada, como "movimiento ilegal dentro del tablero". 
 
-De manera similar, la prueba para AC3.1, AC3.2 y AC3.3 ayudará a desarrollar una versión completa de `makeMove` de la siguiente manera, donde X (u O) en una celda se representa por 1 (o 2):
+Para `AC 2.3`, creamos dos pruebas para cubrir dos escenarios fuera de límite para "movimiento ilegal fuera del tablero" (fila no válida y columna no válida).  Se sugerirán actualizaciones del método `makeMove` para comprobar los límites del tablero. 
+
+De manera similar, la prueba para `AC3.1`, `AC3.2` y `AC3.3` ayudará a desarrollar una versión completa de `makeMove` de la siguiente manera, donde X (u O) en una celda se representa por 1 (o 2):
 
 ```
 public void makeMove(int row, int column) {
@@ -423,7 +427,9 @@ public void makeMove(int row, int column) {
 
 El código de prueba y el de producción para ellos se pueden desarrollar juntos, especialmente para un desarrollador experimentado que comprenda los requisitos. 
 
-Los criterios de aceptación también sugieren la necesidad de nuevas pruebas y código de producción para visualizar las celdas ocupadas. Agregamos una nueva prueba de GUI, `testNonEmptyBoard`, para mostrar un tablero no vacío donde dos celdas están ocupadas con `X` y `O` a través de dos movimientos válidos. 
+Los criterios de aceptación también sugieren la necesidad de nuevas pruebas y código de producción para visualizar las celdas ocupadas. 
+
+Agregamos una nueva prueba de GUI, `testNonEmptyBoard`, para mostrar un tablero no vacío donde dos celdas están ocupadas con `X` y `O` a través de dos movimientos válidos. 
 
 ```
 public class TestBoardGUI {
@@ -461,7 +467,9 @@ public enum Cell {EMPTY, CROSS, NOUGHT}
 
 ```
 
-Por lo tanto, el tipo de valor devuelto de `getCell` cambia a `Cell` y la representación de una celda no válida cambia de -1 a `null`. Agregamos el método `initBoard` para la inicialización explícita del tablero, sin depender del valor predeterminado. También decidimos reemplazar el máximo de filas y columnas (3 x 3) con constantes con nombre. 
+Por lo tanto, el tipo de valor devuelto de `getCell` cambia a `Cell` y la representación de una celda no válida cambia de -1 a `null`. Agregamos el método `initBoard` para la inicialización explícita del tablero, sin depender del valor predeterminado. 
+
+También decidimos reemplazar el máximo de filas y columnas (3 x 3) con constantes con nombre. 
 
 El siguiente es el nuevo código para la construcción e inicialización del tablero:
 
@@ -486,14 +494,19 @@ Después de la refactorización, continuamos midiendo la cobertura de código de
 
 Este sprint tiene como objetivo completar la última historia que describe la característica del juego completo. 
 
-**Historia de usuario: Como jugador, necesito saber si el juego termina después de cada movimiento. 
+**Historia de usuario:** Como jugador, necesito saber si el juego termina después de cada movimiento. 
 
 Un juego podría terminar o continuar después de cada movimiento. Si ha terminado, hay tres resultados posibles:  una victoria por X, una victoria por 0 o un empate. 
 
-Consideremos que el jugador X gana el juego después de un movimiento. La parte Entonces de este criterio de aceptación es que el
-juego ha terminado y X ha ganado.  La parte Cuándo es que el jugador X hace un movimiento válido
-para formar XXX. Para cumplir con esta condición, el juego estaba en curso sin XXX u OOO antes
-del movimiento X (es decir, es el turno de X). La parte Dado describe esto.  Entonces tenemos AC4.1.
+Consideremos que el jugador X gana el juego después de un movimiento. 
+
+La parte `Entonces` de este criterio de aceptación es que el juego ha terminado y X ha ganado.  
+
+La parte `Cuándo` es que el jugador X hace un movimiento válido para formar XXX. 
+
+Para cumplir con esta condición, el juego estaba en curso sin XXX u OOO antes del movimiento X (es decir, es el turno de X). La parte Dado describe esto.  
+
+Entonces tenemos `AC4.1`.
 
 ```
 AC4.1 Una victoria de X
@@ -502,12 +515,12 @@ Cuando el jugador X hace un movimiento válido para formar XXX
 Entonces el juego ha terminado Y X ha ganado. 
 ```
 
-Para escribir una prueba para AC4.1, necesitamos imaginar un escenario concreto, donde el jugador X está a un paso de ganar y es su turno. 
+Para escribir una prueba para `AC4.1`, necesitamos imaginar un escenario concreto, donde el jugador X está a un paso de ganar y es su turno. 
 
 
 **Pregunta (V/F)** La secuencia de cuatro movimientos, `X (0,0), O (1,1), X (0,1), O (1,0)` no cumple la  necesidad. 
 
-Como es el turno de X, X puede moverse en `(0, 2)`, lo que resulta en una victoria. Entonces tenemos la siguiente prueba, que también pretende visualizar el escenario. 
+Como es el turno de X, X puede moverse en `(0, 2)`, lo que resulta en una victoria y tenemos la siguiente prueba, que también pretende visualizar el escenario. 
 
 ```
 public void testXWon(){
@@ -540,10 +553,15 @@ public enum GameState {
 
 El estado inicial de un juego nuevo es PLAYING. El método `makeMove` actualiza el estado del juego después de cada movimiento. Esto se hace introduciendo una nueva definición de método, `updateGameState`, y agregando una llamada `updateGameState` en `makeMove`. 
 
-Si el juego no termina después de un movimiento X, el juego continuará y el turno cambia a O. Entonces, la parte Entonces es "el juego continúa y se convierte en el turno de O". La parte Cuándo es que “el jugador X hace un movimiento válido que no forma XXX”. Para configurar el contexto, el
-juego debe continuar sin XXX u OOO, y es el turno de X antes del movimiento. Esto lleva a AC 4.2. AC4.3 y AC4.4 son las versiones de O de AC 4.1 y AC 4.2 respectivamente.
+Si el juego no termina después de un movimiento X, el juego continuará y el turno cambia a O. Entonces, la parte `Entonces` es "el juego continúa y se convierte en el turno de O". 
 
-Se produce un empate cuando las nueve celdas están ocupadas sin XXX u OOO. Solo debe haber una celda vacía y el juego no debe terminar antes del movimiento. Esto da como resultado AC 4.5.
+La parte `Cuándo` es que “el jugador X hace un movimiento válido que no forma XXX”. 
+
+Para configurar el contexto, el juego debe continuar sin XXX u OOO, y es el turno de X antes del movimiento. 
+
+Esto lleva a `AC 4.2`,  `AC4.3` y `AC4.4` son las versiones de O de `AC 4.1` y `AC 4.2` respectivamente.
+
+Se produce un empate cuando las nueve celdas están ocupadas sin XXX u OOO. Solo debe haber una celda vacía y el juego no debe terminar antes del movimiento. Esto da como resultado `AC 4.5`.
 
 ```
 AC 4.2 Un juego que continúa después de un movimiento X 
@@ -574,10 +592,16 @@ Y solo hay una celda vacía
 Cuando un jugador hace un movimiento válido y no hay XXX u OOO 
 Entonces el juego termina, Y es un empate.
 ````
-El "juego en curso" en diferentes criterios puede implicar diferentes requisitos debido a las partes Cuándo y Entonces. Por ejemplo, AC 4.1 requiere dos X en celdas específicas para pasar a formar XXX. AC 4.5 implica que es el turno de X de hacer el último movimiento
+
+El "juego en curso" en diferentes criterios puede implicar diferentes requisitos debido a las partes `Cuándo` y `Entonces`. 
+
+Por ejemplo, AC 4.1 requiere dos X en celdas específicas para pasar a formar XXX. 
+
+AC 4.5 implica que es el turno de X de hacer el último movimiento
 
 
 **Pregunta:**
+
 Para hacer que `testXWon` pase, `updateGameState` se enfoca en los escenarios `CROSS_WON`. Indica  al menos tres pruebas para AC4.1 para cubrir tres X seguidas de manera horizontal, vertical y diagonal. 
 
 Muestra que el método `testXWon` anterior ha cubierto AC4.2 y AC 4.4 y que el juego continuó hasta la jugada ganadora `board.makeMove (0, 2)`. 
