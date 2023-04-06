@@ -41,7 +41,7 @@ Ten en cuenta que el código está organizado de forma ilustrativa. Su estructur
 
 ## Sprint 1
 
-Considera la primera historia: como jugador, necesito un tablero vacío de 3 x 3 para comenzar un juego de TicTacToe. Escribimos el primer criterio de aceptación de la siguiente manera: 
+Considera la primera historia: como jugador, necesito un tablero vacío de 3 x 3 para comenzar un juego de TicTacToe. Escribimos el primer criterio de aceptación de la siguiente manera : 
 
 ```
 AC 1.1 Tablero vacío 
@@ -130,7 +130,7 @@ public int getCell(int row, int column) {
   }
 }
 ``` 
-### Programación en pares
+#### Programación en pares
 
 El trabajo anterior podría realizarse a través de la programación en pares o con el estilo conductor-navegador: el driver escribe el código en el teclado, mientras que el navegador piensa estratégicamente si el código debe ir (arquitectura, problemas, mejoras). 
 
@@ -304,6 +304,185 @@ Los estándares de codificación deben seguirse durante todo el proceso. Los sig
 - No hay variable de instancias públicas. 
 
 
+## Sprint 2 
+
+El equipo de desarrollo pensó que la segunda historia es un poco vaga porque involucra a ambos jugadores y, por lo tanto, las dividió en dos historias: 
+
+**Historia de usuario 2:** Como jugador X, necesito colocar X en una celda vacía para poder hacer un movimiento. 
+
+**Historia de usuario 3:** Como jugador O, necesito colocar O en una celda vacía para poder hacer un movimiento.
+
+Tenemos los siguientes criterios de aceptación (completa): 
+
+```
+AC 2.1 Un movimiento X válido 
+Dado 
+Cuando  
+Entonces
+Y 
+
+```
+```
+AC 2.2 Un movimiento X ilegal en una celda ocupada
+ Dado 
+ Cuando  
+ Entonces
+ Y 
+ ```
+ 
+ ```
+ AC 2.3 Un movimiento X ilegal fuera del tablero 
+ Dado 
+ Cuando  
+ Entonces
+  Y 
+```
+
+````
+ AC 3.1 Un movimiento O válido
+ Dado 
+ Cuando  
+ Entonces
+ Y 
+
+``` 
+```
+ AC` 3.2 Un movimiento O ilegal en una celda ocupada 
+ Dado 
+ Cuando  
+ Entonces
+ Y 
+``` 
+ 
+```
+ AC 3.3 Un movimiento O ilegal fuera del tablero 
+ Dado 
+ Cuando  
+ Entonces
+ Y 
+```   
+En Sprint 2, el objetivo es completar el segundo y tercer piso de las historias. Comenzamos con AC 2.1, que se describe a continuación:
+
+```
+AC 2.1 Un movimiento X válido 
+Dado un juego en curso con el turno de X 
+Cuando el jugador X hace un movimiento válido 
+Entonces X se coloca en la celda Y el turno se cambia a 0 
+``` 
+
+"Dado en el juego en curso con el turno de X" se cumple cuando se inicia un nuevo juego. 
+
+Para "el jugador X hace un movimiento válido", concebimos que el código de producción tendrá un método `makeMove`. 
+
+Un movimiento válido significa que la celda objetivo que se va a probar no está ocupada. Por ejemplo, `cell(0, 0)` es una celda vacía cuando se inicia un nuevo juego. Debido a que el valor de la celda es del tipo int, usamos 1 para X para tratar con "X se coloca en la celda". 
+
+El criterio de aceptación también ha introducido nueva información, es decir, el turno O. Como tal, creamos la siguiente prueba: 
 
 
+```
+public class TestCrossMoves {
+     private Board board;
+     @ Before
+
+     public void setUp() throws Exception {
+         board = new Board():
+    }
+
+  // Criterios de aceptación 2.1
+   @ Test  
+    public void testCrossTurnMoveVacantCell() {
+           board.makeMove(0, 0);
+           assertEquals(“ “, board.getCell(0, 0), 1);
+           assertEquals(“ “, board.getTurn( ), ‘O’);
+     }
+}
+
+```
+
+Para que la prueba pase, actualizamos el código de producción para introducir el método `makeMove`. 
+
+La siguiente es una implementación simple. Ni siquiera comprueba los límites del tablero o las celdas ocupadas. 
+
+
+```
+public void makeMove(int row, int columns) {
+     grid [row][column] = 1;
+      turn = ‘O’:
+}
+```
+
+La prueba para AC 2.2 requerirá el código de producción para verificar si una celda está ocupada, como "movimiento ilegal dentro del tablero". Para AC 2.3, creamos dos pruebas para cubrir dos escenarios fuera de límite para "movimiento ilegal fuera del tablero" (fila no válida y columna no válida).  Se sugerirán actualizaciones del método makeMove para comprobar los límites del tablero. 
+
+De manera similar, la prueba para AC3.1, AC3.2 y AC3.3 ayudará a desarrollar una versión completa de makeMove de la siguiente manera, donde X (u O) en una celda se representa por 1 (o 2):
+
+```
+public void makeMove(int row, int column) {
+            if (row >=0 && row < 3 && column >=0 && column < 3
+                       && grid[row][column] == 0 {
+              grid[row][column] = (turn =’= X’)? 1:2;
+              turn = (turn == ‘X’)? ‘O’: ‘X’;
+   }
+}
+
+``` 
+**Aquí las dos historias (y por lo tanto sus criterios de aceptación) son simétricas.** El código de prueba y el de producción para ellos se pueden desarrollar juntos, especialmente para un desarrollador experimentado que comprenda los requisitos. 
+
+Los criterios de aceptación también sugieren la necesidad de nuevas pruebas y código de producción para visualizar las celdas ocupadas. Agregamos una nueva prueba de GUI, `testNonEmptyBoard`, para mostrar un tablero no vacío donde dos celdas están ocupadas con `X` y `O` a través de dos movimientos válidos. 
+
+```
+public class TestBoardGUI {
+   private Board board;
+   @Before 
+public void setUp () throws Exception{
+    board = new Board();
+   }
+
+…
+@ Test
+   public void testNonEmptyBoard(){
+        board.makeMove(0, 0);
+        board.makeMove(1, 1);
+        new GUI(board);
+        try {
+               Thread.sleep(2000);
+      } catch (InterruptedException e) {
+          e.printStackTrace();
+       }
+    }
+}
+
+``` 
+Por lo tanto, la clase GUI se actualizó para dibujar `X` u `O` según el contenido de cada celda. 
+
+### Refactorización
+
+Si bien el proceso iterativo de escribir código de prueba y código de producción ha implicado la refactorización, existen olores de código, como los números mágicos `-1, 0, 1, 2, 3`. 
+
+Es hora de refactorizar más el código. Introducimos un tipo de enumeración para representar los posibles contenidos de las celdas:
+
+```
+public enum Cell {EMPTY, CROSS, NOUGHT}
+
+```
+
+Por lo tanto, el tipo de valor devuelto de `getCell` cambia a `Cell` y la representación de una celda no válida cambia de -1 a `null`. Agregamos el método `initBoard` para la inicialización explícita del tablero, sin depender del valor predeterminado. También decidimos reemplazar el máximo de filas y columnas (3 x 3) con constantes con nombre. 
+
+El siguiente es el nuevo código para la construcción e inicialización del tablero:
+
+```
+public Board(){
+   grid = new Cell |TOTALROWS|TOTALCOLUMNS|;
+   initBoard();
+}
+public void initBoard(){
+       for (int row =0; row < TOTALROWS; row++){
+             for (int column =0; columns < TOTALCOLUMNS; column++){
+                  grid[row][column] = Cell.EMPTY;
+           }
+     }
+    turn = ‘X’;
+ }
+```
+
+Después de la refactorización, continuamos midiendo la cobertura de código de `Board` y revisando los estilos de codificación. Como no se encuentra ningún problema, realizamos el Sprint 2. 
 
