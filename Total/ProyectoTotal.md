@@ -139,7 +139,9 @@ public int getCell(int row, int column) {
 
 El trabajo anterior podría realizarse a través de la programación en pares o con el estilo conductor-navegador: el `conductor` escribe el código en el teclado, mientras que el `navegador` piensa estratégicamente si el código debe ir (arquitectura, problemas, mejoras). 
 
-Para completar la clase de GUI, primero escribimos una prueba de GUI. El objetivo es simplemente mostrar el tablero vacío visualizado, cuando la clase GUI está disponible. No se necesita una aserción. La prueba hará que la visualización se quede dos segundos para que podamos ver el efecto. 
+Para completar la clase de GUI, primero escribimos una prueba de GUI. El objetivo es simplemente mostrar el tablero vacío visualizado, cuando la clase GUI está disponible. No se necesita una aserción. 
+
+La prueba hará que la visualización se quede dos segundos para que podamos ver el efecto. 
 
 
 ![](https://github.com/kapumota/Actividades/blob/main/Total/Imagenes/Tablero1.png)
@@ -534,6 +536,8 @@ Entonces el juego ha terminado Y X ha ganado.
 
 Para escribir una prueba para `AC4.1`, necesitamos imaginar un escenario concreto, donde el jugador X está a un paso de ganar y es su turno. 
 
+![](https://github.com/kapumota/Actividades/blob/main/Total/Imagenes/TictacToe.png)
+
 
 **Pregunta (V/F)** La secuencia de cuatro movimientos, `X (0,0), O (1,1), X (0,1), O (1,0)` no cumple la  necesidad. 
 
@@ -722,3 +726,78 @@ En la práctica, una herramienta de análisis de código estático puede informa
 Un problema potencial es que muchos pueden ser falsos, es decir, no son problemas reales. 
 
 Después de todas las correcciones el  Sprint 3 está terminado, al igual que el proyecto TicTacToe.
+
+
+## Evolución del Software 
+
+Después de entregar un producto de software, el equipo de desarrollo puede continuar manteniendo el software o creando la próxima generación. 
+
+Para el proyecto TicTacToe, existen diferentes direcciones de evolución. 
+
+Hablamos de los dos siguientes: 
+
+- Ampliación del programa para juegos automatizados por ordenador. 
+
+- Adaptación del programa a las variaciones del tictactoe. 
+
+En cualquier caso, los nuevos requisitos se pueden describir actualizando las historias de usuario y los criterios de aceptación. Para permitir que la computadora juegue con X u O, podemos definir las siguientes historias de usuario y criterios de aceptación, que no afectan a los existentes. 
+
+### Oponente por ordenador
+
+**Historia de usuario 5:** Como jugador  necesito jugar contra la computadora.
+
+```
+AC5.1 Primer movimiento por el computador 
+Dado que la computadora juega 'X'
+Cuando el jugador humano comienza un nuevo juego
+Entonces la computadora hace un movimiento aleatorio válido (X) 
+Y el turno se cambia a O (jugador humano)
+````
+``` 
+AC 5.2 Una jugada ganadora de la computadora 
+Dado
+Cuando 
+Entonces
+Y 
+``` 
+```
+AC 5.3 Una jugada de bloqueo de la computadora
+Dado 
+Cuando 
+Y 
+Entonces
+``` 
+``` 
+AC 5.4 Un movimiento aleatorio de la computadora
+Dado un juego en curso 
+Cuando el jugador humano hace un movimiento válido
+Y el oponente de la computadora no tiene un movimiento ganador
+Y el jugador humano no tiene el próximo movimiento ganador
+Entonces la computadora hace un movimiento aleatorio 
+Y se cambia de turno
+```
+### Evolución de la implementación
+
+![](https://github.com/kapumota/Actividades/blob/main/Total/Imagenes/AutoTicTacToe.png)
+
+Aquí hay algunas especificaciones:
+
+- La herencia y el principio abierto-cerrado 
+
+- `AutoTicTacToe`  extiende TicTacToeGame 
+
+- Realiza el primer movimiento automático en el constructor si la computadora juega primero (`AC 5.1` ) 
+
+- Modificación
+   
+   * resetGame (`AC 5.1`) 
+   * Hace el primer movimiento automático si la computadora juega primero `makeMove` (`AC 5.2-5.4`)
+   * Termina con un movimiento automático si el juego no ha terminado.
+
+Para implementar las características anteriores, podemos crear una subclase de `TicTacToeGame` e implementar la historia de usuario 5 (el primer movimiento X) en el constructor y `resetGame`.
+
+La elección de un movimiento automático en la historia de usuario  ocurre justo después de que el jugador humano se mueva. Podemos lograr esto sobreescribiendo `makeMove` e implementando los criterios de aceptación `5.2-5.4` por métodos individuales. 
+
+**Pregunta:** Verifica esto en el código del paquete del proyecto TicTacToe entregado.
+
+La capacidad de anticipar cambios potenciales es una habilidad esencial para que los ingenieros de software desarrollen software confiable que se adapte a los requisitos en evolución.
