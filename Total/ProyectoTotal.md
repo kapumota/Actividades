@@ -234,7 +234,6 @@ public int getCell(int row, int column){
       else
            return -1
     }
-
 ``` 
 Ahora el código de trabajo ha implementado la primera historia de usuario. 
 
@@ -392,7 +391,6 @@ public class TestCrossMoves {
            assertEquals(“ “, board.getTurn( ), ‘O’);
      }
 }
-
 ```
 
 Para que la prueba pase, actualizamos el código de producción para introducir el método `makeMove`. 
@@ -421,7 +419,9 @@ public void makeMove(int row, int column) {
 }
 
 ``` 
-**Aquí las dos historias (y por lo tanto sus criterios de aceptación) son simétricas.** El código de prueba y el de producción para ellos se pueden desarrollar juntos, especialmente para un desarrollador experimentado que comprenda los requisitos. 
+**Aquí las dos historias (y por lo tanto sus criterios de aceptación) son simétricas.** 
+
+El código de prueba y el de producción para ellos se pueden desarrollar juntos, especialmente para un desarrollador experimentado que comprenda los requisitos. 
 
 Los criterios de aceptación también sugieren la necesidad de nuevas pruebas y código de producción para visualizar las celdas ocupadas. Agregamos una nueva prueba de GUI, `testNonEmptyBoard`, para mostrar un tablero no vacío donde dos celdas están ocupadas con `X` y `O` a través de dos movimientos válidos. 
 
@@ -486,6 +486,15 @@ Después de la refactorización, continuamos midiendo la cobertura de código de
 
 Este sprint tiene como objetivo completar la última historia que describe la característica del juego completo. 
 
+**Historia de usuario: Como jugador, necesito saber si el juego termina después de cada movimiento. 
+
+Un juego podría terminar o continuar después de cada movimiento. Si ha terminado, hay tres resultados posibles:  una victoria por X, una victoria por 0 o un empate. 
+
+Consideremos que el jugador X gana el juego después de un movimiento. La parte Entonces de este criterio de aceptación es que el
+juego ha terminado y X ha ganado.  La parte Cuándo es que el jugador X hace un movimiento válido
+para formar XXX. Para cumplir con esta condición, el juego estaba en curso sin XXX u OOO antes
+del movimiento X (es decir, es el turno de X). La parte Dado describe esto.  Entonces tenemos AC4.1.
+
 ```
 AC4.1 Una victoria de X
 Dado un juego en curso sin XXX u OOO Y es el turno de X 
@@ -494,7 +503,6 @@ Entonces el juego ha terminado Y X ha ganado.
 ```
 
 Para escribir una prueba para AC4.1, necesitamos imaginar un escenario concreto, donde el jugador X está a un paso de ganar y es su turno. 
-
 
 
 **Pregunta (V/F)** La secuencia de cuatro movimientos, `X (0,0), O (1,1), X (0,1), O (1,0)` no cumple la  necesidad. 
@@ -532,6 +540,42 @@ public enum GameState {
 
 El estado inicial de un juego nuevo es PLAYING. El método `makeMove` actualiza el estado del juego después de cada movimiento. Esto se hace introduciendo una nueva definición de método, `updateGameState`, y agregando una llamada `updateGameState` en `makeMove`. 
 
+Si el juego no termina después de un movimiento X, el juego continuará y el turno cambia a O. Entonces, la parte Entonces es "el juego continúa y se convierte en el turno de O". La parte Cuándo es que “el jugador X hace un movimiento válido que no forma XXX”. Para configurar el contexto, el
+juego debe continuar sin XXX u OOO, y es el turno de X antes del movimiento. Esto lleva a AC 4.2. AC4.3 y AC4.4 son las versiones de O de AC 4.1 y AC 4.2 respectivamente.
+
+Se produce un empate cuando las nueve celdas están ocupadas sin XXX u OOO. Solo debe haber una celda vacía y el juego no debe terminar antes del movimiento. Esto da como resultado AC 4.5.
+
+```
+AC 4.2 Un juego que continúa después de un movimiento X 
+Dado un juego en curso sin XXX u OOO 
+Y es el turno de X
+Cuando el jugador X hace un movimiento válido que no forma XXX 
+Entonces el juego continúa 
+Y es el turno de O. 
+``` 
+```
+AC 4.3 Una victoria de O 
+Dado un juego en curso sin XXX o OOO 
+Y es el turno de O 
+Cuando el jugador O hace un movimiento válido para formar OOO 
+Entonces el juego ha terminado y O ha ganado. 
+``` 
+``` 
+AC 4.4 Un juego que continúa después de un movimiento O 
+Dado un juego en curso sin XXX u OOO 
+Y es el turno de O
+Cuando el jugador O hace un movimiento válido que no forma OOO 
+Entonces el juego continúa, y se convierte en el turno de X. 
+``` 
+```
+AC 4.5 Un juego empatado 
+Dado un juego en curso sin XXX u OOO 
+Y solo hay una celda vacía 
+Cuando un jugador hace un movimiento válido y no hay XXX u OOO 
+Entonces el juego termina, Y es un empate.
+````
+El "juego en curso" en diferentes criterios puede implicar diferentes requisitos debido a las partes Cuándo y Entonces. Por ejemplo, AC 4.1 requiere dos X en celdas específicas para pasar a formar XXX. AC 4.5 implica que es el turno de X de hacer el último movimiento
+
 
 **Pregunta:**
 Para hacer que `testXWon` pase, `updateGameState` se enfoca en los escenarios `CROSS_WON`. Indica  al menos tres pruebas para AC4.1 para cubrir tres X seguidas de manera horizontal, vertical y diagonal. 
@@ -540,12 +584,13 @@ Muestra que el método `testXWon` anterior ha cubierto AC4.2 y AC 4.4 y que el j
 
 ¿AC4.3 es similar a AC 4.1?. ¿Se trata de los escenarios `NAUGHT_WON`?. 
 
-Toda las pruebas para AC4.1-AC4.5 permitirá completar la clase de `Board`. 
+¿Toda las pruebas para AC4.1-AC4.5 permitirán completar la clase de `Board`?. 
 
-Refactorización 
+### Refactorización 
 
-Hasta ahora, hemos usado Board como el nombre de clase del código de producción. Su interfaz se muestra a continuación: 
+Hasta ahora, hemos usado `Board` como el nombre de clase del código de producción. Su interfaz se muestra a continuación: 
 
+``` 
 public enum Cell {EMPTY, CROSS, NOUGHT}
 	public enum GameState {PLAYING, DRAW, CROSS_WON, NOUGHT_WON}
 	public Board();
@@ -556,8 +601,11 @@ public enum Cell {EMPTY, CROSS, NOUGHT}
 	public char getTurn();
 	public void makeMove(int row, int columns);
 	public GameState getGameState();
+```
 
-initialBoard no refleja su intención: borra el tablero y restablece el turno inicial y el estado del juego. Así que le cambiamos el nombre a resetGame. El nombre de la clase, Board, no explica claramente la abstracción. Se trata más del juego de tictactoe que del tablero de juego. Por lo tanto, le cambiamos el nombre a TicTacToeGame y cambiamos el nombre de la clase GUI a TicTacToeGUI. Por supuesto, podríamos haberlo hecho antes. 
+**Pregunta** ¿ Cuál es el problema de initialBoard  y por que le cambiamos el nombre a `resetGame`. 
+
+El nombre de la clase, `Board`, no explica claramente la abstracción. Se trata más del juego de tictactoe que del tablero de juego. Por lo tanto, le cambiamos el nombre a `TicTacToeGame` y cambiamos el nombre de la clase `GUI` a `TicTacToeGUI`. 
 
 Comentarios 
 
