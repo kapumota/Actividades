@@ -4,24 +4,24 @@
 
 Descarga la actividad incompleta desde aquí:https://github.com/kapumota/Actividades/tree/main/Total/TictocToe 
 
-Inicia un repositorio llamado CC-3S2 y dentro una carpeta llamada Actividades. Dentro de esta carpeta abre una carpeta llamada TicTacToe y coloca todas tus respuestas.
+Inicia un repositorio llamado CC-3S2 y dentro una carpeta llamada Actividades. Dentro de esta carpeta abre una carpeta llamada `TicTacToe` y coloca todas tus respuestas.
 
 
 ## El ejemplo con el juego Tic-Tac-Toe
 
-A continuación,  usamos el juego TicTacToe para ilustrar el proceso Scrum para el desarrollo de software. Nos enfocamos en la integración de prácticas de ingeniería de software en el proceso más que en la gestión del trabajo en equipo. 
+A continuación,  usamos el juego `TicTacToe` para ilustrar el proceso Scrum para el desarrollo de software. Nos enfocamos en la integración de prácticas de ingeniería de software en el proceso más que en la gestión del trabajo en equipo. 
 
 
 ### Implementación e Ingeniería de Software 
 
-Antes de profundizar en los sprints individuales, proporcionamos una descripción general del código fuente completo de TicTacToe. 
+Antes de profundizar en los sprints individuales, proporcionamos una descripción general del código fuente completo de `TicTacToe`. 
 
 ![](https://github.com/kapumota/Actividades/blob/main/Total/Imagenes/Sprints.png)
 
 
 Supongamos que la planificación inicial del proyecto TicTacToe ha determinado las siguientes historias de usuarios en el backlog products: 
 
-**Historia de usuario 1:** Como jugador, necesito un tablero vacío de 3 x 3 para comenzar un juego tic-tac-toe. 
+**Historia de usuario 1:** Como jugador, necesito un tablero vacío de 3 x 3 para comenzar un juego `TicTacToe`. 
 
 
 **Historia de usuario 2:**  Como jugador X, necesito colocar una ficha en un tablero tic-tac-toe para poder hacer un movimiento. 
@@ -41,7 +41,7 @@ Ten en cuenta que el código está organizado de forma ilustrativa. Su estructur
 
 ## Sprint 1
 
-Considera la primera historia: como jugador, necesito un tablero vacío de 3 x 3 para comenzar un juego de TicTacToe. 
+Considera la primera historia: como jugador, necesito un tablero vacío de 3 x 3 para comenzar un juego de `TicTacToe`. 
 
 Escribimos el primer criterio de aceptación de la siguiente manera : 
 
@@ -306,7 +306,7 @@ Revisa: https://www.jetbrains.com/help/idea/code-coverage.html
 
 #### Estándares de codificación 
 
-Los estándares de codificación deben seguirse durante todo el proceso. Los siguientes son algunos ejemplos en TicTacToe: 
+Los estándares de codificación deben seguirse durante todo el proceso. Los siguientes son algunos ejemplos en `TicTacToe`: 
 
 - Separación de código de producción y prueba en diferentes paquetes
 - Nombres autoexplicativos y convenciones de nomenclatura
@@ -371,7 +371,7 @@ Entonces no se cambia la celda Y no se cambia el turno
  Entonces la celda no se cambia.
 
 ```   
-En Sprint 2, el objetivo es completar el segundo y tercer piso de las historias. Comenzamos con `AC 2.1`, que se describe a continuación:
+En el sprint 2, el objetivo es completar el segundo y tercer piso de las historias. Comenzamos con `AC 2.1`, que se describe a continuación:
 
 ```
 AC 2.1 Un movimiento X válido 
@@ -389,7 +389,6 @@ Un movimiento válido significa que la celda objetivo que se va a probar no est�
 Por ejemplo, `cell(0, 0)` es una celda vacía cuando se inicia un nuevo juego. Debido a que el valor de la celda es del tipo int, usamos 1 para X para tratar con "X se coloca en la celda". 
 
 El criterio de aceptación también ha introducido nueva información, es decir, el turno O. Como tal, creamos la siguiente prueba: 
-
 
 ```
 public class TestCrossMoves {
@@ -479,7 +478,6 @@ Es hora de refactorizar más el código. Introducimos un tipo de enumeración pa
 
 ```
 public enum Cell {EMPTY, CROSS, NOUGHT}
-
 ```
 
 Por lo tanto, el tipo de valor devuelto de `getCell` cambia a `Cell` y la representación de una celda no válida cambia de -1 a `null`. 
@@ -519,9 +517,7 @@ Un juego podría terminar o continuar después de cada movimiento. Si ha termina
 
 Consideremos que el jugador X gana el juego después de un movimiento. 
 
-La parte `Entonces` de este criterio de aceptación es que el juego ha terminado y X ha ganado.  
-
-La parte `Cuándo` es que el jugador X hace un movimiento válido para formar XXX. 
+La parte `Entonces` de este criterio de aceptación es que el juego ha terminado y X ha ganado.  La parte `Cuándo` es que el jugador X hace un movimiento válido para formar XXX. 
 
 Para cumplir con esta condición, el juego estaba en curso sin XXX u OOO antes del movimiento X (es decir, es el turno de X). La parte `Dado` describe esto.  
 
@@ -725,20 +721,20 @@ En la práctica, una herramienta de análisis de código estático puede informa
 
 Un problema potencial es que muchos pueden ser falsos, es decir, no son problemas reales. 
 
-Después de todas las correcciones el  Sprint 3 está terminado, al igual que el proyecto TicTacToe.
+Después de todas las correcciones el  Sprint 3 está terminado, al igual que el proyecto `TicTacToe`.
 
 
 ## Evolución del Software 
 
 Después de entregar un producto de software, el equipo de desarrollo puede continuar manteniendo el software o creando la próxima generación. 
 
-Para el proyecto TicTacToe, existen diferentes direcciones de evolución. 
+Para el proyecto `TicTacToe`, existen diferentes direcciones de evolución. 
 
 Hablamos de los dos siguientes: 
 
 - Ampliación del programa para juegos automatizados por ordenador. 
 
-- Adaptación del programa a las variaciones del tictactoe. 
+- Adaptación del programa a las variaciones del `Tictactoe`. 
 
 En cualquier caso, los nuevos requisitos se pueden describir actualizando las historias de usuario y los criterios de aceptación. 
 
