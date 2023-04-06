@@ -54,10 +54,10 @@ Y
 Sin embargo aquí  no se especifica completamente el requisito. ¿Se puede jugar el juego en un tablero más grande (por ejemplo, 5 x 5) usando una cuadrícula de 3 x 3? Agregamos dos criterios de aceptación sobre los límites del tablero.
 
 ```
- AC 1.2 Referencia de fila no válida
- Dado 
- Cuando
- Entonces 
+AC 1.2 Referencia de fila no válida
+Dado 
+Cuando
+Entonces 
 ```
 ```
 AC 1.3 Referencia de columna no válida
@@ -238,7 +238,7 @@ public int getCell(int row, int column){
 ``` 
 Ahora el código de trabajo ha implementado la primera historia de usuario. 
 
-**Pregunta:**¿se necesita refactorización?
+**Pregunta:** ¿se necesita refactorización?
 
 Según el DoD , debemos verificar si se cumple el objetivo de cobertura de la prueba y si el código fuente ha cumplido con las pautas de codificación. En efecto, cada declaración en `Board` ha sido compilada por al menos una de las tres pruebas. La revisión del código no encontró ningún problema con el estilo de codificación. Así se realiza el Sprint 1. 
 
@@ -321,10 +321,10 @@ Y
 ``` 
 ```
 AC 2.2 Un movimiento X ilegal en una celda ocupada
- Dado 
- Cuando  
- Entonces
- Y 
+Dado 
+Cuando  
+Entonces
+Y 
  ```
  
  ```
@@ -332,31 +332,30 @@ AC 2.2 Un movimiento X ilegal en una celda ocupada
  Dado 
  Cuando  
  Entonces
-  Y 
-```
-
-```
- AC 3.1 Un movimiento O válido
- Dado 
- Cuando  
- Entonces
  Y 
+```
 
+```
+AC 3.1 Un movimiento O válido
+Dado un juego en curso con el turno de O 
+Cuando el jugador O hace un movimiento válido
+Entonces se coloca O en la celda
+Y el turno se cambia a X 
 ``` 
+
 ```
- AC` 3.2 Un movimiento O ilegal en una celda ocupada 
- Dado 
- Cuando  
- Entonces
- Y 
+AC 3.2 Un movimiento O ilegal en una celda ocupada 
+Dado un juego en curso con el turno de O 
+Cuando el jugador O hace un movimiento ilegal dentro del tablero 
+Entonces no se cambia la celda Y no se cambia el turno  
 ``` 
  
 ```
  AC 3.3 Un movimiento O ilegal fuera del tablero 
- Dado 
- Cuando  
- Entonces
- Y 
+ Dado un juego en curso con el turno de O 
+ Cuando el jugador O hace un movimiento ilegal fuera del tablero 
+ Entonces la celda no se cambia.
+
 ```   
 En Sprint 2, el objetivo es completar el segundo y tercer piso de las historias. Comenzamos con AC 2.1, que se describe a continuación:
 
@@ -410,7 +409,7 @@ public void makeMove(int row, int columns) {
 
 La prueba para AC 2.2 requerirá el código de producción para verificar si una celda está ocupada, como "movimiento ilegal dentro del tablero". Para AC 2.3, creamos dos pruebas para cubrir dos escenarios fuera de límite para "movimiento ilegal fuera del tablero" (fila no válida y columna no válida).  Se sugerirán actualizaciones del método makeMove para comprobar los límites del tablero. 
 
-De manera similar, la prueba para AC3.1, AC3.2 y AC3.3 ayudará a desarrollar una versión completa de makeMove de la siguiente manera, donde X (u O) en una celda se representa por 1 (o 2):
+De manera similar, la prueba para AC3.1, AC3.2 y AC3.3 ayudará a desarrollar una versión completa de `makeMove` de la siguiente manera, donde X (u O) en una celda se representa por 1 (o 2):
 
 ```
 public void makeMove(int row, int column) {
