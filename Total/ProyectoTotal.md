@@ -88,7 +88,7 @@ Para escribir una prueba, necesitamos tomar las siguientes decisiones:
 
 - ¿Cuál es el tipo de datos de las celdas del tablero? 
  
-- ¿Qué valor representa "vacío"? 
+- ¿Qué valor representa `empty`? 
 
 -  ¿Cómo obtener una celda de tablero dada?
 
@@ -380,9 +380,9 @@ Cuando el jugador X hace un movimiento válido
 Entonces X se coloca en la celda Y el turno se cambia a 0 
 ``` 
 
-"Dado en el juego en curso con el turno de X" se cumple cuando se inicia un nuevo juego. 
+`Dado en el juego en curso con el turno de X` se cumple cuando se inicia un nuevo juego. 
 
-Para "el jugador X hace un movimiento válido", concebimos que el código de producción tendrá un método `makeMove`. 
+Para `el jugador X hace un movimiento válido`, concebimos que el código de producción tendrá un método `makeMove`. 
 
 Un movimiento válido significa que la celda objetivo que se va a probar no está ocupada. 
 
@@ -422,9 +422,9 @@ public void makeMove(int row, int columns) {
 }
 ```
 
-La prueba para `AC 2.2` requerirá el código de producción para verificar si una celda está ocupada, como "movimiento ilegal dentro del tablero". 
+La prueba para `AC 2.2` requerirá el código de producción para verificar si una celda está ocupada, como `movimiento ilegal dentro del tablero`. 
 
-Para `AC 2.3`, creamos dos pruebas para cubrir dos escenarios fuera de límite para "movimiento ilegal fuera del tablero" (fila no válida y columna no válida).  Se sugerirán actualizaciones del método `makeMove` para comprobar los límites del tablero. 
+Para `AC 2.3`, creamos dos pruebas para cubrir dos escenarios fuera de límite para `movimiento ilegal fuera del tablero` (fila no válida y columna no válida).  Se sugerirán actualizaciones del método `makeMove` para comprobar los límites del tablero. 
 
 De manera similar, la prueba para `AC3.1`, `AC3.2` y `AC3.3` ayudará a desarrollar una versión completa de `makeMove` de la siguiente manera, donde X (u O) en una celda se representa por 1 (o 2):
 
@@ -576,7 +576,7 @@ public enum GameState {
 
 El estado inicial de un juego nuevo es PLAYING. El método `makeMove` actualiza el estado del juego después de cada movimiento. Esto se hace introduciendo una nueva definición de método, `updateGameState`, y agregando una llamada `updateGameState` en `makeMove`. 
 
-Si el juego no termina después de un movimiento X, el juego continuará y el turno cambia a O. Entonces, la parte `Entonces` es "el juego continúa y se convierte en el turno de O". 
+Si el juego no termina después de un movimiento X, el juego continuará y el turno cambia a O. Entonces, la parte `Entonces` es `el juego continúa y se convierte en el turno de O`. 
 
 La parte `Cuándo` es que “el jugador X hace un movimiento válido que no forma XXX”. 
 
@@ -616,7 +616,7 @@ Cuando un jugador hace un movimiento válido y no hay XXX u OOO
 Entonces el juego termina, Y es un empate.
 ````
 
-El "juego en curso" en diferentes criterios puede implicar diferentes requisitos debido a las partes `Cuándo` y `Entonces`. 
+El `juego en curso` en diferentes criterios puede implicar diferentes requisitos debido a las partes `Cuándo` y `Entonces`. 
 
 Por ejemplo, `AC 4.1` requiere dos X en celdas específicas para pasar a formar XXX. 
 
@@ -685,7 +685,7 @@ Es una mala práctica porque cuando una subclase sobreescribe este método, exis
 
 Para abordar el problema anterior, primero renombramos `resetGame` a `initGame` y lo hacemos privado. 
 
-También creamos un nuevo método público resetGame que simplemente llama a `initGame` para que TicTacToeGUI no se vea afectado por el cambio. 
+También creamos un nuevo método público `resetGame` que simplemente llama a `initGame` para que TicTacToeGUI no se vea afectado por el cambio. 
 
 La separación entre inicialización y reinicio facilita futuras extensiones a TicTacToeGame. 
 
@@ -740,7 +740,9 @@ Hablamos de los dos siguientes:
 
 - Adaptación del programa a las variaciones del tictactoe. 
 
-En cualquier caso, los nuevos requisitos se pueden describir actualizando las historias de usuario y los criterios de aceptación. Para permitir que la computadora juegue con X u O, podemos definir las siguientes historias de usuario y criterios de aceptación, que no afectan a los existentes. 
+En cualquier caso, los nuevos requisitos se pueden describir actualizando las historias de usuario y los criterios de aceptación. 
+
+Para permitir que la computadora juegue con X u O, podemos definir las siguientes historias de usuario y criterios de aceptación, que no afectan a los existentes. 
 
 ### Oponente por ordenador
 
@@ -784,7 +786,7 @@ Aquí hay algunas especificaciones:
 
 - La herencia y el principio abierto-cerrado 
 
-- `AutoTicTacToe`  extiende TicTacToeGame 
+- `AutoTicTacToe`  extiende `TicTacToeGame` 
 
 - Realiza el primer movimiento automático en el constructor si la computadora juega primero (`AC 5.1` ) 
 
