@@ -4,7 +4,7 @@
 
 Inicia un repositorio llamado CC-3S2 y dentro una carpeta llamada Actividades. Dentro de esta carpeta abre una carpeta llamada Pruebas2 y coloca todas tus respuestas.
 
-Esta actividad es grupal.
+Esta actividad es individual.
 
 
 ## Pruebas en sotware - parte2
