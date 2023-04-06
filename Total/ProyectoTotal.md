@@ -41,17 +41,20 @@ Ten en cuenta que el código está organizado de forma ilustrativa. Su estructur
 
 ## Sprint 1
 
-Considera la primera historia: como jugador, necesito un tablero vacío de 3 x 3 para comenzar un juego de TicTacToe. Escribimos el primer criterio de aceptación de la siguiente manera : 
+Considera la primera historia: como jugador, necesito un tablero vacío de 3 x 3 para comenzar un juego de TicTacToe. 
+
+Escribimos el primer criterio de aceptación de la siguiente manera : 
 
 ```
 AC 1.1 Tablero vacío 
 Cuando 
-Entonces
- 
+Entonces 
 Y
- ```
+```
 
-Sin embargo aquí  no se especifica completamente el requisito. ¿Se puede jugar el juego en un tablero más grande (por ejemplo, 5 x 5) usando una cuadrícula de 3 x 3? Agregamos dos criterios de aceptación sobre los límites del tablero.
+Sin embargo aquí  no se especifica completamente el requisito. ¿Se puede jugar el juego en un tablero más grande (por ejemplo, 5 x 5) usando una cuadrícula de 3 x 3? 
+
+Agregamos dos criterios de aceptación sobre los límites del tablero.
 
 ```
 AC 1.2 Referencia de fila no válida
@@ -66,7 +69,7 @@ Cuando
 Entonces
 ```
 
-### Características sprint 1
+### Características del sprint 1
 
 Código de producción: separación de la lógica empresarial y la interfaz de usuario 
 
@@ -112,7 +115,9 @@ public class TestEmptyBoard {
 }
 
 ``` 
-El código de prueba anterior tiene varios errores de sintaxis porque el código de producción, es decir, la clase `Board` con los métodos `getCell` y `getTurn`, aún no está disponible. Entonces, escribimos el siguiente código de producción para que la prueba pase. 
+El código de prueba anterior tiene varios errores de sintaxis porque el código de producción, es decir, la clase `Board` con los métodos `getCell` y `getTurn`, aún no está disponible. 
+
+Podemos escribir el siguiente código de producción para que la prueba pase. 
 
 ```
 public class Board {
@@ -132,7 +137,7 @@ public int getCell(int row, int column) {
 ``` 
 #### Programación en pares
 
-El trabajo anterior podría realizarse a través de la programación en pares o con el estilo conductor-navegador: el `conductor` escribe el código en el teclado, mientras que el navegador piensa estratégicamente si el código debe ir (arquitectura, problemas, mejoras). 
+El trabajo anterior podría realizarse a través de la programación en pares o con el estilo conductor-navegador: el `conductor` escribe el código en el teclado, mientras que el `navegador` piensa estratégicamente si el código debe ir (arquitectura, problemas, mejoras). 
 
 Para completar la clase de GUI, primero escribimos una prueba de GUI. El objetivo es simplemente mostrar el tablero vacío visualizado, cuando la clase GUI está disponible. No se necesita una aserción. La prueba hará que la visualización se quede dos segundos para que podamos ver el efecto. 
 
@@ -210,7 +215,11 @@ public class Console {
 ```
 
 
-Ahora consideramos `AC 1.2` y `AC 1.3` porque son similares. La decisión que debemos tomar es cómo representar una celda no válida. El código existente ha usado `0` para representar una celda vacía. Sea `-1` denota una celda inválida. Agregamos el siguiente código de prueba nuevo, donde un `3` denota una fila o columna no válida. 
+Ahora consideramos `AC 1.2` y `AC 1.3` porque son similares. La decisión que debemos tomar es cómo representar una celda no válida. 
+
+El código existente ha usado `0` para representar una celda vacía. Sea `-1` denota una celda inválida. 
+
+Agregamos el siguiente código de prueba nuevo, donde un `3` denota una fila o columna no válida. 
 
 ```
 // Criterio de aceptación 1.2 
@@ -239,7 +248,9 @@ Ahora el código de trabajo ha implementado la primera historia de usuario.
 
 **Pregunta:** ¿se necesita refactorización?
 
-Según el DoD , debemos verificar si se cumple el objetivo de cobertura de la prueba y si el código fuente ha cumplido con las pautas de codificación. En efecto, cada declaración en `Board` ha sido compilada por al menos una de las tres pruebas. La revisión del código no encontró ningún problema con el estilo de codificación. Así se realiza el Sprint 1. 
+Según el DoD , debemos verificar si se cumple el objetivo de cobertura de la prueba y si el código fuente ha cumplido con las pautas de codificación. En efecto, cada declaración en `Board` ha sido compilada por al menos una de las tres pruebas. 
+
+La revisión del código no encontró ningún problema con el estilo de codificación. Así se realiza el Sprint 1. 
 
 #### Cobertura de código 
 
@@ -247,9 +258,9 @@ Cuando se completó el código de producción para el primer criterio de aceptac
 
 Cuando escribimos un nuevo código de producción para pasar una nueva prueba, el código de producción se limita exactamente a lo que se necesita para pasar la prueba. Ningún código adicional fue al código de producción. 
 
-Sin embargo, un desarrollador puede escribir código de producción que sea más general de lo que necesita una prueba en particular. Por ejemplo, restablezcamos Sprint 1 desde cero. Comenzamos con la misma prueba para `AC1.1`. 
+Sin embargo, un desarrollador puede escribir código de producción que sea más general de lo que necesita una prueba en particular. Por ejemplo, restablezcamos Sprint 1 desde cero. 
 
-Para mayor comodidad, se copia a continuación.
+Comenzamos con la misma prueba para `AC1.1`. Para mayor comodidad, se copia a continuación.
 
 ```
 public class TestEmptyBoard {
@@ -371,7 +382,9 @@ Entonces X se coloca en la celda Y el turno se cambia a 0
 
 Para "el jugador X hace un movimiento válido", concebimos que el código de producción tendrá un método `makeMove`. 
 
-Un movimiento válido significa que la celda objetivo que se va a probar no está ocupada. Por ejemplo, `cell(0, 0)` es una celda vacía cuando se inicia un nuevo juego. Debido a que el valor de la celda es del tipo int, usamos 1 para X para tratar con "X se coloca en la celda". 
+Un movimiento válido significa que la celda objetivo que se va a probar no está ocupada. 
+
+Por ejemplo, `cell(0, 0)` es una celda vacía cuando se inicia un nuevo juego. Debido a que el valor de la celda es del tipo int, usamos 1 para X para tratar con "X se coloca en la celda". 
 
 El criterio de aceptación también ha introducido nueva información, es decir, el turno O. Como tal, creamos la siguiente prueba: 
 
@@ -423,7 +436,7 @@ public void makeMove(int row, int column) {
 }
 
 ``` 
-**Aquí las dos historias (y por lo tanto sus criterios de aceptación) son simétricas.** 
+**Aquí las dos historias y por lo tanto sus criterios de aceptación son simétricas.** 
 
 El código de prueba y el de producción para ellos se pueden desarrollar juntos, especialmente para un desarrollador experimentado que comprenda los requisitos. 
 
@@ -467,7 +480,9 @@ public enum Cell {EMPTY, CROSS, NOUGHT}
 
 ```
 
-Por lo tanto, el tipo de valor devuelto de `getCell` cambia a `Cell` y la representación de una celda no válida cambia de -1 a `null`. Agregamos el método `initBoard` para la inicialización explícita del tablero, sin depender del valor predeterminado. 
+Por lo tanto, el tipo de valor devuelto de `getCell` cambia a `Cell` y la representación de una celda no válida cambia de -1 a `null`. 
+
+Agregamos el método `initBoard` para la inicialización explícita del tablero, sin depender del valor predeterminado. 
 
 También decidimos reemplazar el máximo de filas y columnas (3 x 3) con constantes con nombre. 
 
@@ -488,7 +503,9 @@ public void initBoard(){
  }
 ```
 
-Después de la refactorización, continuamos midiendo la cobertura de código de `Board` y revisando los estilos de codificación. Como no se encuentra ningún problema, realizamos el Sprint 2. 
+Después de la refactorización, continuamos midiendo la cobertura de código de `Board` y revisando los estilos de codificación. 
+
+Como no se encuentra ningún problema, realizamos el Sprint 2. 
 
 ## Sprint 3
 
@@ -504,7 +521,7 @@ La parte `Entonces` de este criterio de aceptación es que el juego ha terminado
 
 La parte `Cuándo` es que el jugador X hace un movimiento válido para formar XXX. 
 
-Para cumplir con esta condición, el juego estaba en curso sin XXX u OOO antes del movimiento X (es decir, es el turno de X). La parte Dado describe esto.  
+Para cumplir con esta condición, el juego estaba en curso sin XXX u OOO antes del movimiento X (es decir, es el turno de X). La parte `Dado` describe esto.  
 
 Entonces tenemos `AC4.1`.
 
@@ -541,7 +558,9 @@ public void testXWon(){
 }
 ```
 
-Para aseverar que el juego termina con una victoria  de X, se introduce un nuevo método, `getGameState`, y un nuevo tipo de enumeración, `GameState`. La necesidad de `GameState` es clara si se consideran también otros criterios de aceptación de la misma historia. 
+Para aseverar que el juego termina con una victoria  de X, se introduce un nuevo método, `getGameState`, y un nuevo tipo de enumeración, `GameState`. 
+
+La necesidad de `GameState` es clara si se consideran también otros criterios de aceptación de la misma historia. 
 
 Los estados posibles son jugando (es decir, el juego no ha terminado), empate, X-ganado y O-ganado. 
 
@@ -595,20 +614,20 @@ Entonces el juego termina, Y es un empate.
 
 El "juego en curso" en diferentes criterios puede implicar diferentes requisitos debido a las partes `Cuándo` y `Entonces`. 
 
-Por ejemplo, AC 4.1 requiere dos X en celdas específicas para pasar a formar XXX. 
+Por ejemplo, `AC 4.1` requiere dos X en celdas específicas para pasar a formar XXX. 
 
-AC 4.5 implica que es el turno de X de hacer el último movimiento
+`AC 4.5` implica que es el turno de X de hacer el último movimiento
 
 
 **Pregunta:**
 
-Para hacer que `testXWon` pase, `updateGameState` se enfoca en los escenarios `CROSS_WON`. Indica  al menos tres pruebas para AC4.1 para cubrir tres X seguidas de manera horizontal, vertical y diagonal. 
+Para hacer que `testXWon` pase, `updateGameState` se enfoca en los escenarios `CROSS_WON`. Indica  al menos tres pruebas para `AC4.1` para cubrir tres X seguidas de manera horizontal, vertical y diagonal. 
 
-Muestra que el método `testXWon` anterior ha cubierto AC4.2 y AC 4.4 y que el juego continuó hasta la jugada ganadora `board.makeMove (0, 2)`. 
+Muestra que el método `testXWon` anterior ha cubierto `AC4.2` y `AC 4.4` y que el juego continuó hasta la jugada ganadora `board.makeMove (0, 2)`. 
 
-¿AC4.3 es similar a AC 4.1?. ¿Se trata de los escenarios `NAUGHT_WON`?. 
+¿`AC4.3` es similar a `AC 4.1` ?. ¿Se trata de los escenarios `NAUGHT_WON`?. 
 
-¿Toda las pruebas para AC4.1-AC4.5 permitirán completar la clase de `Board`?. 
+¿Toda las pruebas para `AC4.1-AC4.5` permitirán completar la clase de `Board`?. 
 
 ### Refactorización 
 
@@ -629,50 +648,77 @@ public enum Cell {EMPTY, CROSS, NOUGHT}
 
 **Pregunta** ¿ Cuál es el problema de initialBoard  y por que le cambiamos el nombre a `resetGame`. 
 
-El nombre de la clase, `Board`, no explica claramente la abstracción. Se trata más del juego de tictactoe que del tablero de juego. Por lo tanto, le cambiamos el nombre a `TicTacToeGame` y cambiamos el nombre de la clase `GUI` a `TicTacToeGUI`. 
+El nombre de la clase, `Board`, no explica claramente la abstracción. Se trata más del juego de tictactoe que del tablero de juego. 
 
-Comentarios 
+Por lo tanto, le cambiamos el nombre a `TicTacToeGame` y cambiamos el nombre de la clase `GUI` a `TicTacToeGUI`. 
 
-Limpiamos aún más los comentarios existentes en el código fuente y escribimos nuevos comentarios para documentar las condiciones previas y posteriores de los métodos getCell y makeMove. Por ejemplo, el siguiente comentario formará parte de la documentación de la API de makeMove. 
+### Comentarios 
+
+Limpiamos aún más los comentarios existentes en el código fuente y escribimos nuevos comentarios para documentar las pre/post condiciones de los métodos `getCell` y `makeMove`. 
+
+Por ejemplo, el siguiente comentario formará parte de la documentación de la API de makeMove. 
 
 /**
   *@ precond: none
-* @ postcond: if (row, column) is a valid empty cell, 
-* then the player’s token has been placed in the
-* cell, and the turn has changed to the other player
-* 
+* @ postcond: si (fila, columna) es una celda vacia válida, 
+* cuando la ficha del jugador se ha colocado en la celda 
+* y el turno ha cambiado al otro jugador
 */
 
-No prestamos mucha atención a la documentación de las condiciones previas y posteriores porque el código de producción estaba evolucionando a medida que se implementan más y más historias de usuarios relacionadas y criterios de aceptación. 
+No prestamos mucha atención a la documentación de las pre/post condicionesporque el código de producción estaba evolucionando a medida que se implementan más y más historias de usuarios relacionadas y criterios de aceptación. 
 
-Análisis de código estático 
+### Análisis de código estático 
 
-Ahora se completan los criterios de aceptación, se logra el objetivo de cobertura del código y el código cumple con las pautas de codificación. El DoD de Sprint 3 también requiere que el análisis de código estático no informe errores o advertencias importantes en el código de producción. Aquí usamos PMD y un analizador de código estático multilenguaje extensible. La aplicación de PMD a la clase TicTacToeGame resultó en una advertencia "ConstructorCallsOverridableMethod". 
+Ahora se completan los criterios de aceptación, se logra el objetivo de cobertura del código y el código cumple con las pautas de codificación. 
 
-El constructor llama a resetGame (), que es un método público reemplazable. Es una mala práctica porque cuando una subclase anula este método, existe el riesgo de fallar al crear el objeto de la subclase. 
+El DoD de Sprint 3 también requiere que el análisis de código estático no informe errores o advertencias importantes en el código de producción. 
 
-resetGame() es público porque también se llama en TicTacToeGUI para reiniciar un juego. Para abordar el problema anterior, primero renombramos resetGame a initGame y lo hacemos privado. También creamos un nuevo método público resetGame que simplemente llama a initGame para que TicTacToeGUI no se vea afectado por el cambio. La separación entre inicialización y reinicio facilita futuras extensiones a TicTacToeGame. 
+Aquí usamos PMD y un analizador de código estático multilenguaje extensible. 
 
-PMD también informó advertencias sobre CANVAS_WIDTH y CANVAS_HEIGHT. La convención de nombres indica que son constantes, pero se usan como variables temporales en setContentPane () como se indica a continuación: 
+La aplicación de PMD a la clase `TicTacToeGame` resultó en una advertencia `ConstructorCallsOverridableMethod`. El constructor llama a `resetGame()`, que es un método público reemplazable. 
 
+Es una mala práctica porque cuando una subclase sobreescribe este método, existe el riesgo de fallar al crear el objeto de la subclase. `resetGame()` es público porque también se llama en `TicTacToeGUI` para reiniciar un juego. 
+
+Para abordar el problema anterior, primero renombramos `resetGame` a `initGame` y lo hacemos privado. 
+
+También creamos un nuevo método público resetGame que simplemente llama a `initGame` para que TicTacToeGUI no se vea afectado por el cambio. 
+
+La separación entre inicialización y reinicio facilita futuras extensiones a TicTacToeGame. 
+
+PMD también informó advertencias sobre `CANVAS_WIDTH` y `CANVAS_HEIGHT`. 
+
+La convención de nombres indica que son constantes, pero se usan como variables temporales en `setContentPane()` como se indica a continuación: 
+
+```
 private void setContentPane(){
-   …
+  ...
    CANVAS_WIDTH = CELL_SIZE * game.getTOTALRows();
    CANVAS_HEIGHT = CELL_SIZE * game.getTotalColumns();
    gameBoardCanvas.setPreferredSize(
                 new Dimension(CANVAS_WIDTH, CANVAS_HEIGHT, ));
-   …
+   ...
 }
 
-Se declaran variables de instancia porque se usan una vez en otro, drawGridLines. Reemplazar estas variables con las expresiones correspondientes mejora la legibilidad del código. setContentPane se reescribe de la siguiente manera: 
+``` 
 
+Se declaran variables de instancia porque se usan una vez en otro, `drawGridLines`. 
+
+Reemplazar estas variables con las expresiones correspondientes mejora la legibilidad del código. `setContentPane` se reescribe de la siguiente manera: 
+
+```
 private void setContentPane(){ }
 
-   …
+   ... 
    gameBoardCanvas.setPreferredSize(new Dimension (
 	CELL_SIZE*game,getTotalRows(),
 	game.getTotalColumns() ) );
-   …
+   ...
 }
 
-En la práctica, una herramienta de análisis de código estático puede informar numerosos errores o advertencias cuando se aplica a un proyecto del mundo real. Un problema potencial es que muchos pueden ser falsos, es decir, no son problemas reales. Después de todas las correcciones el  Sprint 3 está terminado, al igual que el proyecto TicTacToe.
+````
+
+En la práctica, una herramienta de análisis de código estático puede informar numerosos errores o advertencias cuando se aplica a un proyecto del mundo real. 
+
+Un problema potencial es que muchos pueden ser falsos, es decir, no son problemas reales. 
+
+Después de todas las correcciones el  Sprint 3 está terminado, al igual que el proyecto TicTacToe.
