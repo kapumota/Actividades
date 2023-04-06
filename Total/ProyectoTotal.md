@@ -207,7 +207,7 @@ public class Console {
    	 System.out.println("-------");
     }
 }
-````
+```
 
 
 Ahora consideramos `AC 1.2` y `AC 1.3` porque son similares. La decisión que debemos tomar es cómo representar una celda no válida. El código existente ha usado `0` para representar una celda vacía. Sea `-1` denota una celda inválida. Agregamos el siguiente código de prueba nuevo, donde un `3` denota una fila o columna no válida. 
@@ -224,8 +224,6 @@ public void testInvalidRow(){
 public void testInvalidColumn(){
    assertEqual(“ “, board.getCell(0, 3), -1);
   }
-
-
 ```
 Aunque estas pruebas no tienen ningún error de sintaxis, fallan porque `grid [3] [0]` y `grid [0] [3]` en la declaración de retorno de `getCell` están fuera de límite a lo siguiente:
 
@@ -320,8 +318,7 @@ Dado
 Cuando  
 Entonces
 Y 
-
-```
+``` 
 ```
 AC 2.2 Un movimiento X ilegal en una celda ocupada
  Dado 
@@ -338,7 +335,7 @@ AC 2.2 Un movimiento X ilegal en una celda ocupada
   Y 
 ```
 
-````
+```
  AC 3.1 Un movimiento O válido
  Dado 
  Cuando  
@@ -437,7 +434,7 @@ public void setUp () throws Exception{
     board = new Board();
    }
 
-…
+...
 @ Test
    public void testNonEmptyBoard(){
         board.makeMove(0, 0);
@@ -486,3 +483,125 @@ public void initBoard(){
 
 Después de la refactorización, continuamos midiendo la cobertura de código de `Board` y revisando los estilos de codificación. Como no se encuentra ningún problema, realizamos el Sprint 2. 
 
+## Sprint 3
+
+Este sprint tiene como objetivo completar la última historia que describe la característica del juego completo. 
+
+```
+AC4.1 Una victoria de X
+Dado un juego en curso sin XXX u OOO Y es el turno de X 
+Cuando el jugador X hace un movimiento válido para formar XXX 
+Entonces el juego ha terminado Y X ha ganado. 
+```
+
+Para escribir una prueba para AC4.1, necesitamos imaginar un escenario concreto, donde el jugador X está a un paso de ganar y es su turno. 
+
+
+
+**Pregunta (V/F)** La secuencia de cuatro movimientos, `X (0,0), O (1,1), X (0,1), O (1,0)` no cumple la  necesidad. 
+
+Como es el turno de X, X puede moverse en `(0, 2)`, lo que resulta en una victoria. Entonces tenemos la siguiente prueba, que también pretende visualizar el escenario. 
+
+```
+public void testXWon(){
+     board.makeMove(0, 0);
+     board.makeMove(1, 1);
+     board.makeMove(0, 1);
+     board.makeMove(1, 0);
+     board.makeMove(0, 0);
+     board.makeMove(0, 2);
+
+      assertEquals(“ ”, board.getGamesState(); GameState. CROSS_WON);
+      new GUI(board);
+      try {
+             Thread.sleep(2000);
+          } catch (InterruptedException e) {
+               e.printStackTrace();
+       }
+}
+```
+
+Para aseverar que el juego termina con una victoria  de X, se introduce un nuevo método, `getGameState`, y un nuevo tipo de enumeración, `GameState`. La necesidad de `GameState` es clara si se consideran también otros criterios de aceptación de la misma historia. 
+
+Los estados posibles son jugando (es decir, el juego no ha terminado), empate, X-ganado y O-ganado. 
+
+```
+public enum GameState {
+               PLAYING, DRAW, CROSS_WON, NOUGHT_WON
+}
+``` 
+
+El estado inicial de un juego nuevo es PLAYING. El método `makeMove` actualiza el estado del juego después de cada movimiento. Esto se hace introduciendo una nueva definición de método, `updateGameState`, y agregando una llamada `updateGameState` en `makeMove`. 
+
+
+**Pregunta:**
+Para hacer que `testXWon` pase, `updateGameState` se enfoca en los escenarios `CROSS_WON`. Indica  al menos tres pruebas para AC4.1 para cubrir tres X seguidas de manera horizontal, vertical y diagonal. 
+
+Muestra que el método `testXWon` anterior ha cubierto AC4.2 y AC 4.4 y que el juego continuó hasta la jugada ganadora `board.makeMove (0, 2)`. 
+
+¿AC4.3 es similar a AC 4.1?. ¿Se trata de los escenarios `NAUGHT_WON`?. 
+
+Toda las pruebas para AC4.1-AC4.5 permitirá completar la clase de `Board`. 
+
+Refactorización 
+
+Hasta ahora, hemos usado Board como el nombre de clase del código de producción. Su interfaz se muestra a continuación: 
+
+public enum Cell {EMPTY, CROSS, NOUGHT}
+	public enum GameState {PLAYING, DRAW, CROSS_WON, NOUGHT_WON}
+	public Board();
+	public void initBoard();
+	public int getTotalRows();
+	public int getTotalColumns();
+	public Cell getCell(int row, int column);
+	public char getTurn();
+	public void makeMove(int row, int columns);
+	public GameState getGameState();
+
+initialBoard no refleja su intención: borra el tablero y restablece el turno inicial y el estado del juego. Así que le cambiamos el nombre a resetGame. El nombre de la clase, Board, no explica claramente la abstracción. Se trata más del juego de tictactoe que del tablero de juego. Por lo tanto, le cambiamos el nombre a TicTacToeGame y cambiamos el nombre de la clase GUI a TicTacToeGUI. Por supuesto, podríamos haberlo hecho antes. 
+
+Comentarios 
+
+Limpiamos aún más los comentarios existentes en el código fuente y escribimos nuevos comentarios para documentar las condiciones previas y posteriores de los métodos getCell y makeMove. Por ejemplo, el siguiente comentario formará parte de la documentación de la API de makeMove. 
+
+/**
+  *@ precond: none
+* @ postcond: if (row, column) is a valid empty cell, 
+* then the player’s token has been placed in the
+* cell, and the turn has changed to the other player
+* 
+*/
+
+No prestamos mucha atención a la documentación de las condiciones previas y posteriores porque el código de producción estaba evolucionando a medida que se implementan más y más historias de usuarios relacionadas y criterios de aceptación. 
+
+Análisis de código estático 
+
+Ahora se completan los criterios de aceptación, se logra el objetivo de cobertura del código y el código cumple con las pautas de codificación. El DoD de Sprint 3 también requiere que el análisis de código estático no informe errores o advertencias importantes en el código de producción. Aquí usamos PMD y un analizador de código estático multilenguaje extensible. La aplicación de PMD a la clase TicTacToeGame resultó en una advertencia "ConstructorCallsOverridableMethod". 
+
+El constructor llama a resetGame (), que es un método público reemplazable. Es una mala práctica porque cuando una subclase anula este método, existe el riesgo de fallar al crear el objeto de la subclase. 
+
+resetGame() es público porque también se llama en TicTacToeGUI para reiniciar un juego. Para abordar el problema anterior, primero renombramos resetGame a initGame y lo hacemos privado. También creamos un nuevo método público resetGame que simplemente llama a initGame para que TicTacToeGUI no se vea afectado por el cambio. La separación entre inicialización y reinicio facilita futuras extensiones a TicTacToeGame. 
+
+PMD también informó advertencias sobre CANVAS_WIDTH y CANVAS_HEIGHT. La convención de nombres indica que son constantes, pero se usan como variables temporales en setContentPane () como se indica a continuación: 
+
+private void setContentPane(){
+   …
+   CANVAS_WIDTH = CELL_SIZE * game.getTOTALRows();
+   CANVAS_HEIGHT = CELL_SIZE * game.getTotalColumns();
+   gameBoardCanvas.setPreferredSize(
+                new Dimension(CANVAS_WIDTH, CANVAS_HEIGHT, ));
+   …
+}
+
+Se declaran variables de instancia porque se usan una vez en otro, drawGridLines. Reemplazar estas variables con las expresiones correspondientes mejora la legibilidad del código. setContentPane se reescribe de la siguiente manera: 
+
+private void setContentPane(){ }
+
+   …
+   gameBoardCanvas.setPreferredSize(new Dimension (
+	CELL_SIZE*game,getTotalRows(),
+	game.getTotalColumns() ) );
+   …
+}
+
+En la práctica, una herramienta de análisis de código estático puede informar numerosos errores o advertencias cuando se aplica a un proyecto del mundo real. Un problema potencial es que muchos pueden ser falsos, es decir, no son problemas reales. Después de todas las correcciones el  Sprint 3 está terminado, al igual que el proyecto TicTacToe.
