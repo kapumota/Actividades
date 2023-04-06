@@ -60,7 +60,7 @@ Sin embargo aquí  no se especifica completamente el requisito. ¿Se puede jugar
  Entonces 
 ```
 ```
-AC `1.3 Referencia de columna no válida
+AC 1.3 Referencia de columna no válida
 Dado 
 Cuando 
 Entonces
