@@ -15,7 +15,7 @@ Inicia un repositorio llamado CC-3S2 y dentro una carpeta llamada Actividades. D
 - El software estará escrito en Java. 
 - El usuario puede seleccionar su país de una lista desplegable. 
 - El sistema utilizará Log4J para registrar todos los mensajes de error en un archivo. 
-- Se te pedirá al usuario que guarde su trabajo si no lo ha guardado durante 15 minutos. 
+- Se le pedirá al usuario que guarde su trabajo si no lo ha guardado durante 15 minutos. 
 - El usuario puede seleccionar la función "Exportar a XML". 
 - El usuario puede exportar datos a XML
 
@@ -48,13 +48,13 @@ Inicia un repositorio llamado CC-3S2 y dentro una carpeta llamada Actividades. D
 ``` 
 En este punto y técnicamente hablando, queremos crear un punto final desde donde podamos obtener un descuento de suscripción para un usuario determinado.
 
-**Planificación**
+`Planificación`
 
 Tú eres el que crea este punto final! Comenzamos reuniendo y creando un ticket de trabajo. Allí, queremos asegurarnos de incluir un  criterios de aceptación. Cuando termines tu trabajo, le pasarás el boleto a tu amigo. El será responsable de probarlo y de asegurarse  de que la implementación  cubra todos los casos de uso que escribimos en esos criterios de aceptación. 
 
 Completa: 
 
-**Descripción** 
+`Descripción` 
 
 ```
 Queremos crear un punto final en nuestra API que nos permita obtener el descuento disponible para un usuario determinado. 
@@ -62,13 +62,13 @@ Más tarde, la interfaz de usuario manejará el valor de descuento recibido y pr
 
 ```
 
-**Criterios de aceptación** 
+`Criterios de aceptación` 
 
-**Dado**
+`Dado`
 
-**Cuando**
+`Cuando`
 
-**Entonces**
+`Entonces`
 
 8 .  Planificación de Poker
  
