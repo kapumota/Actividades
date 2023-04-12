@@ -31,7 +31,7 @@ Una vez que tenemos una prueba fallida, somos libres de escribir el código que 
 
 Tratamos el código de producción como un componente de caja negra. El componente tiene un interior y un exterior. El interior es donde escribimos el código de producción. Es donde ocultamos los datos y los algoritmos de la implementación. Podemos hacer esto utilizando cualquier enfoque que elijamos: orientado a objetos, funcional, declarativo o procedimental, etc. 
 
-El exterior es la interfaz de programación de aplicaciones (API). Esta es la parte que usamos para conectarnos a el componente y usarlo para crear piezas de software más grandes. 
+El exterior es la interfaz de programación de aplicaciones (API). Esta es la parte que usamos para conectarnos al componente y usarlo para crear piezas de software más grandes. 
 
 Si elegimos un enfoque orientado a objetos, esta API estará compuesta por métodos públicos en un objeto. 
 
@@ -320,7 +320,7 @@ public class Score {
 
 En el código class `Score`, es el cuerpo del bucle del método `assess()` el que parece difícil de manejar. Tiene un cuerpo de bucle largo con lógica y un conjunto de bloques `if-else-if`. 
 
-Se siente como si el código pudiera aclararse. Podemos extraer el cuerpo del bucle en un método. 
+Podemos extraer el cuerpo del bucle en un método. 
 
 El nombre del método nos da un lugar para describir lo que le sucede a cada cosa. El  bucle se vuelve entonces más corto y más fácil de manejar. También podemos reemplazar las escaleras `if-else-if` con una construcción más simple.
 
