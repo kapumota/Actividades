@@ -5,6 +5,7 @@
 3. Introducción a las pruebas en software -parte 2 - domiciliaria
 4. Historias de usuario y criterios de aceptación
 5. Proyecto ejemplo total
+6. Refactorización
 5. TDD-1 - construyendo una aplicación TDD
 6. TDD-2 - escribiendo una primera prueba
 7. TDD-3 - el ciclo RGR
