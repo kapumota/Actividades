@@ -211,7 +211,7 @@ Para hacer esto, necesitaremos introducir un nuevo concepto en el código: una l
 1. Comencemos escribiendo una prueba para una segunda letra que está en la posición incorrecta:
 
 ```
-@Te`st
+@Test
 void secondLetterWrongPosition() {
    var word = new Word("AR");
    var score = word.guess("ZA");
