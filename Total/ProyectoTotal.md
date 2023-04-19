@@ -660,7 +660,7 @@ Por ejemplo, el siguiente comentario formará parte de la documentación de la A
 
 ```
 /**
-  *@ precond: none
+*@ precond: none
 * @ postcond: si (fila, columna) es una celda vacia válida, 
 * cuando la ficha del jugador se ha colocado en la celda 
 * y el turno ha cambiado al otro jugador
