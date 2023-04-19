@@ -110,7 +110,7 @@ public class TestEmptyBoard {
 	assertEquals(“ “, board.getCell(row, column), 0);
 	}
          }
-         assertEquals(“ “, board.getTurn( ), ‘X’)
+         assertEquals(" ", board.getTurn( ), ‘X’)
       }
 }
 
@@ -233,7 +233,7 @@ public void testInvalidRow(){
  // criterio de aceptación 1.3
 @ Test
 public void testInvalidColumn(){
-   assertEqual(“ “, board.getCell(0, 3), -1);
+   assertEqual(" ", board.getCell(0, 3), -1);
   }
 ```
 Aunque estas pruebas no tienen ningún error de sintaxis, fallan porque `grid [3] [0]` y `grid [0] [3]` en la declaración de retorno de `getCell` están fuera de límite a lo siguiente:
@@ -275,7 +275,7 @@ public class TestEmptyBoard {
 	assertEquals(“ “, board.getCell(row, column), 0);
 	}
          }
-         assertEquals(“ “, board.getTurn( ), ‘X’)
+         assertEquals(" ", board.getTurn( ), ‘X’)
       }
 }
 ``` 
@@ -342,8 +342,8 @@ Y
  ```
  
  ```
- AC 2.3 Un movimiento X ilegal fuera del tablero 
- Dado 
+ AC 2.3 Un movimiento X ilegal dentro del tablero 
+ Dado
  Cuando  
  Entonces
  Y 
@@ -403,8 +403,8 @@ public class TestCrossMoves {
    @ Test  
     public void testCrossTurnMoveVacantCell() {
            board.makeMove(0, 0);
-           assertEquals(“ “, board.getCell(0, 0), 1);
-           assertEquals(“ “, board.getTurn( ), ‘O’);
+           assertEquals(" ", board.getCell(0, 0), 1);
+           assertEquals(" ", board.getTurn( ), ‘O’);
      }
 }
 ```
@@ -499,7 +499,7 @@ public void initBoard(){
                   grid[row][column] = Cell.EMPTY;
            }
      }
-    turn = ‘X’;
+    turn = 'X';
  }
 ```
 
@@ -658,14 +658,17 @@ Limpiamos aún más los comentarios existentes en el código fuente y escribimos
 
 Por ejemplo, el siguiente comentario formará parte de la documentación de la API de makeMove. 
 
+```
 /**
   *@ precond: none
 * @ postcond: si (fila, columna) es una celda vacia válida, 
 * cuando la ficha del jugador se ha colocado en la celda 
 * y el turno ha cambiado al otro jugador
-*/
+**/
 
-No prestamos mucha atención a la documentación de las pre/post condicionesporque el código de producción estaba evolucionando a medida que se implementan más y más historias de usuarios relacionadas y criterios de aceptación. 
+```
+
+No prestamos mucha atención a la documentación de las pre/post condiciones porque el código de producción estaba evolucionando a medida que se implementan más y más historias de usuarios relacionadas y criterios de aceptación. 
 
 ### Análisis de código estático 
 
@@ -715,7 +718,7 @@ private void setContentPane(){ }
    ...
 }
 
-````
+```
 
 En la práctica, una herramienta de análisis de código estático puede informar numerosos errores o advertencias cuando se aplica a un proyecto del mundo real. 
 
