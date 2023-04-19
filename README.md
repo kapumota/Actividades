@@ -9,5 +9,6 @@
 5. TDD-1 - construyendo una aplicación TDD
 6. TDD-2 - escribiendo una primera prueba
 7. TDD-3 - el ciclo RGR
-8. TDD-4 - TDD y SOLID
-9. TDD-5 - stubs y mocks
+8. Devops y metodologías ágiles
+9. TDD-4 - TDD y SOLID
+10. TDD-5 - stubs y mocks
