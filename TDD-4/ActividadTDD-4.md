@@ -155,7 +155,7 @@ package shapes;
 public interface Shape {
     void draw(Graphics g);
 }
-````
+```
 
 El siguiente paso es hacer que las clases de formas concretas implementen esta interfaz. Tomemos la clase Rectangle como ejemplo. Puedes ver esto aquí:
 
@@ -189,7 +189,6 @@ public class Shapes {
     	all.forEach(shape->shape.draw(graphics));
     }
 }
-
 ```
 **Pregunta** ¿Cuáles son lso efectos de esta refactorización?, ¿qué sucede si agregamos un nuevo tipo de forma? 
 
@@ -331,8 +330,6 @@ public class Shapes {
     	all.forEach(shape->shape.draw(graphics));
 	}
 }
-
-
 ``` 
 Ahora podemos ver que agregar un nuevo tipo de forma no necesita modificar este código. Este es un ejemplo de OCP en el trabajo. La clase `Shapes` está abierta a la definición de nuevos tipos de formas, pero está cerrada a la necesidad de modificaciones cuando se agrega esa nueva forma. Esto también significa que cualquier prueba relacionada con la clase `Shapes` permanecerá sin cambios, ya que no hay diferencia en el comportamiento de esta clase. Esa es una poderosa ventaja.
 
@@ -399,7 +396,6 @@ Esta división preservaría los grupos de métodos, por lo que es posible que ve
 interface Shape {
   void draw(Graphics g);
 }
-
 ``` 
 Esta interfaz claramente tiene un único enfoque. Es una interfaz con un enfoque muy limitado, tanto que solo se necesita especificar un método: `draw()`.  Ese único método es a la vez necesario y suficiente. El otro ejemplo importante está en la interfaz `Graphics`, como se muestra aquí: 
 
