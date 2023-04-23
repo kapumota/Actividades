@@ -210,3 +210,72 @@ public class Shapes {
 	}
 }
 ```
+Esto es DIP en el trabajo. Hemos creado una abstracción en la interfaz `Shape`. La clase `Shapes` es un consumidor de esta abstracción. Las clases que implementan esa interfaz son proveedores. Ambos conjuntos de clases dependen solo de la abstracción; no dependen de los detalles uno dentro del otro. No hay referencias a la clase `Rectangle` en la clase `Shapes`  y no hay referencias a las `Shapes` dentro de la clase `Rectangle`. 
+
+Podemos ver esta inversión de dependencias visualizada en el siguiente diagrama de clases UML:
+
+![](https://github.com/kapumota/Actividades/blob/main/TDD-4/Imagenes/UML3.png)
+
+Hemos invertido el gráfico de dependencia y hemos puesto las flechas al revés. 
+
+DI desacopla completamente las clases entre sí y, como tal, es muy poderoso. 
+
+**DIP**
+
+Hacer que el código dependa de abstracciones y no de detalles. 
+
+Hemos visto cómo DIP es una herramienta importante que podemos usar para simplificar el código. Nos permite escribir código que trata con una interfaz y luego usar ese código con cualquier clase concreta que implemente esa interfaz. Esto plantea una pregunta: ¿podemos escribir una clase que implemente una interfaz pero que no funcione?.
+
+ ### LSP: objetos intercambiables 
+
+Este principio fue provocado por una pregunta en OOP: si podemos extender una clase y usarla en lugar de la clase que extendimos, ¿cómo podemos estar seguros de que la nueva clase no romperá las cosas?
+
+Hay, por supuesto, un lado malo en esto, que LSP pretende evitar. Expliquemos esto mirando un contraejemplo en el código. Supongamos que creamos una nueva clase que implementa la interfaz `Shape`, como esta:
+
+```
+public class MaliciousShape implements Shape {
+    @Override
+    public void draw(Graphics g) {
+      try {
+        String[] deleteEverything = {"rm", "-Rf", "*"};
+        	Runtime.getRuntime().exec(deleteEverything,null);
+        	g.drawText("Nada que ver aqui...");
+    	} catch (Exception ex) {
+        	   // No accion
+    	}
+      }
+}
+``` 
+**Pregunta:** ¿Notas algo un poco extraño en esa nueva clase?. 
+
+
+### Definición formal de LSP 
+
+La científica informática estadounidense Barbara Liskov propuso una definición formal: si `p(x)` es una propiedad demostrable sobre objetos `x` de tipo `T`, entonces `p(y)` debería ser cierta para objetos `y` de tipo `S`, donde `S` es un subtipo de `T`. 
+
+### Revisión del uso de LSP
+
+Todas las clases que implementan `Shape` se ajustan a LSP. Esto es claro en la clase `TextBox`, como podemos ver aquí: 
+
+```
+public class TextBox implements Shape {
+    private final String text;
+    
+   public TextBox(String text) {
+      this.text = text;
+       }
+     @Override
+      public void draw(Graphics g) {
+    	g.drawText(text);
+	}
+}
+``` 
+**Pregunta:** ¿Qué sucede en el código anterior?.
+
+**LSP** 
+
+Un bloque de código se puede intercambiar con seguridad por otro si puede manejar la gama completa de entradas y proporcionar (al menos) todas las salidas esperadas, sin efectos secundarios no deseados. 
+
+**Pregunta:** Hay algunas violaciones sorprendentes de LSP. Quizás el clásico para el ejemplo de código del ejemplo se trata de agregar una clase `Square`. En código Java, ¿deberíamos hacer que la clase Square amplíe la clase Rectangle? ¿Qué pasa con la clase Rectangle extendiendo Square?.
+
+
