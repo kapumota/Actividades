@@ -16,7 +16,7 @@ El siguiente diagrama es una descripción general del diseño en el lenguaje de 
 
 ![](https://github.com/kapumota/Actividades/blob/main/TDD-4/Imagenes/UML1.png)
 
-### Contraejemplo: código  que viola SRP 
+### Contraejemplo: código  que viola el SRP 
 
 Para ver el valor de aplicar SRP, consideremos un fragmento de código que no lo usa. El siguiente fragmento de código tiene una lista de formas que se dibujan cuando llamamos al método `draw()`: 
 
@@ -48,7 +48,7 @@ public class Shapes {
 
 **Pregunta** Este código tiene cuatro responsabilidades, ¿puedes indicarlas?. ¿Podemos cambiar este código para que sea más fácil agregar un nuevo tipo de forma?.
 
-### Aplicación SRP para simplificar el mantenimiento futuro 
+### Aplicación del SRP para simplificar el mantenimiento futuro 
 
 Refactorizaremos este código para aplicar SRP, dando pequeños pasos. Lo primero que hay que hacer es trasladar ese conocimiento de cómo dibujar cada tipo de forma fuera de esta clase, de la siguiente manera:
 
