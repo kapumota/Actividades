@@ -3,8 +3,7 @@ package shapes;
 import java.util.ArrayList;
 import java.util.List;
 
-
- public class Shapes {
+public class Shapes {
      private final List<Shape> allShapes = new ArrayList<>();
 
      public void add(Shape s) {
@@ -29,4 +28,3 @@ import java.util.List;
          }
      }
  }
-
