@@ -10,7 +10,9 @@ En las siguientes secciones, aprenderemos cuáles son estos principios y cómo n
 
 ### SRP: bloques de construcción simples 
 
-En esta sección, examinaremos el primer principio, conocido como SRP. Usaremos un solo ejemplo de código en todas las secciones. Esto aclara cómo se aplica cada principio a un diseño orientado a objetos (OO). Vamos a ver un ejemplo clásico de diseño OO: dibujar formas. 
+En esta sección, examinaremos el primer principio, conocido como SRP. Usaremos un solo ejemplo de código en todas las secciones. Esto aclara cómo se aplica cada principio a un diseño orientado a objetos (OO). 
+
+Vamos a ver un ejemplo clásico de diseño OO: dibujar formas. 
 
 El siguiente diagrama es una descripción general del diseño en el lenguaje de modelado unificado (UML), que describe el código presentado en la actividad:
 
