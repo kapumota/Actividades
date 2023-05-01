@@ -43,3 +43,22 @@ El tiempo de la exposición es 10 minutos por grupos. Cada integrante deberá su
     
    - [Exploratory Testing](https://martinfowler.com/bliki/ExploratoryTesting.html)
    - [Importance of exploratory testing for CI/CD ](https://www.atlassian.com/continuous-delivery/software-testing/exploratory-testing)
+
+**Explica las diferencias entre los mocks y stubs basados en el artículo de Martin Fowler.**
+
+ Referencia:
+ 
+ - [Mocks Aren't Stubs](https://martinfowler.com/articles/mocksArentStubs.html)
+
+**Explica el proceso QA en producción y la diferencia entre las pruebas y el QA**
+
+Referencia:
+
+ - [QA in Production](https://martinfowler.com/articles/qa-in-production.html)
+ - [The Distinction Between Testing And Quality Assurance In The Software Industry](https://www.forbes.com/sites/forbestechcouncil/2022/08/12/the-distinction-between-testing-and-quality-assurance-in-the-software-industry/?sh=9312797391d3)
+
+**Explica sobre el trabajo remoto versus trabajo ubicado en el mismo lugar para equipos productivos**
+
+Referencia:
+
+- [Trabajo remoto versus trabajo ubicado en el mismo lugar](https://martinfowler.com/articles/remote-or-co-located.html)
