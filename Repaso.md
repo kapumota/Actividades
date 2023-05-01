@@ -52,7 +52,7 @@ El tiempo de la exposición es 10 minutos por grupos. Cada integrante deberá su
 
 **Explica el proceso QA en producción y la diferencia entre las pruebas y el QA**
 
-Referencia:
+Referencias:
 
  - [QA in Production](https://martinfowler.com/articles/qa-in-production.html)
  - [The Distinction Between Testing And Quality Assurance In The Software Industry](https://www.forbes.com/sites/forbestechcouncil/2022/08/12/the-distinction-between-testing-and-quality-assurance-in-the-software-industry/?sh=9312797391d3)
