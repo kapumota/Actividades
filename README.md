@@ -11,5 +11,6 @@
 7. TDD-3 - el ciclo RGR
 8. Devops y metodologías ágiles
 9. TDD-4 - TDD y SOLID
-10. TDD-5 - stubs y mocks
-11. TDD-6 - Arquitectura Hexagonal
+10. Todo refactorización
+11. TDD-5 - stubs y mocks
+12. TDD-6 - Arquitectura Hexagonal
