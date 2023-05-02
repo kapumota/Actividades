@@ -7,7 +7,7 @@ Inicia un repositorio llamado CC-3S2 y dentro una carpeta llamada Actividades. D
 Esta actividad es individual.
 
 
-## Pruebas en sotware - parte2
+## Pruebas en software - parte2
 
 ### Pruebas de caja negra y caja de cristal 
 
