@@ -9,8 +9,8 @@
 7. TDD-2 - escribiendo una primera prueba
 8. TDD-3 - el ciclo RGR
 9. Devops y metodologías ágiles
-10.TDD-4 - TDD y SOLID
-11.Técnicas de refactorización
-12.Refactorización y TDD
-13.TDD-5 - stubs y mocks
-14.TDD-6 - Arquitectura Hexagonal
+10. TDD-4 - TDD y SOLID
+11. Técnicas de refactorización
+12. Refactorización y TDD
+13. TDD-5 - stubs y mocks
+14. TDD-6 - Arquitectura Hexagonal
