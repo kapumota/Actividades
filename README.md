@@ -5,13 +5,12 @@
 3. Introducción a las pruebas en software -parte 2 - domiciliaria
 4. Historias de usuario y criterios de aceptación
 5. Implementación y proceso de ingeniería del software
-6. Refactorización 
-5. TDD-1 - construyendo una aplicación TDD
-6. TDD-2 - escribiendo una primera prueba
-7. TDD-3 - el ciclo RGR
-8. Devops y metodologías ágiles
-9. TDD-4 - TDD y SOLID
-10. Técnicas de refactorización
-11. Refactorización y TDD
-12. TDD-5 - stubs y mocks
-13. TDD-6 - Arquitectura Hexagonal
+6. TDD-1 - construyendo una aplicación TDD
+7. TDD-2 - escribiendo una primera prueba
+8. TDD-3 - el ciclo RGR
+9. Devops y metodologías ágiles
+10.TDD-4 - TDD y SOLID
+11.Técnicas de refactorización
+12.Refactorización y TDD
+13.TDD-5 - stubs y mocks
+14.TDD-6 - Arquitectura Hexagonal
