@@ -361,6 +361,7 @@ Por convención, colocas tus pruebas JUnit en otro archivo `MathTest.java`.
 
 ¿Adónde va cada una de estas piezas de tu documentación de prueba?
 
+```
 La partición para el parámetro `a`:
 
 - En un comentario al comienzo de `Math.java` 
@@ -371,6 +372,9 @@ La partición para el parámetro `a`:
 
 - En un comentario justo antes de un método de prueba JUnit 
 
+```
+
+```
 La anotación `@Test` 
 
 - Justo antes de la clase `Math` 
@@ -381,6 +385,9 @@ La anotación `@Test`
 
 - Justo antes de un método de prueba JUnit
 
+```
+
+```
 El comentario `covers a < b` 
 
 - En un comentario al comienzo de `Math.java`
@@ -390,7 +397,9 @@ El comentario `covers a < b`
 - En un comentario justo antes del método `max()` 
 
 - En un comentario justo antes de un método de prueba JUnit
+```
 
+```
 El comentario `@return` el máximo de `a` y `b`
 
 - En un comentario al comienzo de `Math.java`
@@ -400,6 +409,10 @@ El comentario `@return` el máximo de `a` y `b`
 - En un comentario justo antes del método `max()`
 
 - En un comentario justo antes de un método de prueba JUnit
+
+``` 
+
+Escribe el código completo de la prueba teniendo en cuenta las indicaciones anteriores.
 
 ```
 # Tu respuesta
