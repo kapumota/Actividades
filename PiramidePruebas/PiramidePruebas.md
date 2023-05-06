@@ -82,4 +82,63 @@ Sin embargo, las pruebas del sistema tienen sus desventajas:
 
 - Las pruebas del sistema suelen ser lentas en comparación con las pruebas unitarias. 
 - Las pruebas del sistema también son más difíciles de escribir. 
-- Las pruebas del sistema son más propensas a ser inestables. Una prueba inestable presenta un comportamiento errático: si la ejecutas, puede pasar o fallar para la misma configuración. Las pruebas inestables son un problema importante para los equipos de desarrollo de software
+- Las pruebas del sistema son más propensas a ser inestables. Una prueba inestable presenta un comportamiento errático: si la ejecutas, puede pasar o fallar para la misma configuración. Las pruebas inestables son un problema importante para los equipos de desarrollo de software.
+
+
+Cuándo usar cada nivel de prueba 
+
+Con una comprensión clara de los diferentes niveles de prueba y sus beneficios, tenemos que decidir si invertir más en pruebas unitarias o pruebas del sistema y determinar qué componentes deben probarse mediante pruebas unitarias y qué componentes deben probarse mediante pruebas del sistema. Una decisión equivocada puede tener un impacto considerable en la calidad del sistema: un nivel incorrecto puede costar demasiados recursos y no encontrar suficientes errores. Como habrás adivinado, la mejor respuesta aquí es: "Depende". 
+
+A menudo se usa una pirámide para ilustrar esta idea, como se muestra en la figura. 
+
+![](https://github.com/kapumota/Actividades/blob/main/PiramidePruebas/Imagenes/TrianguloPruebas.png).
+
+
+El tamaño de la porción en la pirámide representa el número relativo de pruebas a realizar en cada nivel de prueba. 
+
+Las pruebas unitarias están en la base de la pirámide y tienen el área más grande. Esto significa que los desarrolladores que siguen este esquema favorecen las pruebas unitarias (es decir, escriben más pruebas unitarias). 
+
+Subiendo en el diagrama, el siguiente nivel es la prueba de integración. El área es más pequeña, lo que indica que, en la práctica, estos desarrolladores escriben menos pruebas de integración que pruebas unitarias. Dado el esfuerzo adicional que requieren las pruebas de integración, los desarrolladores escriben pruebas solo para las integraciones que necesitan.
+
+El diagrama muestra que estos desarrolladores favorecen menos las pruebas del sistema que las pruebas de integración y tienen aún menos pruebas manuales. 
+
+
+#### ¿Por qué se prefieren las pruebas unitarias? 
+
+Las pruebas unitarias son fáciles de escribir, son rápidas, puedes escribirlas entrelazadas con el código de producción, etc. También las pruebas unitarias encajan muy bien con la forma en que trabajan los desarrolladores de software. Cuando los desarrolladores implementan una nueva característica, escriben unidades separadas que eventualmente trabajarán juntas para ofrecer una mayor funcionalidad. 
+
+Al desarrollar cada unidad, es fácil asegurarse de que funcione como se espera. 
+Probar unidades pequeñas de manera rigurosa y efectiva es mucho más fácil que probar una funcionalidad más grande. 
+
+Debido a que debes ser consciente de las desventajas de las pruebas unitarias, piensa detenidamente en cómo las otras unidades del sistema utilizarán la unidad en desarrollo. Hacer cumplir contratos claros y probarlos sistemáticamente te da más certeza de que las cosas funcionarán cuando se armen. 
+
+Finalmente, dada la intensidad con la que pruebas tu código usando pruebas unitarias (simples y baratas), puedo usar pruebas de integración y de sistema para las partes que realmente importan. No tienes que volver a probar todas las funcionalidades de nuevo en estos niveles. 
+
+Usa la integración o las pruebas del sistema para probar partes específicas del código que crees que puedan causar problemas durante la integración. 
+
+
+#### ¿Qué pruebas en los diferentes niveles? 
+
+Usa las pruebas unitarias para unidades relacionadas con un algoritmo o una sola pieza de lógica comercial del sistema de software. La mayoría de los sistemas empresariales se utilizan para transformar datos. Dicha lógica comercial a menudo se expresa mediante el uso de clases de entidad (por ejemplo, una clase de Factura y una clase de Pedido) para intercambiar mensajes. 
+
+La lógica empresarial a menudo no depende de servicios externos, por lo que puede probarse fácilmente y controlarse por completo a través de pruebas unitarias. 
+Las pruebas unitarias nos brindan un control total sobre los datos de entrada, así como una observabilidad total en términos de afirmar que el comportamiento es el esperado. 
+
+La forma en que diseñas tus clases tiene un impacto significativo en lo fácil que es escribir pruebas unitarias para tu código. 
+
+Usa pruebas de integración cada vez que el componente bajo prueba interactúa con un componente externo (como una base de datos o un servicio web). 
+
+Una DAO, cuya única responsabilidad es comunicarse con una base de datos, se prueba mejor en el nivel de integración: aquí debes asegurarte de que la comunicación con la base de datos funcione, la consulta SQL devuelve lo que desea y las transacciones se confirman en la base de datos. 
+
+Nuevamente, ten en cuenta que las pruebas de integración son más costosas y más difíciles de configurar que las pruebas unitarias, y debes usarlas porque son la única forma de probar una parte particular del sistema.
+
+Como ya sabemos, las pruebas del sistema son muy costosas (son difíciles de escribir y lentas de ejecutar) y, por lo tanto, se encuentran en la cima de la pirámide. 
+
+Es imposible volver a probar todo el sistema a nivel del sistema. Por lo tanto, tienes que priorizar qué probar a este nivel, y realizar un análisis de riesgo simple para decidir. ¿Cuáles son las partes críticas del sistema de software bajo prueba? En otras palabras, ¿qué partes del sistema se verían significativamente afectadas por un error? Estas son las áreas donde realizo algunas pruebas del sistema. 
+
+Recuerda la paradoja de los pesticidas: una sola técnica generalmente no es suficiente para identificar todos los errores. 
+
+La figura anterior también incluye pruebas manuales. Se ha dicho que todas las pruebas deben automatizarse, pero hay algo de valor en las pruebas manuales cuando estas pruebas se centran en la exploración y la validación. 
+
+Como desarrollador, es bueno usar y explorar el sistema de software que estás creando de vez en cuando, tanto de forma real como a través de un script de prueba. Abre el navegador o la aplicación y juega con ellos; puedes obtener una mejor perspectiva de qué más probar. 
+
