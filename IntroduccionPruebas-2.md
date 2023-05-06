@@ -9,11 +9,10 @@ Esta actividad es individual.
 
 ## Pruebas en software - parte2
 
+
 ### Pruebas de caja negra y caja de cristal 
 
-
-Una **prueba de caja negra** significa elegir casos de prueba solo de la especificación, no de la implementación de la función. Esto es que le hemos estado haciendo
-en los ejemplos;  particionamos y buscamos límites sin mirar el código real para estas funciones.  De hecho, siguiendo el enfoque TDD, ni siquiera habíamos escrito el código para estas funciones todavía.
+Una **prueba de caja negra** significa elegir casos de prueba solo de la especificación, no de la implementación de la función. Esto es particionamos y buscamos límites sin mirar el código real para estas funciones.  De hecho, siguiendo el enfoque TDD, ni siquiera habíamos escrito el código para estas funciones todavía.
 
 La **prueba de caja de cristal (blanca o estructural)**  significa elegir casos de prueba con conocimiento de cómo se implementa realmente la función.
 
@@ -51,12 +50,16 @@ valores = [0, 0, 1, 0, 0, 0, 0]
 
 ```
 
+```
+# Tu respuesta
+```
+
 ### Pruebas unitarias y de integración 
 
 
-A diferencia de una prueba unitaria, una prueba de integración prueba una combinación de módulos, o incluso el programa completo. 
+A diferencia de una prueba unitaria, una prueba de integración prueba una combinación de módulos o incluso el programa completo. 
 
-Supongamos que estás creando un motor de búsqueda de documentos. Dos de tus módulos pueden ser `load()`, que carga un archivo, y `extract()`, que divide 
+Supongamos que estás creando un motor de búsqueda de documentos. Dos de tus módulos pueden ser `load()`, que carga un archivo y `extract()`  que divide 
 un documento en tus palabras componentes:
 
 ```
@@ -91,7 +94,7 @@ public static Map<String, Set<File>> index(Set<File> files) {
     ...
 }
 ```
-`
+
 En el conjunto de pruebas, queremos: 
 
 - Pruebas unitarias solo para `load` que prueban en varios archivos 
@@ -100,22 +103,23 @@ En el conjunto de pruebas, queremos:
 
 - Pruebas unitarias para `index` que  prueban en varios conjuntos de archivos
 
+
 **Análisis**
 
 Un error que a veces cometen los programadores es escribir casos de prueba para `extract` de tal manera que los casos de prueba dependen de `load` para ser correctos. 
 Por ejemplo, un caso de prueba podría usar `load` para cargar un archivo y luego pasar su resultado como entrada para `extract`. 
-Pero esto no es una prueba unitaria de `extract`.` Si el caso de prueba falla, no sabemos si la falla se debe a un error en `load`  o en `extract`.
+Pero esto no es una prueba unitaria de `extract`. Si el caso de prueba falla, no sabemos si la falla se debe a un error en `load`  o en `extract`.
 
 Es mejor pensar y probar `extract` de forma aislada. El uso de particiones de prueba que involucren un contenido de archivo realista podría ser razonable, 
 porque así es como se usa realmente `extract` en el programa. Pero en realidad no llames a `load `desde el caso de prueba, porque `load` 
 puede tener errores. En su lugar, almacena el contenido del archivo como una cadena literal y páselo directamente para `extract`. 
 
-De esa manera, está escribiendo una prueba de unidad aislada y, si falla, puede estar más seguro de que el error está en el módulo que realmente estás probando. 
+De esa manera, estás escribiendo una prueba de unidad aislada y  si falla, puedes estar más seguro de que el error está en el módulo que realmente estás probando. 
 
 Ten en cuenta que las pruebas unitarias para  `index` no se pueden aislar fácilmente de esta manera. 
-Cuando un caso de prueba llama a `index`, está probando la corrección no solo del código dentro de `index`, sino también de todos los métodos llamados por `index`. 
-Si la prueba falla, el error podría estar en cualquiera de esos métodos. Es por eso que queremos pruebas separadas para `load` y `extract`, para aumentar nuestra confianza en esos módulos individualmente y localizar el problema 
-en el código de `index` que los conecta. 
+Cuando un caso de prueba llama a `index`, estás probando la corrección no solo del código dentro de `index`, sino también de todos los métodos llamados por `index`. 
+
+Si la prueba falla, el error podría estar en cualquiera de esos métodos. Es por eso que queremos pruebas separadas para `load` y `extract`, para aumentar nuestra confianza en esos módulos individualmente y localizar el problema  en el código de `index` que los conecta. 
 
 Es posible aislar un módulo de nivel superior como `index` si escribimos versiones de código auxiliar de los módulos a los que llama. 
 Por ejemplo, un `stub` para `load` no accedería al sistema de archivos en absoluto, sino que devolvería el contenido del archivo `mock`  sin 
@@ -144,11 +148,11 @@ Pones salsa y aderezos en una corteza y la horneas, para ver si la corteza todav
 Las pruebas automatizadas significan ejecutar las pruebas y verificar tus resultados automáticamente. 
 
 Los frameworks de prueba automatizados como JUnit facilitan la ejecución de las pruebas, pero tú mismo tienes que crear buenos casos de prueba. 
-La generación automática de pruebas es un problema difícil, todavía un tema de investigación activa en informática. 
+La generación automática de pruebas es un problema difícil, todavía es un tema de investigación activa en informática. 
 
 Una vez que tengas la automatización de pruebas, es muy importante volver a ejecutar tus pruebas cuando modifiques tu código. 
 
-Cada vez que encuentres y corrijas un error, toma la entrada que provocó el error y agrégala a tu conjunto de pruebas automatizadas como un caso de prueba. Este tipo de caso de prueba se llama prueba de regresión. Esto ayuda a llenar tu conjunto de pruebas con buenos casos de prueba. Guardar las pruebas de regresión también protege contra las reversiones que vuelven a introducir el error. El error puede ser un error fácil de cometer, ya que sucedió una vez. 
+Cada vez que encuentres y corrijas un error, toma la entrada que provocó el error y agrégala a tu conjunto de pruebas automatizadas como un caso de prueba. Este tipo de caso de prueba se llama prueba de regresión. Esto ayuda a llenar tu conjunto de pruebas con buenos casos de prueba. Guardar las pruebas de regresión también protege contra las reversiones que vuelven a introducir el error. El error puede ser un error fácil de cometer ya que sucedió una vez. 
 
 Esta idea también conduce a la depuración de prueba primero (`test-first debugging`). Cuando surja un error, escribe inmediatamente un caso de prueba
 que lo provoque y agréguelo inmediatamente a tu conjunto de pruebas. Una vez que encuentres y corrijas el error, todos tus casos de prueba pasarán, 
@@ -156,11 +160,9 @@ y habrás terminado con la depuración y tendrás una `prueba de regresión` par
 
 En la práctica, estas dos ideas, pruebas automatizadas y pruebas de regresión, casi siempre se usan en combinación. 
 
-Las pruebas de **regresión** solo son prácticas si las pruebas se pueden ejecutar con frecuencia, de forma automática. 
-Por el contrario, si ya tienes pruebas automatizadas para tu proyecto, también podrías usarlas para evitar regresiones. 
-Por lo tanto, las pruebas de regresión automatizadas son una de las mejores prácticas de la ingeniería de software moderna. 
+Las pruebas de **regresión** solo son prácticas si las pruebas se pueden ejecutar con frecuencia, de forma automática.  Por el contrario, si ya tienes pruebas automatizadas para tu proyecto, también podrías usarlas para evitar regresiones.  Por lo tanto, las pruebas de regresión automatizadas son una de las mejores prácticas de la ingeniería de software moderna. 
 
-Referencia: [Automated Regression Testing: Everything You Need To Know ﻿](https://www.testim.io/blog/automated-regression-testing/).
+Referencia: [Automated Regression Testing: Everything You Need To Know ](https://www.testim.io/blog/automated-regression-testing/).
 
 
 **Ejercicio**
@@ -177,6 +179,10 @@ Referencia: [Automated Regression Testing: Everything You Need To Know ﻿](http
 - Cuando una nueva prueba expone un error, debe ejecutarla en todas las versiones anteriores del código hasta que encuentre la versión en la que se introdujo el error.
 
 
+```
+# Tu respuesta
+```
+
 **Ejercicio**
 
 ¿Cuáles de los siguientes son buenos momentos para volver a ejecutar todas tus pruebas JUnit?
@@ -190,6 +196,10 @@ Referencia: [Automated Regression Testing: Everything You Need To Know ﻿](http
 
 - Después de pensar que solucionaste un error
 
+```
+# Tu respuesta
+```
+
 
 ###  Test First Development
 
@@ -199,10 +209,7 @@ La ingeniería de software efectiva no sigue un proceso lineal. Practica el TFD,
 - Escribe pruebas para la especificación.
 - Escribe una implementación. 
 
-A medida que encuentres problemas, repite las especificaciones, las pruebas y la implementación. 
-
-Cada paso ayuda a validar los pasos anteriores. 
-
+A medida que encuentres problemas, repite las especificaciones, las pruebas y la implementación. Cada paso ayuda a validar los pasos anteriores. 
 
 Dado que puede ser necesario repetir los pasos anteriores, no tiene sentido dedicar una gran cantidad de tiempo a hacer que un paso sea 
 perfecto antes de pasar al siguiente. 
@@ -210,7 +217,7 @@ perfecto antes de pasar al siguiente.
 #### Plan de iteración: 
 
 Para una especificación grande, comienza escribiendo solo una parte de la especificación, procede a probar e implementar esa parte, luego
-iterq con una especificación más completa.
+itera con una especificación más completa.
 
 Para un conjunto de pruebas complejo, comienza eligiendo algunas particiones importantes y crea un pequeño conjunto de pruebas para ellas. 
 
@@ -218,7 +225,10 @@ Continúa con una implementación simple que pase esas pruebas y luego itera en 
 
 Para una implementación complicada, primero escribe una implementación simple de fuerza bruta que pruebe tu especificación y valide tu conjunto de pruebas. Luego pasa a la implementación más difícil con la confianza de que tu especificación es buena y tus pruebas son correctas.
 
-La iteración es una característica de todos los procesos modernos de ingeniería de software (como Agile y Scrum), con un buen respaldo empírico para su efectividad. La iteración requiere una mentalidad diferente a la que puedes estar acostumbrado como estudiante para resolver problemas de tareas y exámenes. En lugar de tratar de resolver un problema a la perfección de principio a fin, la iteración significa llegar a una solución aproximada lo antes posible y luego refinarla y mejorarla constantemente, de modo que tenga tiempo para descartar y volver a trabajar si es necesario. La iteración hace el mejor uso de su tiempo cuando un problema es difícil y se desconoce el espacio de solución.
+**La iteración** es una característica de todos los procesos modernos de ingeniería de software (como Agile y Scrum), con un buen respaldo empírico para su efectividad. 
+La iteración requiere una mentalidad diferente a la que puedes estar acostumbrado como estudiante para resolver problemas de tareas y exámenes. En lugar de tratar de resolver un problema a la perfección de principio a fin, la iteración significa llegar a una solución aproximada lo antes posible y luego refinarla y mejorarla constantemente, de modo que tenga tiempo para descartar y volver a trabajar si es necesario. 
+
+La iteración hace el mejor uso de su tiempo cuando un problema es difícil y se desconoce el espacio de solución.
 
 **Ejercicio** 
 
@@ -232,6 +242,9 @@ La iteración es una característica de todos los procesos modernos de ingenier�
 - Caja de cristal
 - Cobertura
 
+```
+# Tu respuesta
+```
 
 **Ejercicio** 
 
@@ -251,6 +264,9 @@ ayuda que puedas obtener para asegurarse de hacerlo bien.
 
 - Escribir un algoritmo de búsqueda lineal simple 
 
+```
+# Tu respuesta
+```
 **Ejercicio**
 
 ¿Cuál de estos pasos ayudará a validar tu conjunto de pruebas antes de implementar el algoritmo de búsqueda binaria? 
@@ -261,9 +277,13 @@ ayuda que puedas obtener para asegurarse de hacerlo bien.
 
 - Verificación de tipos estáticos ejecutando el compilador de Java 
 
+```
+# Tu respuesta
+```
+
 ### Documenta tu estrategia de prueba 
 
-Es una buena idea anotar la estrategia de prueba que se usó para crear un conjunto de pruebas: las particiones, tus subdominios y qué subdominios se eligió para cubrir cada caso de prueba. Escribir la estrategia hace que la minuciosidad de tu conjunto de pruebas sea mucho más visible para el lector.
+Es una buena idea anotar la estrategia de prueba que se usó para crear un conjunto de pruebas: las particiones, los subdominios y qué subdominios se eligió para cubrir cada caso de prueba. Escribir la estrategia hace que la minuciosidad de tu conjunto de pruebas sea mucho más visible para el lector.
  
 Documenta las particiones y los subdominios en un comentario en la parte superior de la clase de prueba JUnit. Por ejemplo, para documentar la estrategia para probar `max`, escribiríamos esto en `MaxTest.java`: 
 
@@ -381,3 +401,6 @@ El comentario `@return` el máximo de `a` y `b`
 
 - En un comentario justo antes de un método de prueba JUnit
 
+```
+# Tu respuesta
+```
