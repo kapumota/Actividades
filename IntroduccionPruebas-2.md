@@ -137,11 +137,11 @@ Supongamos que está desarrollando una nueva receta de pizza. Hacer pizza involu
 
 - Preparar el queso y otros productos
 
-Haces la masa para la base, la horneas sola y ves lo crocante y sabrosa que queda. Esto es ......... 
+Haces la masa para la base, la horneas sola y ves lo crocante y sabrosa que queda. Esto es `.........` 
 
-Decides comprar una mezcla de especias prefabricada en una tienda especializada. Haces una salsa con las especias y luego la pruebas. Esto es.... 
+Decides comprar una mezcla de especias prefabricada en una tienda especializada. Haces una salsa con las especias y luego la pruebas. Esto es `........` 
 
-Pones salsa y aderezos en una corteza y la horneas, para ver si la corteza todavía se cocina bien con las cosas húmedas encima. Esto es ....
+Pones salsa y aderezos en una corteza y la horneas, para ver si la corteza todavía se cocina bien con las cosas húmedas encima. Esto es `..........`.
 
 ### Pruebas de regresión automatizadas
 
