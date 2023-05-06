@@ -90,7 +90,8 @@ Con una comprensión clara de los diferentes niveles de prueba y sus beneficios,
 
 A menudo se usa una pirámide para ilustrar esta idea, como se muestra en la figura. 
 
-![](https://github.com/kapumota/Actividades/blob/main/PiramidePruebas/Imagenes/TrianguloPruebas.png).
+
+<img src="https://github.com/kapumota/Actividades/blob/main/PiramidePruebas/Imagenes/TrianguloPruebas.png" alt="drawing" width="500"/>
 
 
 El tamaño de la porción en la pirámide representa el número relativo de pruebas a realizar en cada nivel de prueba. 
@@ -159,11 +160,9 @@ Responde las siguientes preguntas:
 
 7. Chalito, un evaluador de software con mucha experiencia, visita FCX!, una red social enfocada en emparejar personas según los cursos que llevan. Los usuarios no informan errores a menudo, ya que  los desarrolladores cuentan con sólidas prácticas de prueba. Sin embargo, los usuarios dicen que el software no cumple lo que promete. ¿Qué principio de prueba se aplica aquí?
 
-8.Jessica cree firmemente en las pruebas unitarias. De hecho, este es el único tipo de prueba que realiza para cualquier proyecto del que forma parte. ¿Qué principio de prueba no ayudará a convencer a Jessica de que debe alejarse de su enfoque de "pruebas unitarias únicas"?
+8. Kapumota cree firmemente en las pruebas unitarias. De hecho, este es el único tipo de prueba que realiza para cualquier proyecto del que forma parte. ¿Qué principio de prueba no ayudará a convencer a Kapumota de que debe alejarse de su enfoque de "pruebas unitarias únicas"?
 
 9. TDD se ha convertido en una práctica popular entre los desarrolladores. Según ellos, el TDD tiene varios beneficios. Indica algunos ejemplos no se considera un beneficio el TDD.
 
 10. Indica algunas recomendaciones a seguir para mantener una aplicación web comprobable.
-
-
 
