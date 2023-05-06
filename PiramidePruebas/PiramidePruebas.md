@@ -84,8 +84,7 @@ Sin embargo, las pruebas del sistema tienen sus desventajas:
 - Las pruebas del sistema también son más difíciles de escribir. 
 - Las pruebas del sistema son más propensas a ser inestables. Una prueba inestable presenta un comportamiento errático: si la ejecutas, puede pasar o fallar para la misma configuración. Las pruebas inestables son un problema importante para los equipos de desarrollo de software.
 
-
-Cuándo usar cada nivel de prueba 
+#### Cuándo usar cada nivel de prueba 
 
 Con una comprensión clara de los diferentes niveles de prueba y sus beneficios, tenemos que decidir si invertir más en pruebas unitarias o pruebas del sistema y determinar qué componentes deben probarse mediante pruebas unitarias y qué componentes deben probarse mediante pruebas del sistema. Una decisión equivocada puede tener un impacto considerable en la calidad del sistema: un nivel incorrecto puede costar demasiados recursos y no encontrar suficientes errores. Como habrás adivinado, la mejor respuesta aquí es: "Depende". 
 
@@ -136,9 +135,35 @@ Como ya sabemos, las pruebas del sistema son muy costosas (son difíciles de esc
 
 Es imposible volver a probar todo el sistema a nivel del sistema. Por lo tanto, tienes que priorizar qué probar a este nivel, y realizar un análisis de riesgo simple para decidir. ¿Cuáles son las partes críticas del sistema de software bajo prueba? En otras palabras, ¿qué partes del sistema se verían significativamente afectadas por un error? Estas son las áreas donde realizo algunas pruebas del sistema. 
 
-Recuerda la paradoja de los pesticidas: una sola técnica generalmente no es suficiente para identificar todos los errores. 
+Recuerda la **paradoja de los pesticidas**: una sola técnica generalmente no es suficiente para identificar todos los errores. 
 
 La figura anterior también incluye pruebas manuales. Se ha dicho que todas las pruebas deben automatizarse, pero hay algo de valor en las pruebas manuales cuando estas pruebas se centran en la exploración y la validación. 
 
 Como desarrollador, es bueno usar y explorar el sistema de software que estás creando de vez en cuando, tanto de forma real como a través de un script de prueba. Abre el navegador o la aplicación y juega con ellos; puedes obtener una mejor perspectiva de qué más probar. 
+
+**Ejercicios**
+
+Responde las siguientes preguntas:
+
+1. ¿Qué nivel de prueba suele realizar el personal de administración de un sistema?
+
+2. Considera este requisito: "Una tienda web ejecuta un trabajo por lotes, una vez al día, para entregar todos los pedidos que se han pagado. También establece la fecha de entrega según si el pedido es de un cliente internacional. Los pedidos se recuperan de una base de datos externa. Los pedidos que se han pagado se envían a un servicio web externo”. Como evaluador, debes decidir qué nivel de prueba (unidad, integración o sistema) aplicar.  ¿Qué tipo de prueba aplicarias a este caso?
+
+3. Inspectora Motita acaba de comenzar una consultoría para una empresa que desarrolla una aplicación móvil para ayudar a las personas a mantenerse al día con sus ejercicios diarios. Los miembros del equipo de desarrollo son fanáticos de las pruebas de software automatizadas y más específicamente, de las pruebas unitarias. Tienen una alta cobertura de código de prueba de unidad  pero los usuarios aún informan una cantidad significativa de errores. Motita, que está bien versada en pruebas de software, explica un principio de prueba al equipo. ¿De cuál principio habló?.
+
+4. Monky  un tester de software junior, acaba de unirse a una empresa de pago en línea muy grande en Escocia. Como primera tarea, Monky analiza los informes de errores de los últimos dos años. Él observa que más del 50% de los errores ocurren en el módulo de pagos internacionales. El le promete a su gerente que diseñará casos de prueba que cubran completamente el módulo de pagos internacionales y así encontrar todos los errores. ¿Pueden las pruebas exhaustivas pueden explicar por qué esto no es posible?
+
+5. ¿Cuál es la razón principal por la que el número de pruebas recomendadas del sistema en la pirámide de pruebas es menor que el número de pruebas unitarias?
+
+6. Una universidad (X) ha creado un software interno para gestionar la nómina de los empleados. La aplicación utiliza tecnologías web  de Java y almacena datos en una base de datos de Postgres. La aplicación recupera, modifica e inserta con frecuencia grandes cantidades de datos. Toda esta comunicación se realiza mediante clases Java que envían consultas SQL (complejas) a la base de datos. Como evaluadores sabemos que un error puede estar en cualquier lugar, incluso en las consultas SQL. También sabemos que hay muchas formas de ejercitar nuestro sistema. ¿Cuál  es una buena opción para detectar errores en consultas SQL?
+
+7. Chalito, un evaluador de software con mucha experiencia, visita FCX!, una red social enfocada en emparejar personas según los cursos que llevan. Los usuarios no informan errores a menudo, ya que  los desarrolladores cuentan con sólidas prácticas de prueba. Sin embargo, los usuarios dicen que el software no cumple lo que promete. ¿Qué principio de prueba se aplica aquí?
+
+8.Jessica cree firmemente en las pruebas unitarias. De hecho, este es el único tipo de prueba que realiza para cualquier proyecto del que forma parte. ¿Qué principio de prueba no ayudará a convencer a Jessica de que debe alejarse de su enfoque de "pruebas unitarias únicas"?
+
+9. TDD se ha convertido en una práctica popular entre los desarrolladores. Según ellos, el TDD tiene varios beneficios. Indica algunos ejemplos no se considera un beneficio el TDD.
+
+10. Indica algunas recomendaciones a seguir para mantener una aplicación web comprobable.
+
+
 
