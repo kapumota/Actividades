@@ -226,7 +226,9 @@ Continúa con una implementación simple que pase esas pruebas y luego itera en 
 Para una implementación complicada, primero escribe una implementación simple de fuerza bruta que pruebe tu especificación y valide tu conjunto de pruebas. Luego pasa a la implementación más difícil con la confianza de que tu especificación es buena y tus pruebas son correctas.
 
 **La iteración** es una característica de todos los procesos modernos de ingeniería de software (como Agile y Scrum), con un buen respaldo empírico para su efectividad. 
-La iteración requiere una mentalidad diferente a la que puedes estar acostumbrado como estudiante para resolver problemas de tareas y exámenes. En lugar de tratar de resolver un problema a la perfección de principio a fin, la iteración significa llegar a una solución aproximada lo antes posible y luego refinarla y mejorarla constantemente, de modo que tenga tiempo para descartar y volver a trabajar si es necesario. 
+La iteración requiere una mentalidad diferente a la que puedes estar acostumbrado como estudiante para resolver problemas de tareas y exámenes. 
+
+En lugar de tratar de resolver un problema a la perfección de principio a fin, la iteración significa llegar a una solución aproximada lo antes posible y luego refinarla y mejorarla constantemente, de modo que tenga tiempo para descartar y volver a trabajar si es necesario. 
 
 La iteración hace el mejor uso de su tiempo cuando un problema es difícil y se desconoce el espacio de solución.
 
