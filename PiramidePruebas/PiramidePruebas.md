@@ -1,6 +1,6 @@
 ## Curso de Desarrollo de Software 
 
-El presente texto ha sido preparado de manera exclusiva para los alumnos del curso Desarrollo de Software CC3S2 basado en el libro Effective Software Testing de Muricio Aniche. 
+El presente texto ha sido preparado de manera exclusiva para los alumnos del curso Desarrollo de Software CC3S2 basado en el libro Effective Software Testing de Muricio Aniche Manning 2022.
 
 ### La pirámide de pruebas y dónde debemos centrarnos 
 
@@ -165,4 +165,35 @@ Responde las siguientes preguntas:
 9. TDD se ha convertido en una práctica popular entre los desarrolladores. Según ellos, el TDD tiene varios beneficios. Indica algunos ejemplos no se considera un beneficio el TDD.
 
 10. Indica algunas recomendaciones a seguir para mantener una aplicación web comprobable.
+
+
+### Comentarios
+
+Mucha gente no está de acuerdo con la idea de una pirámide de pruebas y si deberíamos favorecer las pruebas unitarias. Estos desarrolladores abogan por un nivel inferior más delgado con pruebas unitarias, una porción intermedia más grande con pruebas de integración y una parte superior más delgada con pruebas de sistema. 
+
+Claramente, estos desarrolladores ven el mayor valor en escribir pruebas de integración. 
+
+En muchos sistemas de software, la mayor parte de la complejidad está en la integración de componentes. Por ejemplo en una arquitectura de microservicios altamente distribuida el desarrollador puede sentirse más cómodo si las pruebas automatizadas realizan llamadas reales a otros microservicios en lugar de confiar en stubs o mocks que los simulan. ¿Por qué escribir pruebas unitarias para algo que tiene que probar de todos modos a través de pruebas de integración?.
+
+Otro caso común a favor de las pruebas de integración en lugar de las pruebas unitarias involucra los sistemas de información centrados en bases de datos: es decir, sistemas donde la responsabilidad principal es almacenar, recuperar y mostrar información. En tales sistemas, la complejidad se basa en garantizar que el flujo de información viaje con éxito a través de la interfaz de usuario a la base de datos y viceversa. 
+
+Tales aplicaciones a menudo no están compuestas por algoritmos complejos o reglas comerciales. En ese caso, las pruebas de integración para garantizar que las consultas SQL (que a menudo son complejas) funcionen como se espera y las pruebas del sistema para garantizar que la aplicación en general se comporte como se espera pueden ser el camino a seguir.
+
+Preferir un enfoque sobre otro es en gran medida una cuestión de gusto personal, experiencia y contexto. Debes realizar el tipo de prueba que crees que beneficiará a tu software. Todos los enfoques tienen pros y contras, y tendrás que encontrar el que funcione mejor para ti y tu equipo de desarrollo. 
+
+
+En Ingeniería de software en Google (Winters, Manshreck y Wright, 2020) , los autores mencionan que Google suele optar por pruebas unitarias, ya que tienden a ser más económicas y se ejecutan con mayor rapidez. También se realizan pruebas de integración y del sistema, pero en menor medida. Según los autores, alrededor del 80% de sus pruebas son pruebas unitarias. 
+
+Google también tiene una definición interesante de tamaños de prueba, que los ingenieros consideran al diseñar casos de prueba. 
+
+Una **prueba pequeña** es una prueba que se puede ejecutar en un solo proceso. Tales pruebas no tienen acceso a las principales fuentes de lentitud o determinismo de prueba. En otras palabras, son rápidas y no inestables. 
+
+Una **prueba mediana** puede abarcar varios procesos, usar subprocesos y realizar llamadas externas (como llamadas de red) al localhost. Las pruebas medianas tienden a ser más lentas e inestables que las pequeñas. 
+
+Finalmente, las **pruebas grandes** eliminan la restricción localhost y, por lo tanto, pueden requerir y realizar llamadas a varias máquinas. Google reserva pruebas grandes para pruebas completas de extremo a extremo. 
+
+La idea de clasificar las pruebas no en términos de sus límites (unidad, integración, sistema) sino en términos de qué tan rápido se ejecutan también es popular entre muchos desarrolladores. Una vez más, lo que importa es que, para cada parte del sistema, tu objetivo sea maximizar la eficacia de la prueba. 
+
+La idea es que tu prueba sea lo más económica posible de escribir, lo más rápida posible de ejecutar y que te brinde la mayor cantidad de comentarios posible sobre la calidad del sistema. 
+
 
