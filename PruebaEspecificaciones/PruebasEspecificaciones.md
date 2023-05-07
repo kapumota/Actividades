@@ -228,8 +228,8 @@ El programa no puede tener subcadenas, una subcadena o varias subcadenas. Y las 
 
 Cada vez que identificamos un límite, ideamos dos pruebas, uno para cada lado del límite. Para el límite `'sin subcadena'/'una subcadena'`, las dos pruebas son las siguientes: 
 
-* `str` contiene etiquetas tanto de `open` como de `close`, sin caracteres entre ellas. 
-* `str` contiene etiquetas tanto de `open` como de `close`, con caracteres entre ellas. 
+* `str` contiene etiquetas `open` como `close`, sin caracteres entre ellas. 
+* `str` contiene etiquetas `open` como `close`, con caracteres entre ellas. 
 
 La segunda prueba no es necesaria en este caso, ya que otras pruebas ya ejercen esta situación. Por lo tanto, podemos descartar. 
 
@@ -531,12 +531,12 @@ Algunas sumas requieren aumento. El **aumento** es un concepto importante en est
 
 * `Aumento:` probemos sumas que requieren aumentos de muchas maneras diferentes. Estos son buenos lugares para comenzar:
 
-  - Suma sin aumento
-  - Suma con aumento: un aumento al principio
-  - Suma con aumento: un aumento en el medio 
-  - Suma con aumento : muchos aumentos 
-  - Suma con aumento: muchos aumentos, no seguidos 
-  - Suma con aumento: aumento propagado a un dígito nuevo (el más significativo) 
+  - Suma sin `aumento`
+  - Suma con `aumento`: un `aumento` al principio
+  - Suma con `aumento`: un `aumento` en el medio 
+  - Suma con `aumento` : muchos `aumentos` 
+  - Suma con `aumento`: muchos `aumentos`, no seguidos 
+  - Suma con `aumento`: `aumento` propagado a un dígito nuevo (el más significativo) 
 
 
 El único límite que vale la pena probar es el siguiente: garantizar que casos como `99 + 1` (donde el número final se lleva a un nuevo dígito más significativo) están cubiertos. Esto viene de la última partición derivada al analizar el aumento: `"Suma con un aumento: aumento propagado a un nuevo dígito (el más significativo)"`.` 
@@ -575,7 +575,7 @@ Veamos los casos de prueba específicos:
   - T8: `aumento` en el dígito menos significativo
   - T9: `aumento` en el medio 
   - T10: muchos `aumentos`
-  - T11: muchos `aumentos`, no seguidos
+  - T11: muchos `aumentos` no seguidos
   - T12: `aumento` propagado a un dígito nuevo (ahora el más significativo) 
 
 * Múltiples dígitos con diferentes longitudes (uno para `left` más largo que `right` y otro para `right` más larga a `left`) 
@@ -590,7 +590,7 @@ Veamos los casos de prueba específicos:
 * Ceros a la izquierda 
 
   - T19: sin `aumento`
-  - T20: `aumento`
+  - T20: con `aumento`
  
 * Límites
   
