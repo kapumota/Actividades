@@ -146,7 +146,8 @@ Una vez que hayas identificado esta clase (o partición), repite el proceso y bu
 Empezamos con entradas individuales: 
 
 * Parámetro `str`: la cadena puede ser cualquier cadena.
-  a. Cadena Null 
+
+  a. Cadena null 
   
   b. Cadena vacía 
   
@@ -156,7 +157,7 @@ Empezamos con entradas individuales:
 
 * Parámetro `open`: esto también puede ser cualquier cosa. 
 
-  a. Cadena Null 
+  a. Cadena null 
   
   b. Cadena vacía 
   
@@ -166,7 +167,7 @@ Empezamos con entradas individuales:
 
 * Parámetro `close`: Este parámetro es como el anterior: 
 
-  a. Cadena Null 
+  a. Cadena null 
   
   b. Cadena vacía 
   
@@ -248,3 +249,44 @@ length = 1, close length > 1)` y `(open length > 1, close length > 1)`. Solo `(o
 close length = 1)` y `(open length > 1, close length > 1)`  son suficientes.
 
 **Ejercicio:**  ¿Hay más casos donde se pueda simplificar el número de pruebas? 
+
+
+Con una comprensión clara de qué particiones deben probarse exhaustivamente y cuáles no, podemos derivar los casos de prueba realizando la combinación. 
+
+`Casos excepcionales`
+
+* T1: `str` es nulo. 
+* T2: `str` está vacío.
+* T3: `open` es nulo. 
+* T4: `open` está vacío. 
+* T5: `close` es nulo. 
+* T6: `close` está vacío. 
+
+`str longitud = 1`: 
+
+* T7: el carácter único en `str` coincide con la etiqueta `open`. 
+* T8: El carácter único en `str` coincide con la etiqueta `close`. 
+* T9: El carácter único en `str` no coincide ni con la etiqueta  `open` ni `close`. 
+* T10: el carácter único en `str` coincide con las etiquetas `open` y `close`. 
+
+Ahora, `str longitud  > 1`, `open longitud = 1`, `close = 1: 
+
+* T11: str no contiene ni la etiqueta de open ni la de close. 
+* T12: str contiene la etiqueta open pero no contiene la etiqueta close. 
+* T13: str contiene la etiqueta de close pero no contiene la etiqueta de open. 
+* T14: str contiene las etiquetas de open y close. 
+* T15: str contiene las etiquetas de open y close varias veces. 
+
+A continuación, str longitud > 1, longitud de open > 1, close > 1: 
+
+* T16: str no contiene ni la etiqueta de open ni la de close. 
+* T17: str contiene la etiqueta open pero no contiene la etiqueta close. 
+* T18: str contiene la etiqueta de close pero no contiene la etiqueta de open. 
+* T19: str contiene las etiquetas de open y close. 
+* T20: str contiene las etiquetas de open y close varias veces. 
+
+Finalmente, aquí está la prueba para el límite: 
+
+* T21: str contiene las etiquetas de open y close sin caracteres entre ellas. 
+
+Terminamos con 21 pruebas.
