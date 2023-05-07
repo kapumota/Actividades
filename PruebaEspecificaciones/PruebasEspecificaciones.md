@@ -102,7 +102,6 @@ A continuación, vemos qué sucede si hay varias subcadenas en la cadena princip
 
 Se espera que el programa se comporte de la misma manera con etiquetas `open` y `close` más grandes que un solo carácter. Repite la segunda prueba, doblando las `"a"` y las `"d"` en todos los parámetros. También cambia uno de los `"bc"` a `"bf"`, para que sea más fácil comprobar que el método devuelve dos subcadenas diferentes: `["bc", "bf"]`. 
 
-
 ```
 @Test
 void simpleCase(){
@@ -127,3 +126,125 @@ void openAndCloseTagsThatAreLongerThan1Char(){
 
 ```
 
+**Ejercicio:** escribe  código de prueba llamado `stringUtilsExploracionTest.java` que alberge el código anterior.
+
+
+### Paso 3: Explore las posibles entradas y salidas, e identifique las particiones
+
+Deberíamos encontrar una manera de priorizar y seleccionar un subconjunto de entradas y salidas que nos brinde suficiente certeza sobre la corrección del programa.
+
+ En el caso del ejemplo, para fines de prueba, la entrada  `"abcd"` con la etiqueta `open "a"` y  la etiqueta `close "d"`, que hace que el programa devuelve `"bc"`, es lo mismo que la entrada `"xyzw"` con la etiqueta `open "x"` y la etiqueta `close "w"`. Cambia las letras, pero espera que el programa haga lo mismo para ambas entradas. Dadas las limitaciones de recursos, debes probar solo una de estas entradas (no importa cuál) y confiar en que este caso único representa toda la clase de entradas. Al probar la terminología, decimos que estas dos entradas son equivalentes. 
+
+Una vez que hayas identificado esta clase (o partición), repite el proceso y buscas otra clase que haga que el programa se comporte de una forma diferente a la que aún no has probado. Si continúas dividiendo el dominio, eventualmente identificará todas las diferentes clases posibles (o particiones) de entradas. Una forma sistemática de hacer tal exploración es pensar en lo siguiente: 
+
+1. Cada entrada individualmente: "¿Cuáles son las posibles clases de entradas que puedo proporcionar?" 
+
+2. Cada entrada en combinación con otras entradas: "¿Qué combinaciones puedo probar entre las etiquetas `open` y `close`?" 
+
+3. Las diferentes clases de resultados que se esperan de este programa: “¿Devuelve arreglos? ¿Puede devolver un arreglo vacío? ¿Puede devolver valores nulos? 
+
+Empezamos con entradas individuales: 
+
+* Parámetro `str`: la cadena puede ser cualquier cadena.
+  a. Cadena Null 
+  
+  b. Cadena vacía 
+  
+  c. Longitud de cadena 1
+  
+  d. Longitud de cadena > 1 (alguna cadena)
+
+* Parámetro `open`: esto también puede ser cualquier cosa. 
+
+  a. Cadena Null 
+  
+  b. Cadena vacía 
+  
+  c. Longitud de cadena 1
+  
+  d. Longitud de cadena > 1 
+
+* Parámetro `close`: Este parámetro es como el anterior: 
+
+  a. Cadena Null 
+  
+  b. Cadena vacía 
+  
+  c. Longitud de cadena 1
+  
+  d. Longitud de cadena > 1 (alguna cadena)
+
+Exploramos posibles combinaciones de variables.
+
+* parámetros `(str, open, close)` — `open` y `close` pueden o no estar en la cadena. Además, `open` puede estar allí, pero no `close` (y viceversa). 
+
+  a. `str` no contiene ni la etiqueta de `open` ni la de `close`.
+  
+  b. `str` contiene la etiqueta `open` pero no la etiqueta `close`. 
+  
+  c. `str` contiene la etiqueta de `close` pero no la etiqueta de `open`. 
+  
+  d. `str` contiene las etiquetas de `open` y `close`. 
+  
+  e. `str` contiene las etiquetas de `open` y `close` varias veces. 
+
+Reflexionamos sobre los posibles resultados. El método devuelve un arreglo de subcadenas. Hay un conjunto de posibles salidas diferentes, tanto para el arreglo como para las cadenas dentro del arreglo: 
+
+* Arreglo de cadenas (salida) 
+  
+  a. Arreglo null 
+  
+  b. Arreglo vacío
+
+  c. Único item 
+
+  d. Multiples items
+
+* Cada cadena individual (salida) 
+
+  a. Vacío
+ 
+  b. Único caracter
+ 
+  c. Múltiples caracteres
+
+#### Paso 4: Analiza los límites
+
+Cuando diseñamos particiones, tienen límites cercanos con las otras particiones. 
+
+Imagina un programa simple que imprime `"hiphip"` si la entrada dada es un número menor que 10 o `"hurra"` si la entrada dada es mayor o igual a 10. Un evaluador puede dividir el dominio de entrada en dos particiones: (1) el conjunto de entradas que hacen que el programa imprima `"hiphip"` y (2) el conjunto de entradas que hacen que el programa imprima `"hurra"`. Ten en cuenta que el valor de entrada 9 pertenece a la partición `"hiphip"`, mientras que el valor de entrada 10 pertenece a la partición `"hurra"`.
+
+Las probabilidades de que un programador escriba un error cerca del límite (en este caso, cerca de los valores de entrada 9 y 10) son mayores que para otros valores de entrada. De esto se trata la prueba de límites: hacer que el programa se comporte correctamente cuando las entradas están cerca de un límite. Y de esto se trata este cuarto paso: prueba de límites.
+
+Siempre que se identifique un límite, se sugiere que pruebes lo que sucede con el programa cuando las entradas van de un límite al otro.
+
+El truco para explorar los límites es observar todas las particiones y pensar en las entradas entre ellas. Cada vez que encuentres uno que valga la pena probar, prueba. 
+
+En el ejemplo, se produce un límite directo cuando la cadena pasa de vacía a no vacía, ya que se sabe que el programa deja de devolver vacío y (posiblemente) comenzará a devolver algo. Ya cubriste este límite, ya que tienes particiones para ambos casos. A medida que examinas cada partición y cómo se establecen los límites con otras, analiza las particiones en la categoría `(str, open, close)`. 
+
+El programa no puede tener subcadenas, una subcadena o varias subcadenas. Y las etiquetas de `open` y `close` pueden no estar en la cadena; o, lo que es más importante, pueden estar en la cadena, pero sin una subcadena entre ellos. ¡Este es un límite que debes ejercitar!
+
+
+Cada vez que identificamos un límite, ideamos dos pruebas, uno para cada lado del límite. Para el límite `'sin subcadena'/'una subcadena'`, las dos pruebas son las siguientes: 
+
+* `str` contiene etiquetas tanto de `open` como de `close`, sin caracteres entre ellas. 
+* `str` contiene etiquetas tanto de `open` como de `close`, con caracteres entre ellas. 
+
+La segunda prueba no es necesaria en este caso, ya que otras pruebas ya ejercen esta situación. Por lo tanto, podemos descartar. 
+
+### Paso 5: Idear casos de prueba 
+
+Con las entradas, salidas y límites correctamente diseccionados, podemos generar casos de prueba concretos.  
+
+**Ejercicio:**  ¿En el ejemplo cuál es el número de pruebas? 
+
+Puede haber otras particiones que no necesiten combinarse por completo. En este problema, veo dos: 
+
+
+- Para el caso de `string of length 1`, dado que la cadena tiene longitud 1, dos pruebas pueden ser suficientes: una en la que el carácter único de la cadena coincida con  `open` y `close` y otra en la que no. 
+
+- A menos que tengamos una buena razón para creer que el programa maneja etiquetas de `open` y `close` de diferentes longitudes de diferentes maneras, no necesitamos las cuatro combinaciones de `(open length = 1, close length = 1)`, `(open length > 1, close length = 1)`, `(open
+length = 1, close length > 1)` y `(open length > 1, close length > 1)`. Solo `(open length = 1,
+close length = 1)` y `(open length > 1, close length > 1)`  son suficientes.
+
+**Ejercicio:**  ¿Hay más casos donde se pueda simplificar el número de pruebas? 
