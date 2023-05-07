@@ -254,9 +254,9 @@ Con una comprensión clara de qué particiones deben probarse exhaustivamente y 
 
 `Casos excepcionales`
 
-* T1: `str` es nulo. 
+* T1: `str` es null. 
 * T2: `str` está vacío.
-* T3: `open` es nulo. 
+* T3: `open` es null. 
 * T4: `open` está vacío. 
 * T5: `close` es nulo. 
 * T6: `close` está vacío. 
@@ -506,7 +506,7 @@ T4 = [5,0,0] + [2,5,0] = [7,5,0]
   Así tenemos las siguientes particiones:
 
   - Vacío
-  - Nulo
+  - Null
   - Un solo dígito
   - Múltiples dígitos
   - Ceros a la izquierda
@@ -514,7 +514,7 @@ T4 = [5,0,0] + [2,5,0] = [7,5,0]
 * `parámetro right:` tenemos la misma lista de particiones que para el parámetro `left`: 
 
   - Vacío
-  - Nulo
+  - Null
   - Un solo dígito
   - Múltiples dígitos
   - Ceros a la izquierda
@@ -545,7 +545,7 @@ Con todas las entradas y salidas analizadas, es hora de derivar casos de prueba 
 
 Apliquemos la siguiente estrategia: 
 
-1. Prueba nulos y vacíos solo una vez. 
+1. Prueba null y vacíos solo una vez. 
 
 2. Prueba con un solo dígito solo una vez. 
 
@@ -557,50 +557,51 @@ Apliquemos la siguiente estrategia:
 
 Veamos los casos de prueba específicos: 
 
-* Nulos y vacíos
+* Null y vacíos
 
-  - T1: `left`  nula 
+  - T1: `left`  null 
   - T2: `left` vacío 
-  - T3: `right` nulo 
+  - T3: `right` null 
   - T4: `right` vacío
 
 * Dígitos individuales
  
-  - T5: un solo dígito, sin aumento
-  - T6: un solo dígito, aumento
+  - T5: un solo dígito, sin `aumento`
+  - T6: un solo dígito, `aumento`
 
 * Múltiples dígitos
  
-  - T7: sin aumento
-  - T8: aumento en el dígito menos significativo
-  - T9: aumento en el medio 
-  - T10: muchos aumentos
-  - T11: muchos aumentos, no seguidos
-  - T12: aumento propagado a un dígito nuevo (ahora el más significativo) 
+  - T7: sin `aumento`
+  - T8: `aumento` en el dígito menos significativo
+  - T9: `aumento` en el medio 
+  - T10: muchos `aumentos`
+  - T11: muchos `aumentos`, no seguidos
+  - T12: `aumento` propagado a un dígito nuevo (ahora el más significativo) 
 
 * Múltiples dígitos con diferentes longitudes (uno para `left` más largo que `right` y otro para `right` más larga a `left`) 
 
-  - T13: sin aumento
-  - T14: aumento en el dígito menos significativo 
-  - T15: aumento en el medio
-  - T16: muchos aumentos 
-  - T17: muchos aumentos, no seguidos 
-  - T18: aumento propagado a un dígito nuevo (ahora el más significativo) 
+  - T13: sin `aumento`
+  - T14: `aumento` en el dígito menos significativo 
+  - T15: `aumento` en el medio
+  - T16: muchos `aumentos` 
+  - T17: muchos `aumentos`, no seguidos 
+  - T18: `aumento` propagado a un dígito nuevo (ahora el más significativo) 
 
 * Ceros a la izquierda 
 
-  - T19: sin aumento
-  - T20: aumento
+  - T19: sin `aumento`
+  - T20: `aumento`
  
 * Límites
   
-  - T21: aumenta a un nuevo dígito más significativo, por uno (como 99 +1).
+  - T21: `aumento` a un nuevo dígito más significativo, por uno (como 99 +1).
 
-Ejercicio 10: Transforma los casos de prueba automatizados, creando una prueba parametrizada llamada NumberUtilsTest.java. ¿Qué sucede ahora con los resultados? Por ejemplo, dado left = [9] y right = [2],  qué valor genera  el programa y cuando  left = [9,9,8] y right = [1,7,2] ? ¿el programa maneja ceros a la izquierda?. Agrega código al programa realizado. 
+**Ejercicio:** Transforma los casos de prueba automatizados, creando una prueba parametrizada llamada `NumberUtilsTest.java`. ¿Qué sucede ahora con los resultados? Por ejemplo `left = [9]` y `right = [2]`,  qué valor genera  el programa y cuando  `left = [9,9,8]` y `right = [1,7,2]` ? . ¿El programa maneja ceros a la izquierda?. Agrega código al programa realizado. 
 
 
-Ejercicio 11: Escribe un caso de prueba para asegurarnos de que se cumple la precondición de que cada dígito sea un número entre 0 y 9. Todo lo que tenemos que hacer es pasar varios dígitos no válidos. Hagámoslo directamente en la prueba JUnit de la siguiente manera.
+**Ejercicio:** Escribe un caso de prueba de que se cumple la precondición de que cada dígito sea un número entre 0 y 9. Realiza la prueba en JUnit de la siguiente manera.
 
+```
 @ParameterizedTest
 @MethodSource("digitsOutOfRange")
 void shouldThrowExceptionWhenDigitsAreOutOfRange(List<Integer> left, List<Integer> right) {
@@ -617,8 +618,7 @@ static Stream<Arguments> digitsOutOfRange() {
            of(numbers(1), numbers(1,11,1))
    );
 }
+```
 
-
-Ejercicio 12: Analiza los códigos de cobertura antes y después de los cambios. 
-
+**Ejercicio:** Analiza los códigos de cobertura antes y después de los cambios. 
 
