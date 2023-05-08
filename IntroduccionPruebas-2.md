@@ -108,11 +108,14 @@ En el conjunto de pruebas, queremos:
 
 Un error que a veces cometen los programadores es escribir casos de prueba para `extract` de tal manera que los casos de prueba dependen de `load` para ser correctos. 
 Por ejemplo, un caso de prueba podría usar `load` para cargar un archivo y luego pasar su resultado como entrada para `extract`. 
+
 Pero esto no es una prueba unitaria de `extract`. Si el caso de prueba falla, no sabemos si la falla se debe a un error en `load`  o en `extract`.
 
 Es mejor pensar y probar `extract` de forma aislada. El uso de particiones de prueba que involucren un contenido de archivo realista podría ser razonable, 
 porque así es como se usa realmente `extract` en el programa. Pero en realidad no llames a `load `desde el caso de prueba, porque `load` 
-puede tener errores. En su lugar, almacena el contenido del archivo como una cadena literal y páselo directamente para `extract`. 
+puede tener errores. 
+
+En su lugar, almacena el contenido del archivo como una cadena literal y páselo directamente para `extract`. 
 
 De esa manera, estás escribiendo una prueba de unidad aislada y  si falla, puedes estar más seguro de que el error está en el módulo que realmente estás probando. 
 
@@ -123,9 +126,9 @@ Si la prueba falla, el error podría estar en cualquiera de esos métodos. Es po
 
 Es posible aislar un módulo de nivel superior como `index` si escribimos versiones de código auxiliar de los módulos a los que llama. 
 Por ejemplo, un `stub` para `load` no accedería al sistema de archivos en absoluto, sino que devolvería el contenido del archivo `mock`  sin 
-importar qué `File` se le pasara. Un `stub` para una clase a menudo se denomina `mock object`. 
+importar qué `File` se le pasara. 
 
-Los `stubs` son una técnica importante cuando se construyen sistemas grandes.
+Un `stub` para una clase a menudo se denomina `mock object`. Los `stubs` son una técnica importante cuando se construyen sistemas grandes.
 
 **Ejercicio**
 
@@ -364,51 +367,51 @@ Por convención, colocas tus pruebas JUnit en otro archivo `MathTest.java`.
 ¿Adónde va cada una de estas piezas de tu documentación de prueba?
 
 ```
-La partición para el parámetro `a`:
+La partición para el parámetro a:
 
-- En un comentario al comienzo de `Math.java` 
+- En un comentario al comienzo de Math.java 
 
-- En un comentario al comienzo de `MathTest.java` 
+- En un comentario al comienzo de MathTest.java 
 
-- En un comentario justo antes del método `max()`
+- En un comentario justo antes del método max()
 
 - En un comentario justo antes de un método de prueba JUnit 
 
 ```
 
 ```
-La anotación `@Test` 
+La anotación @Test 
 
-- Justo antes de la clase `Math` 
+- Justo antes de la clase Math
 
-- Justo antes de la clase `MathTest` 
+- Justo antes de la clase MathTest 
 
-- Justo antes del método `max()` 
+- Justo antes del método max() 
 
 - Justo antes de un método de prueba JUnit
 
 ```
 
 ```
-El comentario `covers a < b` 
+El comentario covers a < b 
 
-- En un comentario al comienzo de `Math.java`
+- En un comentario al comienzo de Math.java
 
-- En un comentario al comienzo de `MathTest.java`
+- En un comentario al comienzo de MathTest.java
 
-- En un comentario justo antes del método `max()` 
+- En un comentario justo antes del método max() 
 
 - En un comentario justo antes de un método de prueba JUnit
 ```
 
 ```
-El comentario `@return` el máximo de `a` y `b`
+El comentario @return el máximo de a y b
 
-- En un comentario al comienzo de `Math.java`
+- En un comentario al comienzo de Math.java
 
-- En un comentario al comienzo de `MathTest.java`
+- En un comentario al comienzo de MathTest.java
 
-- En un comentario justo antes del método `max()`
+- En un comentario justo antes del método max()
 
 - En un comentario justo antes de un método de prueba JUnit
 
