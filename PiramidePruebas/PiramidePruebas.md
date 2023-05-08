@@ -16,9 +16,8 @@ Cuando probamos unidades de forma aislada, estamos haciendo pruebas unitarias. E
 
 - Las pruebas unitarias son rápidas. Una prueba unitaria generalmente toma solo un par de milisegundos para ejecutarse. Las pruebas rápidas nos permiten probar grandes porciones del sistema en una pequeña cantidad de tiempo. Los conjuntos de pruebas rápidos y automatizados nos brindan retroalimentación constante. Esta red de seguridad rápida nos hace sentir más cómodos y confiados al realizar cambios evolutivos en el sistema de software en el que estamos trabajando.
 
-- Las pruebas unitarias son fáciles de controlar. Una prueba unitaria prueba el software dando ciertos parámetros a un método y luego comparando el valor de retorno de este método con el resultado esperado. Estos valores de entrada y el valor del resultado esperado son fáciles de adaptar o modificar en la prueba. Una vez más, mira el ejemplo de identifiqueExtremes() y lo fácil que fue proporcionar diferentes entradas y afirmar su salida.  
-
-- Las pruebas unitarias son fáciles de escribir. No requieren una configuración complicada ni trabajo adicional. Una sola unidad también suele ser cohesiva y pequeña, lo que facilita el trabajo del tester. Las pruebas se vuelven mucho más complicadas cuando tenemos bases de datos, interfaces y servicios web todos juntos. 
+- Las pruebas unitarias son fáciles de controlar. Una prueba unitaria prueba el software dando ciertos parámetros a un método y luego comparando el valor de retorno de este método con el resultado esperado. Estos valores de entrada y el valor del resultado esperado son fáciles de adaptar o modificar en la prueba. 
+- Las pruebas unitarias son fáciles de escribir. No requieren una configuración complicada ni trabajo adicional. Una sola unidad también suele ser cohesiva y pequeña, lo que facilita el trabajo del evaluador. Las pruebas se vuelven mucho más complicadas cuando tenemos bases de datos, interfaces y servicios web todos juntos. 
 
 En cuanto a las desventajas, se deben considerar las siguientes:  
 
@@ -54,10 +53,9 @@ La prueba de integración es el nivel de prueba que usamos para probar la integr
 
 **Ejemplo** 
 
-Los sistemas de software comúnmente se basan en sistemas de bases de datos. Para comunicarse con la base de datos, los desarrolladores a menudo crean una clase cuya única responsabilidad es interactuar con este componente externo (piensa en las clases de objetos de acceso a datos [DAO]). 
+Los sistemas de software comúnmente se basan en sistemas de bases de datos. Para comunicarse con la base de datos, los desarrolladores a menudo crean una clase cuya única responsabilidad es interactuar con este componente externo (piensa en las clases de objetos de acceso a datos [DAO]). Estos DAO pueden contener código SQL complicado. 
 
-Estos DAO pueden contener código SQL complicado. 
-Por lo tanto  un evalaudor siente la necesidad de probar las consultas SQL. El evaluador no quiere probar todo el sistema, solo la integración entre la clase DAO y la base de datos. 
+Por lo tanto  un evaluador siente la necesidad de probar las consultas SQL. El evaluador no quiere probar todo el sistema, solo la integración entre la clase DAO y la base de datos. 
 El evaluador tampoco quiere probar la clase DAO en completo aislamiento. Después de todo, la mejor manera de saber si una consulta SQL funciona es enviarla a la base de datos y ver qué devuelve la base de datos. Este es un ejemplo de una prueba de integración. 
 
 Las pruebas de integración tienen como objetivo probar múltiples componentes de un sistema juntos, centrándose en las interacciones entre ellos en lugar de probar el sistema como un todo. ¿Se están comunicando correctamente? ¿Qué sucede si el componente A envía un mensaje X al componente B? ¿Siguen presentando un comportamiento correcto?
@@ -88,20 +86,18 @@ Sin embargo, las pruebas del sistema tienen sus desventajas:
 
 Con una comprensión clara de los diferentes niveles de prueba y sus beneficios, tenemos que decidir si invertir más en pruebas unitarias o pruebas del sistema y determinar qué componentes deben probarse mediante pruebas unitarias y qué componentes deben probarse mediante pruebas del sistema. Una decisión equivocada puede tener un impacto considerable en la calidad del sistema: un nivel incorrecto puede costar demasiados recursos y no encontrar suficientes errores. Como habrás adivinado, la mejor respuesta aquí es: "Depende". 
 
-A menudo se usa una pirámide para ilustrar esta idea, como se muestra en la figura. 
+A menudo se usa una pirámide para ilustrar esta idea, como se muestra en la figura:
 
 
 <img src="https://github.com/kapumota/Actividades/blob/main/PiramidePruebas/Imagenes/TrianguloPruebas.png" alt="drawing" width="500"/>
 
-
-El tamaño de la porción en la pirámide representa el número relativo de pruebas a realizar en cada nivel de prueba. 
+El tamaño de una parte en la pirámide representa el número relativo de pruebas a realizar en cada nivel de prueba. 
 
 Las pruebas unitarias están en la base de la pirámide y tienen el área más grande. Esto significa que los desarrolladores que siguen este esquema favorecen las pruebas unitarias (es decir, escriben más pruebas unitarias). 
 
-Subiendo en el diagrama, el siguiente nivel es la prueba de integración. El área es más pequeña, lo que indica que, en la práctica, estos desarrolladores escriben menos pruebas de integración que pruebas unitarias. Dado el esfuerzo adicional que requieren las pruebas de integración, los desarrolladores escriben pruebas solo para las integraciones que necesitan.
+Subiendo en el diagrama, el siguiente nivel es la prueba de integración. El área es más pequeña, lo que indica que en la práctica, estos desarrolladores escriben menos pruebas de integración que pruebas unitarias. Dado el esfuerzo adicional que requieren las pruebas de integración, los desarrolladores escriben pruebas solo para las integraciones que necesitan.
 
 El diagrama muestra que estos desarrolladores favorecen menos las pruebas del sistema que las pruebas de integración y tienen aún menos pruebas manuales. 
-
 
 #### ¿Por qué se prefieren las pruebas unitarias? 
 
@@ -112,7 +108,7 @@ Probar unidades pequeñas de manera rigurosa y efectiva es mucho más fácil que
 
 Debido a que debes ser consciente de las desventajas de las pruebas unitarias, piensa detenidamente en cómo las otras unidades del sistema utilizarán la unidad en desarrollo. Hacer cumplir contratos claros y probarlos sistemáticamente te da más certeza de que las cosas funcionarán cuando se armen. 
 
-Finalmente, dada la intensidad con la que pruebas tu código usando pruebas unitarias (simples y baratas), puedo usar pruebas de integración y de sistema para las partes que realmente importan. No tienes que volver a probar todas las funcionalidades de nuevo en estos niveles. 
+Finalmente, dada la intensidad con la que pruebas tu código usando pruebas unitarias (simples y baratas), puedes usar pruebas de integración y de sistema para las partes que realmente importan. No tienes que volver a probar todas las funcionalidades de nuevo en estos niveles. 
 
 Usa la integración o las pruebas del sistema para probar partes específicas del código que crees que puedan causar problemas durante la integración. 
 
@@ -182,7 +178,7 @@ Tales aplicaciones a menudo no están compuestas por algoritmos complejos o regl
 Preferir un enfoque sobre otro es en gran medida una cuestión de gusto personal, experiencia y contexto. Debes realizar el tipo de prueba que crees que beneficiará a tu software. Todos los enfoques tienen pros y contras, y tendrás que encontrar el que funcione mejor para ti y tu equipo de desarrollo. 
 
 
-En Ingeniería de software en Google (Winters, Manshreck y Wright, 2020) , los autores mencionan que Google suele optar por pruebas unitarias, ya que tienden a ser más económicas y se ejecutan con mayor rapidez. También se realizan pruebas de integración y del sistema, pero en menor medida. Según los autores, alrededor del 80% de sus pruebas son pruebas unitarias. 
+En[Software Engineering at Google](https://abseil.io/resources/swe-book)  (Winters, Manshreck y Wright, 2020) , los autores mencionan que Google suele optar por pruebas unitarias, ya que tienden a ser más económicas y se ejecutan con mayor rapidez. También se realizan pruebas de integración y del sistema, pero en menor medida. Según los autores, alrededor del 80% de sus pruebas son pruebas unitarias. 
 
 Google también tiene una definición interesante de tamaños de prueba, que los ingenieros consideran al diseñar casos de prueba. 
 
