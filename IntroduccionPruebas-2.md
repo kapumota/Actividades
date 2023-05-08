@@ -165,9 +165,6 @@ En la práctica, estas dos ideas, pruebas automatizadas y pruebas de regresión,
 
 Las pruebas de **regresión** solo son prácticas si las pruebas se pueden ejecutar con frecuencia, de forma automática.  Por el contrario, si ya tienes pruebas automatizadas para tu proyecto, también podrías usarlas para evitar regresiones.  Por lo tanto, las pruebas de regresión automatizadas son una de las mejores prácticas de la ingeniería de software moderna. 
 
-Referencia: [Automated Regression Testing: Everything You Need To Know ](https://www.testim.io/blog/automated-regression-testing/).
-
-
 **Ejercicio**
 
 ¿Cuál de los siguientes define mejor las pruebas de regresión? 
