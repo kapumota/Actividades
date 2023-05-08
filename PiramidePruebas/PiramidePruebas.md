@@ -178,7 +178,7 @@ Tales aplicaciones a menudo no están compuestas por algoritmos complejos o regl
 Preferir un enfoque sobre otro es en gran medida una cuestión de gusto personal, experiencia y contexto. Debes realizar el tipo de prueba que crees que beneficiará a tu software. Todos los enfoques tienen pros y contras, y tendrás que encontrar el que funcione mejor para ti y tu equipo de desarrollo. 
 
 
-En[Software Engineering at Google](https://abseil.io/resources/swe-book)  (Winters, Manshreck y Wright, 2020) , los autores mencionan que Google suele optar por pruebas unitarias, ya que tienden a ser más económicas y se ejecutan con mayor rapidez. También se realizan pruebas de integración y del sistema, pero en menor medida. Según los autores, alrededor del 80% de sus pruebas son pruebas unitarias. 
+En [Software Engineering at Google](https://abseil.io/resources/swe-book)  (Winters, Manshreck y Wright, 2020), los autores mencionan que Google suele optar por pruebas unitarias, ya que tienden a ser más económicas y se ejecutan con mayor rapidez. También se realizan pruebas de integración y del sistema, pero en menor medida. Según los autores, alrededor del 80% de sus pruebas son pruebas unitarias. 
 
 Google también tiene una definición interesante de tamaños de prueba, que los ingenieros consideran al diseñar casos de prueba. 
 
