@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * These are the tests we made in the exploration phase (step 2)
+ * Estas pruebas son realizados en la fase de exploracion (paso 2)
  */
 public class StringUtilsExplorationTest {
 
