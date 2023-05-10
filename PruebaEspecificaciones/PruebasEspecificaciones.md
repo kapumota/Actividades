@@ -25,7 +25,9 @@ Busca en una cadena subcadenas delimitadas por una etiqueta de `start` y `end` y
 - `open`: la cadena que identifica el inicio de la subcadena. Una cadena vacía devuelve `null`. 
 - `close`: la cadena que identifica el final de la subcadena. Una cadena vacía devuelve `null`. 
 
-**Ejemplo:** si `str = "axcaycazc"`, `open = "a"` y `close = "c"`, la salida será un arreglo que contiene `["x", "y", "z"]". Este es el caso  ya que la subcadena`"a< algo>c"`  aparece tres veces en la cadena original: la primera contiene `"x"` en el medio, la segunda `"y"` y la última `"z"`. Con estos requisitos en mente, escribimos la implementación que se muestra en el listado.
+**Ejemplo:** si `str = "axcaycazc"`, `open = "a"` y `close = "c"`, la salida será un arreglo que contiene `["x", "y", "z"]`. Este es el caso  ya que la subcadena`"a< algo>c"`  aparece tres veces en la cadena original: la primera contiene `"x"` en el medio, la segunda `"y"` y la última `"z"`. 
+
+Con estos requisitos en mente, escribimos la implementación que se muestra en el listado. Utiliza el nombre de `stringUtils.java`.
 
 ```
 public static String[] substringsBetween(final String str, final String open, final String close) {
@@ -64,10 +66,9 @@ public static String[] substringsBetween(final String str, final String open, fi
    }
 }
 
-
 ```
 
-**Ejercicio**:  Escribe el código prueba y considera las entradas `str = "axcaycazc"`, `open = "a"` y `close = "c"` y explica lo que hace el código anterior. Utiliza el nombre de `stringUtils.java`.
+**Ejercicio**:  Escribe el código prueba y considera las entradas `str = "axcaycazc"`, `open = "a"` y `close = "c"` y explica lo que hace el código anterior. 
 
 ```
 package PruebasEspecificacion;
@@ -75,7 +76,9 @@ import java.util.ArrayList;
 import java.util.List;
 ``` 
 
-**Ejercicio :**  Mira los requisitos una vez más y escribe todos los casos de prueba que se te ocurran. El formato no importa, puede ser algo así como "todos los parámetros son nulos". Cuando hayas terminado con esta nota, compara tu conjunto de pruebas inicial con el que estamos a punto de derivar. 
+**Ejercicio :**  Mira los requisitos una vez más y escribe todos los casos de prueba que se te ocurran. El formato no importa, puede ser algo así como "todos los parámetros son nulos". 
+
+Cuando hayas terminado con esta nota, compara tu conjunto de pruebas inicial con el que estamos a punto de derivar. 
 
 
 #### Paso 1: Comprensión de los requisitos, entradas y salidas 
@@ -96,11 +99,13 @@ El programa devuelve un arreglo compuesto por todas las subcadenas encontradas p
 
 El proceso es el siguiente (escribe el código JUnit en el listado siguiente): 
 
-Pasa la cadena `"abcd"` con la etiqueta `open "a"` y la etiqueta `close "d"`. Se espera que devuelva un arreglo con un solo elemento: `["bc"]`. Intenta eso (en una prueba unitaria) y que el programa devuelve lo que se esperaba. 
+Pasa la cadena `"abcd"` con la etiqueta `open "a"` y la etiqueta `close "d"`. Se espera que devuelva un arreglo con un solo elemento: `["bc"]`. 
+
+Intenta eso (en una prueba unitaria) y que el programa devuelve lo que se esperaba. 
 
 A continuación, vemos qué sucede si hay varias subcadenas en la cadena principal. Pasa la cadena `"abcdabcdab"` con las mismas etiquetas de `open` y `close`. Se  espera que devuelva un arreglo con dos cadenas: `["bc", "bc"]`. El programa devuelve lo que se esperaba. 
 
-Se espera que el programa se comporte de la misma manera con etiquetas `open` y `close` más grandes que un solo carácter. Repite la segunda prueba, doblando las `"a"` y las `"d"` en todos los parámetros. También cambia uno de los `"bc"` a `"bf"`, para que sea más fácil comprobar que el método devuelve dos subcadenas diferentes: `["bc", "bf"]`. 
+Se espera que el programa se comporte de la misma manera con etiquetas `open` y `close` más grandes que un solo carácter. Repite la segunda prueba usando `"a"` y `"d"` en todos los parámetros. También cambia uno de los `"bc"` a `"bf"`, para que sea más fácil comprobar que el método devuelve dos subcadenas diferentes: `["bc", "bf"]`. 
 
 ```
 @Test
@@ -133,9 +138,15 @@ void openAndCloseTagsThatAreLongerThan1Char(){
 
 Deberíamos encontrar una manera de priorizar y seleccionar un subconjunto de entradas y salidas que nos brinde suficiente certeza sobre la corrección del programa.
 
- En el caso del ejemplo, para fines de prueba, la entrada  `"abcd"` con la etiqueta `open "a"` y  la etiqueta `close "d"`, que hace que el programa devuelve `"bc"`, es lo mismo que la entrada `"xyzw"` con la etiqueta `open "x"` y la etiqueta `close "w"`. Cambia las letras, pero espera que el programa haga lo mismo para ambas entradas. Dadas las limitaciones de recursos, debes probar solo una de estas entradas (no importa cuál) y confiar en que este caso único representa toda la clase de entradas. Al probar la terminología, decimos que estas dos entradas son equivalentes. 
+ En el caso del ejemplo, para fines de prueba, la entrada  `"abcd"` con la etiqueta `open "a"` y  la etiqueta `close "d"`, que hace que el programa devuelve `"bc"`, es lo mismo que la entrada `"xyzw"` con la etiqueta `open "x"` y la etiqueta `close "w"`. Cambia las letras, pero se espera que el programa haga lo mismo para ambas entradas. 
+ 
+ Dadas las limitaciones de recursos, debes probar solo una de estas entradas (no importa cuál) y confiar en que este caso único representa toda la clase de entradas. Al probar la terminología, decimos que estas dos entradas son equivalentes. 
 
-Una vez que hayas identificado esta clase (o partición), repite el proceso y buscas otra clase que haga que el programa se comporte de una forma diferente a la que aún no has probado. Si continúas dividiendo el dominio, eventualmente identificará todas las diferentes clases posibles (o particiones) de entradas. Una forma sistemática de hacer tal exploración es pensar en lo siguiente: 
+Una vez que hayas identificado esta clase (o partición), repite el proceso y buscas otra clase que haga que el programa se comporte de una forma diferente a la que aún no has probado. 
+
+Si continúas dividiendo el dominio, eventualmente identificará todas las diferentes clases posibles (o particiones) de entradas. 
+
+Una forma sistemática de hacer tal exploración es pensar en lo siguiente: 
 
 1. Cada entrada individualmente: ¿Cuáles son las posibles clases de entradas que puedo proporcionar?.
 
@@ -177,7 +188,7 @@ Empezamos con entradas individuales:
 
 Exploramos posibles combinaciones de variables.
 
-* parámetros `(str, open, close)` — `open` y `close` pueden o no estar en la cadena. Además, `open` puede estar allí, pero no `close` (y viceversa). 
+* parámetros `(str, open, close)` — `open` y `close` pueden o no estar en la cadena. Además, `open` puede estar allí  pero no `close` (y viceversa). 
 
   a. `str` no contiene ni la etiqueta de `open` ni la de `close`.
   
@@ -213,18 +224,23 @@ Reflexionamos sobre los posibles resultados. El método devuelve un arreglo de s
 
 Cuando diseñamos particiones, tienen límites cercanos con las otras particiones. 
 
-Imagina un programa simple que imprime `"hiphip"` si la entrada dada es un número menor que 10 o `"hurra"` si la entrada dada es mayor o igual a 10. Un evaluador puede dividir el dominio de entrada en dos particiones: (1) el conjunto de entradas que hacen que el programa imprima `"hiphip"` y (2) el conjunto de entradas que hacen que el programa imprima `"hurra"`. Ten en cuenta que el valor de entrada 9 pertenece a la partición `"hiphip"`, mientras que el valor de entrada 10 pertenece a la partición `"hurra"`.
+Imagina un programa simple que imprime `"hiphip"` si la entrada dada es un número menor que 10 o `"hurra"` si la entrada dada es mayor o igual a 10. Un evaluador puede dividir el dominio de entrada en dos particiones: (1) el conjunto de entradas que hacen que el programa imprima `"hiphip"` y (2) el conjunto de entradas que hacen que el programa imprima `"hurra"`. 
 
-Las probabilidades de que un programador escriba un error cerca del límite (en este caso, cerca de los valores de entrada 9 y 10) son mayores que para otros valores de entrada. De esto se trata la prueba de límites: hacer que el programa se comporte correctamente cuando las entradas están cerca de un límite. Y de esto se trata este cuarto paso: prueba de límites.
+Ten en cuenta que el valor de entrada 9 pertenece a la partición `"hiphip"`, mientras que el valor de entrada 10 pertenece a la partición `"hurra"`.
 
-Siempre que se identifique un límite, se sugiere que pruebes lo que sucede con el programa cuando las entradas van de un límite al otro.
+Las probabilidades de que un programador escriba un error cerca del límite (en este caso, cerca de los valores de entrada 9 y 10) son mayores que para otros valores de entrada. 
+
+De esto se trata la prueba de límites: hacer que el programa se comporte correctamente cuando las entradas están cerca de un límite. Y de esto se trata este cuarto paso: prueba de límites.
+
+Siempre que se identifique un límite, se sugiere que pruebes lo que sucede con el programa cuando las entradas van de un límite a otro.
 
 El truco para explorar los límites es observar todas las particiones y pensar en las entradas entre ellas. Cada vez que encuentres uno que valga la pena probar, prueba. 
 
-En el ejemplo, se produce un límite directo cuando la cadena pasa de vacía a no vacía, ya que se sabe que el programa deja de devolver vacío y (posiblemente) comenzará a devolver algo. Ya cubriste este límite, ya que tienes particiones para ambos casos. A medida que examinas cada partición y cómo se establecen los límites con otras, analiza las particiones en la categoría `(str, open, close)`. 
+En el ejemplo, se produce un límite cuando la cadena pasa de vacía a no vacía, ya que se sabe que el programa deja de devolver vacío y (posiblemente) comenzará a devolver algo. 
 
-El programa no puede tener subcadenas, una subcadena o varias subcadenas. Y las etiquetas de `open` y `close` pueden no estar en la cadena; o, lo que es más importante, pueden estar en la cadena, pero sin una subcadena entre ellos. ¡Este es un límite que debes ejercitar!
+Ya cubriste este límite, ya que tienes particiones para ambos casos. A medida que examinas cada partición y cómo se establecen los límites con otras, analiza las particiones en la categoría `(str, open, close)`. 
 
+El programa no puede tener subcadenas, una subcadena o varias subcadenas. Y las etiquetas de `open` y `close` pueden no estar en la cadena; o, lo que es más importante, pueden estar en la cadena, pero sin una subcadena entre ellos. ¡Este es un límite que debes ejercitar!.
 
 Cada vez que identificamos un límite, ideamos dos pruebas, uno para cada lado del límite. Para el límite `'sin subcadena'/'una subcadena'`, las dos pruebas son las siguientes: 
 
@@ -239,8 +255,7 @@ Con las entradas, salidas y límites correctamente diseccionados, podemos genera
 
 **Ejercicio:**  ¿En el ejemplo cuál es el número de pruebas? 
 
-Puede haber otras particiones que no necesiten combinarse por completo. En este problema, veo dos: 
-
+Puede haber otras particiones que no necesiten combinarse por completo. En este problema hay dos: 
 
 - Para el caso de `string of length 1`, dado que la cadena tiene longitud 1, dos pruebas pueden ser suficientes: una en la que el carácter único de la cadena coincida con  `open` y `close` y otra en la que no. 
 
@@ -250,7 +265,8 @@ length = 1, close length > 1)` y `(open length > 1, close length > 1)`.
 Solo `(open length = 1, close length = 1)` y `(open length > 1, close length > 1)`  son suficientes.
 
 **Ejercicio:**  ¿Hay más casos donde se pueda simplificar el número de pruebas? 
-Con una comprensión clara de qué particiones deben probarse exhaustivamente y cuáles no, podemos derivar los casos de prueba realizando la combinación. 
+
+Con una comprensión clara de qué particiones deben probarse exhaustivamente y cuáles no, podemos derivar los casos de prueba realizando la combinaciones. 
 
 `Casos excepcionales`
 
@@ -292,7 +308,9 @@ Terminamos con 21 pruebas.
 
 #### Paso 6: Automatice los casos de prueba 
 
-Ahora es el momento de transformar los casos de prueba en pruebas JUnit automatizadas. Escribir esas pruebas es principalmente una tarea mecánica. Cada llamada al método `substringsBetween` es uno de los casos de prueba. Las 21 llamadas se distribuyen entre los métodos de prueba, cada una de las cuales coincide con los casos de prueba que ideamos anteriormente.
+Ahora es el momento de transformar los casos de prueba en pruebas JUnit automatizadas. Escribir esas pruebas es principalmente una tarea mecánica. 
+
+Cada llamada al método `substringsBetween` es uno de los casos de prueba. Las 21 llamadas se distribuyen entre los métodos de prueba, cada una de las cuales coincide con los casos de prueba que ideamos anteriormente.
 
 Primero están las pruebas relacionadas con que la cadena sea nula o vacía. 
 
@@ -307,7 +325,7 @@ Primero están las pruebas relacionadas con que la cadena sea nula o vacía.
 
 ```
 
-A continuación están todas las pruebas relacionadas con `open` o `close` sean nulo o vacío.
+A continuación están todas las pruebas relacionadas con `open` o `close` sean nulas o vacías.
 
 ```
 @Test
@@ -375,7 +393,9 @@ Finalmente, aquí está la prueba para cuando no hay una subcadena entre las eti
 }
 ```
 
-Algunos desarrolladores garantizarían un solo método por caso de prueba, lo que significaría 21 métodos de prueba, cada uno con una llamada de método y una aserción. La ventaja sería que el nombre del método de prueba describiría claramente el caso de prueba. 
+Algunos desarrolladores garantizarían un solo método por caso de prueba, lo que significaría 21 métodos de prueba, cada uno con una llamada de método y una aserción. 
+
+La ventaja sería que el nombre del método de prueba describiría claramente el caso de prueba. 
 
 JUnit también ofrece la función de prueba parametrizada: 
 
@@ -385,7 +405,9 @@ https://junit.org/junit5/docs/5.3.0/user-guide/#writing-tests-parameterized-test
 
 #### Paso 7: Aumenta el conjunto de pruebas con creatividad y experiencia
 
-Siempre es bueno tener variación en las pruebas. Por ejemplo, cuando revisas las pruebas, nota que nunca probamos cadenas con espacios. Entonces se diseñaron dos pruebas adicionales basadas en T15 y T20  una para etiquetas `open`  y `close` con longitudes 1, otra para etiquetas `open` y `close` con longitudes más grandes. 
+Siempre es bueno tener variación en las pruebas. 
+
+Por ejemplo, cuando revisas las pruebas, nota que nunca probamos cadenas con espacios. Entonces se diseñaron dos pruebas adicionales basadas en T15 y T20  una para etiquetas `open`  y `close` con longitudes 1, otra para etiquetas `open` y `close` con longitudes más grandes. 
 
 Estos verifican si la implementación funciona si hay espacios en blanco en la cadena.
 
@@ -461,7 +483,6 @@ El programa devuelve la suma de `left` y `right` como una lista de dígitos.
 Por ejemplo, agregar los números 23 y 42 significa una lista (left) con dos elementos `[2,3]`, una lista (right) con dos elementos `[4,2]` y como salida, una lista con dos elementos `[6 ,5]` (ya que 23 + 42 = 65). 
 
 **Ejercicio:** Explica el funcionamiento del algoritmo anterior.
-
 
 **Ejercicio:** Escribe un programa llamado `NumberUtilsNonSystematicTest.java` de la siguiente manera:
 
