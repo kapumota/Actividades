@@ -1,7 +1,7 @@
 package PruebasEspecificaciones;
 
 import org.junit.jupiter.api.Test;
-import static ch2.StringUtils.substringsBetween;
+import static PruebaEspecificaciones.StringUtils.substringsBetween;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class StringUtilsTest {
