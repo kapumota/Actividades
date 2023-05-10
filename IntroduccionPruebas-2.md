@@ -113,9 +113,7 @@ Pero esto no es una prueba unitaria de `extract`. Si el caso de prueba falla, no
 Es mejor pensar y probar `extract` de forma aislada. 
 
 El uso de particiones de prueba que involucren contenido de un archivo  podría ser razonable,  porque así es como se usa realmente `extract` en el programa. 
-No llames a `load `desde el caso de prueba, porque `load` puede tener errores. 
-
-En su lugar, almacena el contenido del archivo como una cadena literal y páselo directamente para `extract`. 
+No llames a `load `desde el caso de prueba, porque `load` puede tener errores. En su lugar, almacena el contenido del archivo como una cadena literal y páselo directamente para `extract`. 
 
 De esa manera, estás escribiendo una prueba de unidad aislada y  si falla, puedes estar más seguro de que el error está en el módulo que realmente estás probando. 
 
@@ -128,9 +126,7 @@ Es por eso que queremos pruebas separadas para `load` y `extract`, para aumentar
 
 Es posible aislar un módulo de nivel superior como `index` si escribimos versiones de código auxiliar de los módulos a los que llama. 
 
-Por ejemplo, un `stub` para `load` no accedería al sistema de archivos en absoluto, sino que devolvería el contenido del archivo `mock`  sin  importar qué `File` se le pasara. 
-
-Un `stub` para una clase a menudo se denomina `mock object`. 
+Por ejemplo, un `stub` para `load` no accedería al sistema de archivos en absoluto, sino que devolvería el contenido del archivo `mock`  sin  importar qué `File` se le pasara. Un `stub` para una clase a menudo se denomina `mock object`. 
 
 Los `stubs` son una técnica importante cuando se construyen sistemas grandes.
 
