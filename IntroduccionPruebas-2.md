@@ -144,14 +144,14 @@ Haces la masa para la base, la horneas sola y ves lo crocante y sabrosa que qued
 
 Decides comprar una mezcla de especias prefabricada en una tienda especializada. Haces una salsa con las especias y luego la pruebas. Esto es `........` 
 
-Pones salsa y aderezos en la base  y la horneas, para ver si la base todavía se cocina bien con las cosas húmedas encima. Esto es `..........`.
+Pones salsa y aderezos en la base  y las horneas, para ver si la base todavía se cocina bien con las cosas húmedas encima. Esto es `..........`.
 
 ### Pruebas de regresión automatizadas
 
 Las pruebas automatizadas significan ejecutar las pruebas y verificar los resultados automáticamente. 
 
 Los frameworks de prueba automatizados como JUnit facilitan la ejecución de las pruebas, pero tú mismo tienes que crear buenos casos de prueba. 
-La generación automática de pruebas es un problema difícil, todavía es un tema de investigación activa en informática. 
+La generación automática de pruebas es un problema difícil y todavía es un tema de investigación activa en informática. 
 
 Una vez que tengas la automatización de pruebas, es muy importante volver a ejecutar tus pruebas cuando modifiques el código. 
 
@@ -225,7 +225,7 @@ perfecto antes de pasar al siguiente.
 Para una especificación grande, comienza escribiendo solo una parte de la especificación, procede a probar e implementar esa parte, luego
 itera con una especificación más completa.
 
-Para un conjunto de pruebas complejo, comienza eligiendo algunas particiones importantes y crea un pequeño conjunto de pruebas para ellas. 
+Para un conjunto de pruebas complejo, comienza eligiendo algunas particiones importantes y crea un pequeño conjunto de pruebas. 
 
 Continúa con una implementación simple que pase esas pruebas y luego itera en el conjunto de pruebas con más particiones. 
 
@@ -295,7 +295,7 @@ Es una buena idea anotar la estrategia de prueba que se usó para crear un conju
  
 Documenta las particiones y los subdominios en un comentario en la parte superior de la clase de prueba JUnit. 
 
-Por ejemplo, para documentar la estrategia para probar `max`, escribiríamos esto en `MaxTest.java`: 
+Por ejemplo, para documentar la estrategia para probar `max` escribiríamos esto en el archivo `MaxTest.java`: 
 
 ```
 public class MaxTest {
@@ -321,7 +321,9 @@ Cada caso de prueba debe tener un comentario arriba que diga qué subdominio(s) 
 
 
 ```
-La mayoría de los conjuntos de pruebas tendrán más de una partición y la mayoría de los casos de prueba cubrirán varios subdominios. Por ejemplo, aquí hay una estrategia para `multiply`, usando siete particiones: 
+La mayoría de los conjuntos de pruebas tendrán más de una partición y la mayoría de los casos de prueba cubrirán varios subdominios. 
+
+Por ejemplo, aquí hay una estrategia para `multiply` usando siete particiones: 
 
 ```
 public class Multiply {
