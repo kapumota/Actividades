@@ -238,7 +238,7 @@ La iteración hace el mejor uso de su tiempo cuando un problema es difícil y se
 
 - Caja negra 
 - Regresión 
-- Escritura estática  
+- Tipificación estática  
 - Particionamiento 
 - Límites 
 - Caja de cristal
@@ -275,7 +275,7 @@ ayuda que puedas obtener para asegurarse de hacerlo bien.
 
 - Escribir un algoritmo de búsqueda lineal simple 
 
-- ejecutar una herramienta de cobertura de código en una implementación simple
+- Ejecutar una herramienta de cobertura de código en una implementación simple
 
 - Verificación de tipos estáticos ejecutando el compilador de Java 
 
