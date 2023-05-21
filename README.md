@@ -12,6 +12,9 @@
 10. TDD-4 - TDD y SOLID
 11. Técnicas de refactorización
 12. Refactorización y TDD
-13. Pruebas con especificaciones
-14. TDD-5 - stubs y mocks
-15. TDD-6 - Arquitectura Hexagonal
+13. Pruebas basadas en especificaciones
+14. Pruebas estructurales
+15. Diseño de contratos
+16. Pruebas basadas en propiedades
+17. TDD-5 - stubs y mocks
+18. TDD-6 - Arquitectura Hexagonal
