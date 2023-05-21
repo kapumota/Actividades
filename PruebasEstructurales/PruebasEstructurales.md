@@ -449,3 +449,9 @@ public class ClumpsOnlyStructuralTest {
 ``` 
 **Pregunta:**  escribe caso de prueba  y vuelve a  ejecutar la herramienta de cobertura. Explica el informe obtenido. ¿ Se logra una cobertura de ramas del 100%?. ¿Se puede confiar  ciegamente en la cobertura? .
 
+Las pruebas estructurales muestran su valor cuando se combinan con el conocimiento de la especificación. 
+
+
+### ¿Qué criterio de cobertura usar? 
+
+El criterio a utilizar depende del contexto: qué está probando en ese momento y qué tan rigurosa desea que sea la prueba. Las pruebas estructurales están destinadas a complementar las pruebas basadas en especificaciones.
