@@ -141,7 +141,7 @@ En el CFG extendido de la figura siguiente, los nodos de rama contienen una sola
 
 El complicado `if` se divide en tres nodos. Cada condición está en su propio nodo. Cubrir todos los bordes del grafo significa lograr el 100% de `condición +  cobertura de rama`.
 
-![](https://github.com/kapumota/Actividades/blob/main/PruebasEstructurales/Imagenes/cobertura2.png)
+![](https://github.com/kapumota/Actividades/blob/main/PruebasEstructurales/Imagenes/Cobertura2.png)
 
 
 #### Cobertura de ruta 
@@ -153,7 +153,133 @@ En un programa con 10 condiciones, el número total de combinaciones serían 102
 La cobertura de ruta también se vuelve más complicada para programas con bucles. 
 En un programa con un bucle ilimitado, el ciclo puede repetirse cientos de veces. Un evaluador  riguroso que busca la cobertura de la ruta tendría que probar el programa con el bucle ejecutándose una vez, dos veces, tres veces, y así sucesivamente. 
 
+#### Manejo de bucles y construcciones similares 
+
+Quizás te preguntes qué hacer en el caso de bucles, como `for` y `while`. El bloque de código dentro del bucle puede ejecutarse un número diferente de veces, lo que complica las pruebas. 
+
+Piensa en un bucle `while (True)`, que puede no terminar. Para ser rigurosos, tendríamos que probar el programa con el bloque de bucle ejecutado una vez, dos veces, tres veces, y así sucesivamente. 
+
+Imagina un bucle `for(i = 0; i < 10; i++)` con un `break` dentro del cuerpo. Tendríamos que probar qué sucede si el cuerpo del bucle se ejecuta hasta 10 veces. ¿Cómo podemos manejar un bucle de larga duración (que se ejecuta durante muchas iteraciones) o un bucle ilimitado (que se ejecuta un número desconocido de veces)? 
+
+Dado que las pruebas exhaustivas son imposibles, los evaluadores a menudo confían en el criterio de adecuación de los límites del bucle para decidir cuándo dejar de probar un bucle. 
+
+Un conjunto de pruebas satisface este criterio si y sólo si para cada bucle:
+
+- Hay un caso de prueba que ejercita el bucle cero veces. 
+- Hay un caso de prueba que ejercita el bucle una vez. 
+- Hay un caso de prueba que ejercita el bucle varias veces. 
+
+Con todo esto, ¿debería el caso de prueba obligar al bucle a iterar 2, 5 o 10 veces? Esta decisión requiere una buena comprensión del programa y sus requisitos. Con una comprensión óptima de las especificaciones, deberías poder idear buenas pruebas para el bucle. No tengas miedo de crear dos o más pruebas para el caso de "varias veces". Haz lo que tengas que hacer para asegurarte de que el bucle funcione como se esperaba. 
+
+### Pruebas estructurales y basadas en especificaciones 
+
+Probemos las pruebas basadas en especificaciones y las pruebas estructurales juntas en un ejemplo del mundo real: la función `leftPad()` de Apache Commons Lang): 
+
+Completa a la izquierda una cadena con una cadena especificada Completa a un tamaño `size`. 
+
+- `str`: la cadena para completar. Puede ser `null`
+- `size`: el tamaño a completar
+- `padStr`: la cadena con la que completar. `Null` o vacío se trata como un solo espacio. 
+
+El método devuelve una cadena completada a la izquierda, la cadena original si no se necesita completar o `null` si se ingresa una cadena nula. 
+
+Por ejemplo, si damos "abc" como entrada de cadena, un guión "-" como cadena a completar  y 5 como tamaño, el programa generará "--abc". 
+
+A un desarrollador de tu equipo se le ocurre la siguiente implementación.  Archivo `LeftPadUtils.java`
 
 
+```
+public class LeftPadUtils {
+
+    private static final String SPACE = " ";
+         private static boolean isEmpty(final CharSequence cs) {
+    	return cs == null || cs.length() == 0;
+     }
+
+   /**
+   
+       * @param size  
+       * @param padStr  
+       * @return left 
+       *  {@code null} 
+    */
+public static String leftPad(final String str, final int size, String padStr) {
+     if (str == null) {  // 1
+        	return null;
+    }
+    if (isEmpty(padStr)) {
+        	padStr = SPACE;   //2
+    }
+             final int padLen = padStr.length();
+    	final int strLen = str.length();
+    	final int pads = size - strLen;
+    	if (pads <= 0) {  // 3
+                    return str; 
+    	}
+
+    	if (pads == padLen) {  // 4
+        	     return padStr.concat(str);
+    	} else if (pads < padLen) {  // 5
+        	      return padStr.substring(0, pads).concat(str);
+    	} else {   // 6
+        	       final char[] padding = new char[pads];
+        	      final char[] padChars = padStr.toCharArray();
+        	     for (int i = 0; i < pads; i++) {
+            	 	padding[i] = padChars[i % padLen];
+        	     }
+        	return new String(padding).concat(str);
+    }
+   }
+
+}
+
+```
+
+**Pregunta**: explica los comentarios 1, 2, 3, 4 y 5  del código anterior.
+
+Ahora es el momento de algunas pruebas sistemáticas. Como sabemos, el primer paso es aplicar pruebas basadas en especificaciones.
+ 
+**1 Leemos los requisitos**. Entendemos que el programa agrega un carácter/cadena dado al principio (izquierda) de la cadena, hasta un tamaño específico. El programa tiene tres parámetros de entrada: `str`, que representa la cadena original que se va a completar; `size`, que representa el tamaño deseado de la cadena devuelta y `padStr` que representa la cadena utilizada para completar. El programa devuelve un `String`. El programa tiene un comportamiento específico si alguna de las entradas es nula.
+
+2 Con base en todas las observaciones del paso 1, derivamos la siguiente lista de particiones: – parámetro `str` 
+
+– `str` parameter
+  - Null
+  - Empty string
+  - Non-empty string
+  -
+– `size` parameter
+  - Negative number
+  - Positive number
+ 
+– `padStr` parameter
+   - Null
+   - Empty
+   - Non-empty
+
+– `str`, `size` parameters
+   - `size < len( str )`
+   - `size > len( str )`
+
+**3 Hay varios límites:**
+
+- `size` es precisamente 0
+- `str` con longitud 1 
+- `padStr` con longitud 1 
+- `size` es precisamente la longitud de `str`
+
+4 Podemos idear pruebas individuales para casos excepcionales como tamaño nulo, vacío y negativo. También tenemos un límite relacionado con `padStr`: podemos ejercitar `padStr` con un solo carácter solo una vez y hacer que todas las demás pruebas usen un `pad` con un solo carácter (de lo contrario, la cantidad de combinaciones sería demasiado grande). 
+
+Obtenemos las siguientes pruebas: 
+
+- T1: `str` es nulo
+- T2: `str` está vacío
+- T3:  negativo `size`
+- T4: `padStr` es nulo
+- T5: `padStr` está vacío.
+- T6: `padStr` tiene un solo carácter
+- T7: `size` es igual a la longitud de `str`
+- T8: `size` es igual a 0
+- T9: `size es más pequeño que la longitud de `str`. 
 
 
