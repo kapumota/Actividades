@@ -58,7 +58,7 @@ La regla de violación de la precondición establece que `una violación de la p
 
 La regla de violación de la postcondición establece que `una violación de la postcondiciónes es la manifestación de un error en el proveedor` porque el proveedor no cumplió con su contrato. 
 
-**Problema:** En el ejemplo anterior indica una violación de precondición. 
+**Pregunta:** En el ejemplo anterior indica una violación de precondición. 
 
 
 Considera `sqrt(double x)` que devuelve la raíz cuadrada de un valor doble no negativo. 
@@ -122,4 +122,83 @@ returns vowels.indexOf(ch) >= 0;
 ``` 
 La llamada `isVowel('E')` devuelve `false` lo cual es incorrecto. En este caso, se cumple la precondición, pero se viola la postcondición. 
 
- Según la regla de violación de la postcondición, el código de proveedor anterior es defectuoso. 
+Según la regla de violación de la postcondición, el código de proveedor anterior es defectuoso. 
+
+
+#### Regla de precondición razonable 
+
+La regla de la precondición razonable requiere que la precondición aparezca en la documentación oficial distribuida a los autores de los clientes y que la necesidad de la precondición se justifique lógicamente en términos de la especificación, no para la conveniencia de implementación del proveedor. 
+
+En el diseño por contrato, la precondición pretende aclarar qué casos no puede manejar el método en relación con los requisitos lógicos. Por ejemplo, es razonable requerir `p.length > 0` para `sort(int [ ] p)`. Otros buenos ejemplos son `list.length >0` para `max(int[ ] list)` , `not empty()` para `pop()` y `x>=0` para `sqrt(double x)`. 
+
+#### Regla de disponibilidad de precondiciones
+
+La regla de disponibilidad de precondiciones establece que cada cliente del método debe poder verificar su precondición. La precondición no debe utilizar métodos privados ocultos a los clientes. Por ejemplo, los clientes de isVowel(letter) deberían poder llamar a Character.isLetter(letter). Para  la precondición amount>0 y getBalance() >=amount del método withdraw(double amount) en una clase BankAccount, el método getBalance() debe ser visible para los clientes. 
+
+### Cambio de Contrato
+
+#### Impacto del cambio de contrato
+
+Durante el desarrollo y el mantenimiento del software, podemos actualizar un método por varios motivos, como la adición y modificación de la funcionalidad, la corrección de errores, la refactorización y el ajuste del rendimiento. 
+
+Cuando se cambia la firma del método, la necesidad de actualizar el código de cliente existente es obvia. Aquí el código del cliente incluye pruebas unitarias del método. 
+
+Cuando una actualización conserva la firma del método, el compilador no informa errores. 
+
+Sin embargo, podrías haber cambiado el contrato original del método (precondición y postcondición). 
+
+En esencia, este es un cambio de interfaz implícito que puede o no romper el código del cliente existente. 
+
+Consideremos `int f1(int x)` cuya precondición es `x > 5` y la poscondición es `y = f1(x) > 0`. Supongamos que el código del cliente es el siguiente:
+
+```
+int x = ... //supongamos x = 6
+assert (x > 5);
+int y = f1(x);
+assert y > 0;
+``` 
+
+Ahora actualicemos `int f1(int x)` con una nueva precondición `x > 10` mientras mantenemos la postcondición sin cambios. 
+El cliente ya no cumple la nueva precondición sin cambios, el código de cliente aún cumple la precondición. Sin embargo, si la llamada devuelve 0, la aserción después de la llamada falla y  por lo tanto, el código de cliente finaliza de manera anormal. 
+
+#### Regla de cambio de contrato 
+
+Generalmente, necesitamos inspeccionar todo el código del cliente cuando el contrato de un método ha cambiado. Hay algunas circunstancias en las que el cambio de precondición y posterior puede no romper el código del cliente, incluido el código de prueba. 
+
+Una precondición más débil  no causa daño al cliente que satisface la precondición existente antes de la llamada, mientras que una poscondición más fuerte no causa daño al cliente que confía en que la poscondición existente se satisfaga después de la llamada . 
+
+Por lo tanto, la actualización no romperá el contrato original. 
+
+Dadas dos condiciones desiguales `P1` y `P2`. Se dice que `P1` es más fuerte que `P2` (o `P2` es más débil que `P1`) si `P1` implica `P2`. 
+
+Por ejemplo, `x > 10` es más fuerte que `x > 5`, `y > 0` es más fuerte que y >=0. 
+
+En el ejemplo anterior de `int f1(int x)`, la actualización no es segura debido a una precondición más sólida y una postcondición más débil. 
+
+El cambio de precondición `x > 0` y postcondición `y > 1` estaría bien. 
+
+Ten en cuenta que dos condiciones aparentemente diferentes pueden ser equivalentes. 
+
+Por ejemplo, `x > 0` y `2x > 0` son equivalentes, `even(x)` es lo mismo que `!odd(x)`. 
+
+Dos condiciones desiguales pueden no tener una relación más fuerte ni más débil. 
+
+Por ejemplo, `x = 1` no es ni más fuerte ni más débil que `x = 2`. Otros ejemplos son `x >0 vs. x +y > 0`, `x >0 vs. y >0`, `isDigit(ch) vs. isLetter(ch)`. 
+
+Si la nueva precondición (o postcondición) no es ni más débil ni más extraña que la precondición (o postcondición) original, la actualización puede romper el código del cliente. 
+
+**Pregunta:**
+
+Considera `int [ ] genRandomIntegers(int count)` que devuelve una lista de enteros aleatorios. Su precondición y postcondición son `count >0` y `list.length = count`, respectivamente (`list` denota el valor devuelto). El código del cliente es el siguiente:
+
+```
+int count =2; // calculado
+int[ ] list = var.genRandomIntegers(count);
+for (int i = 0; i < count; i ++){
+    process(list [i])
+}
+```
+
+¿Qué sucede si modificamos `genRandomIntegers`. mantenemos la precondición pero cambiamos la postcondición a `list.length=count-1`?.  
+
+
