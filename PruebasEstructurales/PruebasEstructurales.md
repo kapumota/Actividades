@@ -243,21 +243,21 @@ Ahora es el momento de algunas pruebas sistemáticas. Como sabemos, el primer pa
 
 2 Con base en todas las observaciones del paso 1, derivamos la siguiente lista de particiones: – parámetro `str` 
 
-– `str` parameter
+– Parámetro `str`
   - Null
-  - Empty string
-  - Non-empty string
-  -
-– `size` parameter
-  - Negative number
-  - Positive number
+  - Cadena vacía
+  - Cadena no vacía
+  
+– Parámetro `size`
+  - Número negativo
+  - Número positivo
  
-– `padStr` parameter
+– Parámetro `padStr` 
    - Null
-   - Empty
-   - Non-empty
+   - Vacío
+   - No vacío
 
-– `str`, `size` parameters
+–  Parámetros`str`, `size`
    - `size < len( str )`
    - `size > len( str )`
 
@@ -282,4 +282,68 @@ Obtenemos las siguientes pruebas:
 - T8: `size` es igual a 0
 - T9: `size es más pequeño que la longitud de `str`. 
 
+Ahora automatizamos las pruebas.  Archivo `LeftPadTest.java`.
+
+```
+public class LeftPadTest {
+   @ParameterizedTest
+       @MethodSource("generator")
+         void test(String originalStr, int size, String padString,
+                       String expectedStr) {  // 1
+                         assertThat(leftPad(originalStr, size, padString))
+		.isEqualTo(expectedStr);
+	  }
+
+   static Stream<Arguments> generator() { // 2
+     return Stream.of(
+           of(null, 10, "-", null), //T1
+             of("", 5, "-", "-----"),  //T2
+            of("abc", -1, "-", "abc"),  //t3
+           of("abc", 5, null, " abc"),  //T4
+            of("abc", 5, "", " abc"),    //T5
+           of("abc", 5, "-", "--abc"),   //T6
+          of("abc", 3, "-", "abc"),     //T7
+          of("abc", 0, "-", "abc"),     //T8
+          of("abc", 2, "-", "abc")     //T9
+    };
+  }
+}
+``` 
+
+**Pregunta:** explica las líneas 1,2 y 3 en el código anterior. Analiza el informe y responde qué sucede con  las expresiones `if (pads == padLen)` y `else if (pads < padLen)`.
+
+
+Ahora derivamos tres casos de prueba más: 
+
+- T10: la longitud de `padStr` es igual a los espacios restantes en `str`. 
+- T11: la longitud de `padStr` es mayor que los espacios restantes en `str`. 
+- T12: la longitud de `padStr` es más pequeña que los espacios restantes en `str` (esta prueba puede ser similar a T6). 
+
+**Pregunta:** agrega  estos tres casos de prueba adicionales a la prueba parametrizada, como se muestra en el listado y vuelve a  ejecutar la herramienta de cobertura. Explica el informe obtenido, ¿es similar al anterior?. Explica tu respuesta.
+
+``` 
+static Stream<Arguments> generator() {
+  return Stream.of(
+              // ... others here
+		of("abc", 5, "--", "--abc"), // T10
+      of("abc", 5, "---", "--abc"), // T11
+      of("abc", 5, "-", "--abc") // T12
+   );
+}
+
+```
+Ahora buscamos otros casos interesantes para probar. La implementación contiene decisiones interesantes que podemos decidir probar. En particular, observamos un bloque `if (pads <= 0)` con el comentario de código  "devuelve la cadena original cuando sea posible". 
+
+Como evaluadores, puedes decidir probar este comportamiento específico: "si la cadena no se completa, el programa debería devolver la misma instancia de String". 
+Eso se puede escribir como una prueba JUnit de la siguiente manera.
+
+``` 
+@Test
+void sameInstance() {
+  String str = "sometext";
+    assertThat(leftPad(str, 5, "-")).isSameAs(str);
+}
+
+``` 
+**Pregunta:** agrega  este caso de prueba adicional a la prueba parametrizada  y vuelve a  ejecutar la herramienta de cobertura. Explica el informe obtenido, ¿es similar al anterior?. Explica tu respuesta.
 
