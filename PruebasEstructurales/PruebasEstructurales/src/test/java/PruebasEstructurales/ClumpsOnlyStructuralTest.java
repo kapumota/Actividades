@@ -19,12 +19,12 @@ class ClumpsOnlyStructuralTest {
 
     static Stream<Arguments> generator() {
         return Stream.of(
-                of(new int[]{}, 0), // empty
+                of(new int[]{}, 0),
                 of(null, 0), // null
-                of(new int[]{1,2,2,2,1}, 1), // one clump
-                of(new int[]{1}, 0), // one element
+                of(new int[]{1,2,2,2,1}, 1), 
+                of(new int[]{1}, 0), 
 
-                // an example of a missing test case!! Structural testing is not enough!
+                // ¿las pruebas estructurales son suficientes?
                 of(new int[]{2,2}, 1)
         );
     }
