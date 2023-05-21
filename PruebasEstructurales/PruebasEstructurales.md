@@ -347,3 +347,105 @@ void sameInstance() {
 ``` 
 **Pregunta:** agrega  este caso de prueba adicional a la prueba parametrizada  y vuelve a  ejecutar la herramienta de cobertura. Explica el informe obtenido, ¿es similar al anterior?. Explica tu respuesta.
 
+#### Pruebas límites  y pruebas estructurales 
+
+La parte más desafiante de las pruebas basadas en especificaciones es identificar los límites. Son difíciles de encontrar, dada la forma en que escribimos las especificaciones. Afortunadamente, son mucho más fáciles de encontrar en el código fuente, dado lo preciso que debe ser el código. 
+
+La idea de identificar y probar puntos de activación  y desactivación  encaja muy bien en las pruebas estructurales. Por ejemplo, podemos analizar las sentencias `if` en el programa `leftPad`: 
+
+- `if (pads <= 0)`: el punto  0 (on point) evalúa la expresión como `true`. El punto más cercano (off point) al 0 hace que la expresión se evalúe como `false`. En este caso, dado que `pads` es un número entero, el punto más cercano es 1. 
+
+- `if (pads == padLen)`: el on point es `padLen`. Dada la igualdad y que `padLen` es un número entero, tenemos dos off point: uno que ocurre cuando `pads == padLen - 1` y otro que ocurre cuando `pads = padLen + 1`. 
+
+- `if (pads < padLen)`: el on point es nuevamente `padLen`. El punto evalúa la expresión como `false`. El off point es, por lo tanto, `pads == padLen - 1`. 
+
+**Revisar:** [Domain analysis - why OFF points are inside of the domain when the border is open](https://softwareengineering.stackexchange.com/questions/275069/domain-analysis-why-off-points-are-inside-of-the-domain-when-the-border-is-ope)
+
+Como evaluador, es posible que desees utilizar esta información para ver si puedes aumentar tu conjunto de pruebas. 
+
+
+#### Las pruebas estructurales por sí solas a menudo no son suficientes
+
+Si el código es la fuente de toda verdad, ¿por qué no podemos simplemente hacer pruebas estructurales? Esta es una pregunta muy interesante. 
+
+Los conjuntos de pruebas derivados sólo de pruebas estructurales pueden ser razonablemente efectivos, pero es posible que no sean lo suficientemente sólidos.
+
+Veamos un ejemplo:  
+
+El siguiente programa debe contar el número de grupos en un arreglo. Un grupo es una secuencia del mismo elemento con una longitud de al menos 2. 
+
+- `nums`: el arreglo a la que contar los grupos. El arreglo debe ser no nula y de longitud > 0; el programa devuelve 0 si se viola alguna pre-condición. 
+
+El programa devuelve el número de grupos (clumps) en el arreglo. 
+
+La siguiente lista muestra una implementación. Archivo `Clumps.java`.
+
+``` 
+public class Clumps {
+
+/**
+
+  * @param nums
+  *        
+ * @return  …
+     */
+      public static int countClumps(int[] nums) {
+    	if (nums == null || nums.length == 0) {  // 1
+    	    	return 0;
+                 }
+    	int count = 0;
+    	int prev = nums[0];
+    	boolean inClump = false;
+    	for (int i = 1; i < nums.length; i++) {
+        	 if (nums[i] == prev && !inClump) { // 2
+                      inClump = true;
+                      count += 1;
+             	}
+             	if (nums[i] != prev) {  // 3
+         		    prev = nums[i];
+            		     inClump = false;
+        	     }
+    	}
+    	return count;
+        }
+}
+``` 
+
+**Pregunta :**  explica las líneas 1, 2 y 3 del código anterior. 
+
+Supongamos que decidimos no mirar los requisitos. Queremos lograr, digamos, el 100% de cobertura de ramas. Tres pruebas son suficientes para hacer eso (T1-T3). 
+
+Tal vez también queramos hacer algunas pruebas de límites adicionales y decidamos ejercitar el bucle, iterando una sola vez (T4): 
+
+- T1: un arreglo vacío
+- T2: un arreglo nulo 
+- T3: un arreglo con un solo grupo de tres elementos en el medio (por ejemplo `[1,2,2,2,1]`) 
+- T4: un arreglo con un solo elemento 
+
+Para comprobarlo por sí mismo, anota estas tres pruebas como casos de prueba automatizados (JUnit) y ejecuta tu herramienta de cobertura de código favorita como se muestra a continuación.  Archivo `Clumps.OnlyStructuralTest.java`
+
+```
+public class ClumpsOnlyStructuralTest {
+
+    @ParameterizedTest
+     @MethodSource("generator")
+      void testClumps(int[] nums, int expectedNoOfClumps) {
+    	assertThat(Clumps.countClumps(nums))
+                    .isEqualTo(expectedNoOfClumps);
+   }
+
+ static Stream<Arguments> generator() {
+    return Stream.of(
+        of(new int[]{}, 0), // vacío
+        of(null, 0), // null
+        of(new int[]{1,2,2,2,1}, 1), // 1 grupo
+        of(new int[]{1}, 0), // 1 elemento
+
+        // completa
+        of(new int[]{2,2}, 1)
+    );
+      }
+}
+``` 
+**Pregunta:**  escribe caso de prueba  y vuelve a  ejecutar la herramienta de cobertura. Explica el informe obtenido. ¿ Se logra una cobertura de ramas del 100%?. ¿Se puede confiar  ciegamente en la cobertura? .
+
