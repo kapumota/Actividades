@@ -201,4 +201,45 @@ for (int i = 0; i < count; i ++){
 
 ¿Qué sucede si modificamos `genRandomIntegers`. mantenemos la precondición pero cambiamos la postcondición a `list.length=count-1`?.  
 
+#### Cambio de contrato en desarrollo incremental
+
+Un caso especial de cambio de contrato es agregar código nuevo a un método mientras se conserva la funcionalidad existente para el desarrollo incremental (por ejemplo, en TDD). 
+
+Aquí necesitamos asegurarnos de que siempre que la nueva versión sea correcta, el código original también sea correcto, o tenemos que modificar el código existente. 
+
+Lo contrario no es necesariamente cierto: una versión original correcta no garantiza que el nuevo código sea correcto. 
+
+Esto se puede formalizar de la siguiente manera: `(P2 => Q2) => (P1 => Q1)` donde `P1` y `Q1` son la precondición y postcondición originales y `P2` y `Q2` son las nuevas. 
+
+La regla de una nueva precondición igual o más débil (es decir, `P1 => P2`) y una nueva postcondición igual o más fuerte (es decir, `Q1 => Q2`) es una condición suficiente pero no necesaria del argumento de corrección anterior. La prueba se da al final de esta sección. 
+
+Considera el siguiente método `getCell()` en el programa TicTacToe.
+
+```
+public Cell getCell(int row, int column){
+    return grid [row][column];
+}
+```
+
+El código se crea para pasar la prueba del primer criterio de aceptación (tablero vacío AC 1.1). 
+
+La precondición y postcondición se dan a continuación:
+
+```
+Precondición: 0 <= row < 3 and 0 <= column < 3
+Postcondición: return 0
+````
+Después de pasar las pruebas para AC 1.2 y AC 1.3, el código se cambia a lo siguiente:
+
+``` 
+public int getCell(int row, int column){
+    if(row >= 0 && row < 3 && column >=0 && column < 3){
+         return grid[row][column];
+	} else{
+                  return -1;
+     }
+}
+```
+
+**Pregunta:** ¿Cómo cambia la precondición y la postcondición en el ejemplo anterior?. 
 
