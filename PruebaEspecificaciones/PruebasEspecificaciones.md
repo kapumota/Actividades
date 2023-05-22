@@ -103,7 +103,7 @@ Pasa la cadena `"abcd"` con la etiqueta `open "a"` y la etiqueta `close "d"`. Se
 
 Intenta eso (en una prueba unitaria) y que el programa devuelve lo que se esperaba. 
 
-A continuación, vemos qué sucede si hay varias subcadenas en la cadena principal. Pasa la cadena `"abcdabcdab"` con las mismas etiquetas de `open` y `close`. Se  espera que devuelva un arreglo con dos cadenas: `["bc", "bc"]`. El programa devuelve lo que se esperaba. 
+A continuación, observa qué sucede si hay varias subcadenas en la cadena principal. Pasa la cadena `"abcdabcdab"` con las mismas etiquetas de `open` y `close`. Se  espera que devuelva un arreglo con dos cadenas: `["bc", "bc"]`. 
 
 Se espera que el programa se comporte de la misma manera con etiquetas `open` y `close` más grandes que un solo carácter. Repite la segunda prueba usando `"a"` y `"d"` en todos los parámetros. También cambia uno de los `"bc"` a `"bf"`, para que sea más fácil comprobar que el método devuelve dos subcadenas diferentes: `["bc", "bf"]`. 
 
@@ -131,16 +131,16 @@ void openAndCloseTagsThatAreLongerThan1Char(){
 
 ```
 
-**Ejercicio:** escribe  código de prueba llamado `stringUtilsExploracionTest.java` que alberge el código anterior.
+**Ejercicio:** Escribe  código de prueba llamado `stringUtilsExploracionTest.java` que alberge el código anterior.
 
 
-#### Paso 3: Explore las posibles entradas y salidas, e identifique las particiones
+#### Paso 3: Explora las posibles entradas y salidas e identifica las particiones
 
 Deberíamos encontrar una manera de priorizar y seleccionar un subconjunto de entradas y salidas que nos brinde suficiente certeza sobre la corrección del programa.
 
  En el caso del ejemplo, para fines de prueba, la entrada  `"abcd"` con la etiqueta `open "a"` y  la etiqueta `close "d"`, que hace que el programa devuelve `"bc"`, es lo mismo que la entrada `"xyzw"` con la etiqueta `open "x"` y la etiqueta `close "w"`. Cambia las letras, pero se espera que el programa haga lo mismo para ambas entradas. 
  
- Dadas las limitaciones de recursos, debes probar solo una de estas entradas (no importa cuál) y confiar en que este caso único representa toda la clase de entradas. Al probar la terminología, decimos que estas dos entradas son equivalentes. 
+Dadas las limitaciones de recursos, debes probar solo una de estas entradas (no importa cuál) y confiar en que este caso único representa toda la clase de entradas. Al probar la terminología, decimos que estas dos entradas son equivalentes. 
 
 Una vez que hayas identificado esta clase (o partición), repite el proceso y buscas otra clase que haga que el programa se comporte de una forma diferente a la que aún no has probado. 
 
@@ -188,7 +188,7 @@ Empezamos con entradas individuales:
 
 Exploramos posibles combinaciones de variables.
 
-* parámetros `(str, open, close)` — `open` y `close` pueden o no estar en la cadena. Además, `open` puede estar allí  pero no `close` (y viceversa). 
+* parámetros `(str, open, close)` - `open` y `close` pueden o no estar en la cadena. Además, `open` puede estar allí  pero no `close` (y viceversa). 
 
   a. `str` no contiene ni la etiqueta de `open` ni la de `close`.
   
