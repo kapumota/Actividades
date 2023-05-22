@@ -42,7 +42,7 @@ public class CountWords {
 
 ```
 
-**Pregunta:** explica qué hacen las líneas 1, 2, 3 en el código. 
+**Pregunta:** Explica qué hacen las líneas 1, 2, 3 en el código. 
 
 Ahora, considera a un desarrollador que no sabe mucho sobre técnicas de prueba basadas en especificaciones y escribe las siguientes dos pruebas JUnit para la implementación. 
 Archivo `CountWordTest.java`.
@@ -61,8 +61,7 @@ void noWordsAtAll() {  // 2
 }
 ```
 
-**Pregunta:** explica qué hacen las líneas 1, 2 del código. Presenta un informe generado por JaCoCo (www.jacoco.org/jacoco) o otra herramienta de código de tu preferencia en el ide del curso.  
-
+**Pregunta:** Explica qué hacen las líneas 1, 2 del código. Presenta un informe generado por JaCoCo (www.jacoco.org/jacoco) o otra herramienta de código de tu preferencia en el ide del curso.  
 
 Continuando con el ejemplo, escribimos un caso de prueba que ejercita la partición "palabras que terminan en 'r'" de la siguiente manera. 
 
@@ -232,10 +231,9 @@ public static String leftPad(final String str, final int size, String padStr) {
    }
 
 }
-
 ```
 
-**Pregunta**: explica los comentarios 1, 2, 3, 4 y 5  del código anterior.
+**Pregunta**: Explica los comentarios 1, 2, 3, 4 y 5  del código anterior.
 
 Ahora es el momento de algunas pruebas sistemáticas. Como sabemos, el primer paso es aplicar pruebas basadas en especificaciones.
  
@@ -244,7 +242,7 @@ Ahora es el momento de algunas pruebas sistemáticas. Como sabemos, el primer pa
 2 Con base en todas las observaciones del paso 1, derivamos la siguiente lista de particiones: – parámetro `str` 
 
 – Parámetro `str`
-  - Null
+  - `Null`
   - Cadena vacía
   - Cadena no vacía
   
@@ -253,7 +251,7 @@ Ahora es el momento de algunas pruebas sistemáticas. Como sabemos, el primer pa
   - Número positivo
  
 – Parámetro `padStr` 
-   - Null
+   - `Null`
    - Vacío
    - No vacío
 
@@ -272,7 +270,7 @@ Ahora es el momento de algunas pruebas sistemáticas. Como sabemos, el primer pa
 
 Obtenemos las siguientes pruebas: 
 
-- T1: `str` es nulo
+- T1: `str` es `null`
 - T2: `str` está vacío
 - T3:  negativo `size`
 - T4: `padStr` es nulo
@@ -310,7 +308,7 @@ public class LeftPadTest {
 }
 ``` 
 
-**Pregunta:** explica las líneas 1,2 y 3 en el código anterior. Analiza el informe y responde qué sucede con  las expresiones `if (pads == padLen)` y `else if (pads < padLen)`.
+**Pregunta:** Explica las líneas 1,2 y 3 en el código anterior. Analiza el informe y responde qué sucede con  las expresiones `if (pads == padLen)` y `else if (pads < padLen)`.
 
 
 Ahora derivamos tres casos de prueba más: 
@@ -319,7 +317,7 @@ Ahora derivamos tres casos de prueba más:
 - T11: la longitud de `padStr` es mayor que los espacios restantes en `str`. 
 - T12: la longitud de `padStr` es más pequeña que los espacios restantes en `str` (esta prueba puede ser similar a T6). 
 
-**Pregunta:** agrega  estos tres casos de prueba adicionales a la prueba parametrizada, como se muestra en el listado y vuelve a  ejecutar la herramienta de cobertura. Explica el informe obtenido, ¿es similar al anterior?. Explica tu respuesta.
+**Pregunta:** Agrega  estos tres casos de prueba adicionales a la prueba parametrizada, como se muestra en el listado y vuelve a  ejecutar la herramienta de cobertura. Explica el informe obtenido, ¿es similar al anterior?. Explica tu respuesta.
 
 ``` 
 static Stream<Arguments> generator() {
@@ -345,7 +343,7 @@ void sameInstance() {
 }
 
 ``` 
-**Pregunta:** agrega  este caso de prueba adicional a la prueba parametrizada  y vuelve a  ejecutar la herramienta de cobertura. Explica el informe obtenido, ¿es similar al anterior?. Explica tu respuesta.
+**Pregunta:** Agrega  este caso de prueba adicional a la prueba parametrizada  y vuelve a  ejecutar la herramienta de cobertura. Explica el informe obtenido, ¿es similar al anterior?. Explica tu respuesta.
 
 #### Pruebas límites  y pruebas estructurales 
 
@@ -362,7 +360,6 @@ La idea de identificar y probar puntos de activación  y desactivación  encaja 
 **Revisar:** [Domain analysis - why OFF points are inside of the domain when the border is open](https://softwareengineering.stackexchange.com/questions/275069/domain-analysis-why-off-points-are-inside-of-the-domain-when-the-border-is-ope)
 
 Como evaluador, es posible que desees utilizar esta información para ver si puedes aumentar tu conjunto de pruebas. 
-
 
 #### Las pruebas estructurales por sí solas a menudo no son suficientes
 
@@ -411,7 +408,7 @@ public class Clumps {
 }
 ``` 
 
-**Pregunta :**  explica las líneas 1, 2 y 3 del código anterior. 
+**Pregunta :**  Explica las líneas 1, 2 y 3 del código anterior. 
 
 Supongamos que decidimos no mirar los requisitos. Queremos lograr, digamos, el 100% de cobertura de ramas. Tres pruebas son suficientes para hacer eso (T1-T3). 
 
@@ -447,7 +444,7 @@ public class ClumpsOnlyStructuralTest {
       }
 }
 ``` 
-**Pregunta:**  escribe caso de prueba  y vuelve a  ejecutar la herramienta de cobertura. Explica el informe obtenido. ¿ Se logra una cobertura de ramas del 100%?. ¿Se puede confiar  ciegamente en la cobertura? .
+**Pregunta:**  Escribe caso de prueba  y vuelve a  ejecutar la herramienta de cobertura. Explica el informe obtenido. ¿ Se logra una cobertura de ramas del 100%?. ¿Se puede confiar  ciegamente en la cobertura? .
 
 Las pruebas estructurales muestran su valor cuando se combinan con el conocimiento de la especificación. 
 
