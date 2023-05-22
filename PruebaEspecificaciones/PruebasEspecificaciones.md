@@ -261,8 +261,7 @@ Puede haber otras particiones que no necesiten combinarse por completo. En este 
 
 - Para el caso de `cadena de longitud 1`, dado que la cadena tiene longitud 1, dos pruebas pueden ser suficientes: una en la que el carácter único de la cadena coincida con  `open` y `close` y otra en la que no. 
 
-- A menos que tengamos una buena razón para creer que el programa maneja etiquetas de `open` y `close` de diferentes longitudes de diferentes maneras, no necesitamos las cuatro combinaciones de `(longitud open = 1, longitud close = 1)`, `(longitud open > 1, longitud close = 1)`, `(open
-length = 1, longitud close > 1)` y `(longitud open > 1, longitud close > 1)`. 
+- A menos que tengamos una buena razón para creer que el programa maneja etiquetas de `open` y `close` de diferentes longitudes de diferentes maneras, no necesitamos las cuatro combinaciones de `(longitud open = 1, longitud close = 1)`, `(longitud open > 1, longitud close = 1)`, `(longitud open = 1, longitud close > 1)` y `(longitud open > 1, longitud close > 1)`. 
 
 Solo `(longitud open = 1, longitud close = 1)` y `(longitud open > 1, longitud close > 1)`  son suficientes.
 
@@ -272,7 +271,7 @@ Con una comprensión clara de qué particiones deben probarse exhaustivamente y 
 
 `Casos excepcionales`
 
-* T1: `str` es null. 
+* T1: `str` es `null`. 
 * T2: `str` está vacío.
 * T3: `open` es null. 
 * T4: `open` está vacío. 
@@ -529,7 +528,7 @@ T4 = [5,0,0] + [2,5,0] = [7,5,0]
   Así tenemos las siguientes particiones:
 
   - Vacío
-  - Null
+  - `Null`
   - Un solo dígito
   - Múltiples dígitos
   - Ceros a la izquierda
@@ -537,7 +536,7 @@ T4 = [5,0,0] + [2,5,0] = [7,5,0]
 * `parámetro right:` tenemos la misma lista de particiones que para el parámetro `left`: 
 
   - Vacío
-  - Null
+  - `Null`
   - Un solo dígito
   - Múltiples dígitos
   - Ceros a la izquierda
@@ -582,7 +581,7 @@ Veamos los casos de prueba específicos:
 
 * `Null` y vacíos
 
-  - T1: `left`  null 
+  - T1: `left`  `null` 
   - T2: `left` vacío 
   - T3: `right` null 
   - T4: `right` vacío
