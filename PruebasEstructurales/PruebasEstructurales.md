@@ -13,12 +13,12 @@ El uso de la estructura del código fuente para guiar las pruebas también se co
 
 #### Cobertura de código
 
-Considera el siguiente requisito para un pequeño programa que cuenta la cantidad de palabras en una cadena que terminan con "r" o "s" : 
+Considera el siguiente requisito para un pequeño programa que cuenta la cantidad de palabras en una cadena que terminan con `"r"` o `"s"` : 
 
-Dada una oración, el programa debe contar la cantidad de palabras que terminan con "s" o "r". 
+Dada una oración, el programa debe contar la cantidad de palabras que terminan con `"s"` o `"r"`. 
 Una palabra termina cuando aparece una no letra. El programa devuelve el número de palabras. 
 
-Un desarrollador implementa este requisito como se muestra en la siguiente lista. Archivo `CountWords.java``.
+Un desarrollador implementa este requisito como se muestra en la siguiente lista. Archivo `CountWords.java`.
 
 ```
 public class CountWords {
@@ -63,7 +63,7 @@ void noWordsAtAll() {  // 2
 
 **Pregunta:** Explica qué hacen las líneas 1, 2 del código. Presenta un informe generado por JaCoCo (www.jacoco.org/jacoco) o otra herramienta de código de tu preferencia en el ide del curso.  
 
-Continuando con el ejemplo, escribimos un caso de prueba que ejercita la partición "palabras que terminan en 'r'" de la siguiente manera. 
+Continuando con el ejemplo, escribimos un caso de prueba que ejercita la partición `"palabras que terminan en 'r'" de la siguiente manera. 
 
 ```
 @Test
@@ -82,12 +82,16 @@ Si hay partes del código que aún no están cubiertas, repetiremos el proceso: 
 En base a lo que acabamos de hacer, definamos un enfoque simple que cualquier desarrollador puede seguir: 
 
 1.Realiza pruebas basadas en especificaciones 
+
 2. Lee la implementación y comprenda las principales decisiones de codificación tomadas por el desarrollador
+
 3. Ejecuta el conjunto de pruebas diseñado con una herramienta de cobertura de código.
+
 4. Para cada pieza de código que no está cubierta: 
    - Comprender por qué no se probó ese fragmento de código. ¿Por qué no vio este caso de prueba durante las pruebas basadas en especificaciones? 
    - Decide si la pieza de código merece una prueba. Probar o no probar ese fragmento de código ahora es una decisión consciente de tu parte. 
    - Si se necesita una prueba, implementa un caso de prueba automatizado que cubra la pieza faltante. 
+
 5. Vuelve al código fuente y busca otras pruebas interesantes ques pueda diseñar basándose en el código. Para cada pieza identificada del código, realiza los subpasos del paso 4.
 
 Lo más importante de este enfoque es que las pruebas estructurales complementan el conjunto de pruebas previamente diseñado a través de pruebas basadas en especificaciones. 
@@ -106,7 +110,9 @@ Un desarrollador puede decidir cubrir solo la línea; en otras palabras, si una 
 
 Un segundo desarrollador  puede cubrir el `if`  se evalúa como `true` y `false` hacerlo requiere dos casos de prueba. 
 
-Un tercer desarrollador puede explorar cada condición en la instrucción `if`. Este particular `if` tiene tres condiciones que requieren al menos dos pruebas cada una, para un total de seis pruebas. Finalmente, un evaluador  muy minucioso puede decidir cubrir todas las rutas de ejecución posibles de esta declaración. Dado que tiene tres condiciones diferentes, hacerlo requiere 2 × 2 × 2 = 8 casos de prueba. 
+Un tercer desarrollador puede explorar cada condición en la instrucción `if`. Este particular `if` tiene tres condiciones que requieren al menos dos pruebas cada una, para un total de seis pruebas. 
+
+Finalmente, un evaluador  muy minucioso puede decidir cubrir todas las rutas de ejecución posibles de esta declaración. Dado que tiene tres condiciones diferentes, hacerlo requiere 2 × 2 × 2 = 8 casos de prueba. 
 
 #### Cobertura de línea 
 
@@ -145,12 +151,16 @@ El complicado `if` se divide en tres nodos. Cada condición está en su propio n
 
 #### Cobertura de ruta 
 
-Un desarrollador que apunta a la cobertura de rutas cubre todas las rutas posibles de ejecución del programa. Si bien idealmente este es el criterio más fuerte, a menudo es imposible o demasiado costoso de lograr. En un solo programa con tres condiciones, donde cada condición podría evaluarse independientemente como `true` o `false`, tendríamos 8 caminos para cubrir. 
+Un desarrollador que apunta a la cobertura de rutas cubre todas las rutas posibles de ejecución del programa. Si bien idealmente este es el criterio más fuerte, a menudo es imposible o demasiado costoso de lograr. 
+
+En un solo programa con tres condiciones, donde cada condición podría evaluarse independientemente como `true` o `false`, tendríamos 8 caminos para cubrir. 
 
 En un programa con 10 condiciones, el número total de combinaciones serían 1024. En otras palabras, ¡necesitaríamos idear más de mil pruebas! 
 
 La cobertura de ruta también se vuelve más complicada para programas con bucles. 
-En un programa con un bucle ilimitado, el ciclo puede repetirse cientos de veces. Un evaluador  riguroso que busca la cobertura de la ruta tendría que probar el programa con el bucle ejecutándose una vez, dos veces, tres veces, y así sucesivamente. 
+En un programa con un bucle ilimitado, el ciclo puede repetirse cientos de veces. 
+
+Un evaluador  riguroso que busca la cobertura de la ruta tendría que probar el programa con el bucle ejecutándose una vez, dos veces, tres veces, y así sucesivamente. 
 
 #### Manejo de bucles y construcciones similares 
 
@@ -168,7 +178,9 @@ Un conjunto de pruebas satisface este criterio si y sólo si para cada bucle:
 - Hay un caso de prueba que ejercita el bucle una vez. 
 - Hay un caso de prueba que ejercita el bucle varias veces. 
 
-Con todo esto, ¿debería el caso de prueba obligar al bucle a iterar 2, 5 o 10 veces? Esta decisión requiere una buena comprensión del programa y sus requisitos. Con una comprensión óptima de las especificaciones, deberías poder idear buenas pruebas para el bucle. No tengas miedo de crear dos o más pruebas para el caso de "varias veces". Haz lo que tengas que hacer para asegurarte de que el bucle funcione como se esperaba. 
+Con todo esto, ¿debería el caso de prueba obligar al bucle a iterar 2, 5 o 10 veces? Esta decisión requiere una buena comprensión del programa y sus requisitos. Con una comprensión óptima de las especificaciones, deberías poder idear buenas pruebas para el bucle. 
+
+No tengas miedo de crear dos o más pruebas para el caso de "varias veces". Haz lo que tengas que hacer para asegurarte de que el bucle funcione como se esperaba. 
 
 ### Pruebas estructurales y basadas en especificaciones 
 
@@ -182,7 +194,7 @@ Completa a la izquierda una cadena con una cadena especificada Completa a un tam
 
 El método devuelve una cadena completada a la izquierda, la cadena original si no se necesita completar o `null` si se ingresa una cadena nula. 
 
-Por ejemplo, si damos "abc" como entrada de cadena, un guión "-" como cadena a completar  y 5 como tamaño, el programa generará "--abc". 
+Por ejemplo, si damos `"abc"` como entrada de cadena, un guión `"-"` como cadena a completar  y 5 como tamaño, el programa generará `"--abc"`. 
 
 A un desarrollador de tu equipo se le ocurre la siguiente implementación.  Archivo `LeftPadUtils.java`
 
@@ -237,9 +249,13 @@ public static String leftPad(final String str, final int size, String padStr) {
 
 Ahora es el momento de algunas pruebas sistemáticas. Como sabemos, el primer paso es aplicar pruebas basadas en especificaciones.
  
-**1 Leemos los requisitos**. Entendemos que el programa agrega un carácter/cadena dado al principio (izquierda) de la cadena, hasta un tamaño específico. El programa tiene tres parámetros de entrada: `str`, que representa la cadena original que se va a completar; `size`, que representa el tamaño deseado de la cadena devuelta y `padStr` que representa la cadena utilizada para completar. El programa devuelve un `String`. El programa tiene un comportamiento específico si alguna de las entradas es nula.
+**1 Leemos los requisitos**. Entendemos que el programa agrega un carácter/cadena dado al principio (izquierda) de la cadena, hasta un tamaño específico. 
 
-2 Con base en todas las observaciones del paso 1, derivamos la siguiente lista de particiones: – parámetro `str` 
+El programa tiene tres parámetros de entrada: `str`, que representa la cadena original que se va a completar; `size`, que representa el tamaño deseado de la cadena devuelta y `padStr` que representa la cadena utilizada para completar. 
+
+El programa devuelve un `String`. El programa tiene un comportamiento específico si alguna de las entradas es nula.
+
+2 Con base en todas las observaciones del paso 1, derivamos la siguiente lista de particiones: 
 
 – Parámetro `str`
   - `Null`
@@ -322,7 +338,7 @@ Ahora derivamos tres casos de prueba más:
 ``` 
 static Stream<Arguments> generator() {
   return Stream.of(
-              // ... others here
+              // ... otros aquí
 		of("abc", 5, "--", "--abc"), // T10
       of("abc", 5, "---", "--abc"), // T11
       of("abc", 5, "-", "--abc") // T12
@@ -384,7 +400,7 @@ public class Clumps {
 
   * @param nums
   *        
- * @return  …
+ * @return  ...
      */
       public static int countClumps(int[] nums) {
     	if (nums == null || nums.length == 0) {  // 1
