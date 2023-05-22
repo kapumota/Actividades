@@ -279,14 +279,14 @@ Con una comprensión clara de qué particiones deben probarse exhaustivamente y 
 * T5: `close` es nulo. 
 * T6: `close` está vacío. 
 
-`str longitud = 1`: 
+`longitud str = 1`: 
 
 * T7: el carácter único en `str` coincide con la etiqueta `open`. 
 * T8: El carácter único en `str` coincide con la etiqueta `close`. 
 * T9: El carácter único en `str` no coincide ni con la etiqueta  `open` ni `close`. 
 * T10: el carácter único en `str` coincide con las etiquetas `open` y `close`. 
 
-`str longitud  > 1`, `open longitud = 1`, `close = 1`: 
+`longitud str  > 1`, `longitud open = 1`, `close = 1`: 
 
 * T11: `str` no contiene ni la etiqueta `open` ni  `close`. 
 * T12: `str` contiene la etiqueta `open` pero no contiene la etiqueta `close`. 
@@ -294,7 +294,7 @@ Con una comprensión clara de qué particiones deben probarse exhaustivamente y 
 * T14: `str` contiene las etiquetas `open` y `close`. 
 * T15: `str` contiene las etiquetas `open` y close` varias veces. 
 
-A continuación, `str longitud > 1`, `longitud open > 1`, `close > 1`: 
+A continuación, `longitud str > 1`, `longitud open > 1`, `close > 1`: 
 
 * T16: `str` no contiene ni la etiqueta `open` ni `close`. 
 * T17: `str` contiene la etiqueta `open` pero no contiene la etiqueta `close`. 
@@ -416,13 +416,13 @@ Estos verifican si la implementación funciona si hay espacios en blanco en la c
 ```
 @Test
 void openAndCloseOfLength1() {
-// ... previas aseveraciones aquí
-         assertThat(substringsBetween("abcabyt byrc", "a", "c"))
+// ... aseveraciones previas
+    That(substringsBetween("abcabyt byrc", "a", "c"))
 .isEqualTo(new String[ ] {"b", "byt byr"});
    }
 @Test
 void openAndCloseTagsOfDifferentSizes() {
-// ... previas aseveraciones aquí
+// ...aseveraciones previas
    assertThat(substringsBetween("a abb ddc ca abbcc", "a a", "c c"))
 . isEqualTo(new String[ ]      {"bb dd"});
 }
