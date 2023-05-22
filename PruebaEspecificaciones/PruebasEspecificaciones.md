@@ -78,7 +78,7 @@ import java.util.List;
 
 **Ejercicio :**  Mira los requisitos una vez más y escribe todos los casos de prueba que se te ocurran. El formato no importa, puede ser algo así como "todos los parámetros son nulos". 
 
-Cuando hayas terminado con esta nota, compara tu conjunto de pruebas inicial con el que estamos a punto de derivar. 
+Cuando hayas terminado con esta parte, compara tu conjunto de pruebas inicial con el que estamos a punto de derivar. 
 
 
 #### Paso 1: Comprensión de los requisitos, entradas y salidas 
@@ -131,7 +131,7 @@ void openAndCloseTagsThatAreLongerThan1Char(){
 
 ```
 
-**Ejercicio:** Escribe  código de prueba llamado `stringUtilsExploracionTest.java` que alberge el código anterior.
+**Ejercicio:** Escribe código de prueba  en un archivo llamado `stringUtilsExploracionTest.java` que alberge el código anterior.
 
 
 #### Paso 3: Explora las posibles entradas y salidas e identifica las particiones
@@ -224,7 +224,9 @@ Reflexionamos sobre los posibles resultados. El método devuelve un arreglo de s
 
 Cuando diseñamos particiones, tienen límites cercanos con las otras particiones. 
 
-Imagina un programa simple que imprime `"hiphip"` si la entrada dada es un número menor que 10 o `"hurra"` si la entrada dada es mayor o igual a 10. Un evaluador puede dividir el dominio de entrada en dos particiones: (1) el conjunto de entradas que hacen que el programa imprima `"hiphip"` y (2) el conjunto de entradas que hacen que el programa imprima `"hurra"`. 
+Imagina un programa simple que imprime `"hiphip"` si la entrada dada es un número menor que 10 o `"hurra"` si la entrada dada es mayor o igual a 10. 
+
+Un evaluador puede dividir el dominio de entrada en dos particiones: (1) el conjunto de entradas que hacen que el programa imprima `"hiphip"` y (2) el conjunto de entradas que hacen que el programa imprima `"hurra"`. 
 
 Ten en cuenta que el valor de entrada 9 pertenece a la partición `"hiphip"`, mientras que el valor de entrada 10 pertenece a la partición `"hurra"`.
 
@@ -249,7 +251,7 @@ Cada vez que identificamos un límite, ideamos dos pruebas, uno para cada lado d
 
 La segunda prueba no es necesaria en este caso, ya que otras pruebas ya ejercen esta situación. Por lo tanto, podemos descartar. 
 
-#### Paso 5: Idear casos de prueba 
+#### Paso 5: Idea casos de prueba 
 
 Con las entradas, salidas y límites correctamente diseccionados, podemos generar casos de prueba concretos.  
 
@@ -306,7 +308,7 @@ Finalmente, aquí está la prueba para el límite:
 
 Terminamos con 21 pruebas.
 
-#### Paso 6: Automatice los casos de prueba 
+#### Paso 6: Automatiza los casos de prueba 
 
 Ahora es el momento de transformar los casos de prueba en pruebas JUnit automatizadas. Escribir esas pruebas es principalmente una tarea mecánica. 
 
@@ -428,9 +430,9 @@ void openAndCloseTagsOfDifferentSizes() {
 ``` 
 **Ejercicio:** Escribe un archivo `stringUtilsTest.java` y completa el código anterior.  
 
-Terminamos con 23 casos de prueba. Revisa todos los pasos que hemos trabajado y luego considere esta pregunta: ¿hemos terminado?.
+Terminamos con 23 casos de prueba. Revisa todos los pasos que hemos trabajado y luego considera esta pregunta: ¿hemos terminado?.
 
-**Ejercicio:** Escribe el siguiente código `NumberUtils.java`
+**Ejercicio:** Escribe el siguiente  archivo de código `NumberUtils.java`
 
 ```
 public class NumberUtils {
