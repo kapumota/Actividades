@@ -261,10 +261,10 @@ Puede haber otras particiones que no necesiten combinarse por completo. En este 
 
 - Para el caso de `cadena de longitud 1`, dado que la cadena tiene longitud 1, dos pruebas pueden ser suficientes: una en la que el carácter único de la cadena coincida con  `open` y `close` y otra en la que no. 
 
-- A menos que tengamos una buena razón para creer que el programa maneja etiquetas de `open` y `close` de diferentes longitudes de diferentes maneras, no necesitamos las cuatro combinaciones de `(open length = 1, close length = 1)`, `(open length > 1, close length = 1)`, `(open
-length = 1, close length > 1)` y `(open length > 1, close length > 1)`. 
+- A menos que tengamos una buena razón para creer que el programa maneja etiquetas de `open` y `close` de diferentes longitudes de diferentes maneras, no necesitamos las cuatro combinaciones de `(longitud open = 1, longitud close = 1)`, `(longitud open > 1, longitud close = 1)`, `(open
+length = 1, longitud close > 1)` y `(longitud open > 1, longitud close > 1)`. 
 
-Solo `(open length = 1, close length = 1)` y `(open length > 1, close length > 1)`  son suficientes.
+Solo `(longitud open = 1, longitud close = 1)` y `(longitud open > 1, longitud close > 1)`  son suficientes.
 
 **Ejercicio:**  ¿Hay más casos donde se pueda simplificar el número de pruebas? 
 
