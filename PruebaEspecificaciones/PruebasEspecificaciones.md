@@ -158,7 +158,7 @@ Empezamos con entradas individuales:
 
 * Parámetro `str`: la cadena puede ser cualquier cadena.
 
-  a. Cadena null 
+  a. Cadena `null` 
   
   b. Cadena vacía 
   
@@ -168,7 +168,7 @@ Empezamos con entradas individuales:
 
 * Parámetro `open`: esto también puede ser cualquier cosa. 
 
-  a. Cadena null 
+  a. Cadena `null` 
   
   b. Cadena vacía 
   
@@ -178,7 +178,7 @@ Empezamos con entradas individuales:
 
 * Parámetro `close`: Este parámetro es como el anterior: 
 
-  a. Cadena null 
+  a. Cadena `null` 
   
   b. Cadena vacía 
   
@@ -204,7 +204,7 @@ Reflexionamos sobre los posibles resultados. El método devuelve un arreglo de s
 
 * Arreglo de cadenas (salida) 
   
-  a. Arreglo null 
+  a. Arreglo `null` 
   
   b. Arreglo vacío
 
@@ -259,7 +259,7 @@ Con las entradas, salidas y límites correctamente diseccionados, podemos genera
 
 Puede haber otras particiones que no necesiten combinarse por completo. En este problema hay dos: 
 
-- Para el caso de `string of length 1`, dado que la cadena tiene longitud 1, dos pruebas pueden ser suficientes: una en la que el carácter único de la cadena coincida con  `open` y `close` y otra en la que no. 
+- Para el caso de `cadena de longitud 1`, dado que la cadena tiene longitud 1, dos pruebas pueden ser suficientes: una en la que el carácter único de la cadena coincida con  `open` y `close` y otra en la que no. 
 
 - A menos que tengamos una buena razón para creer que el programa maneja etiquetas de `open` y `close` de diferentes longitudes de diferentes maneras, no necesitamos las cuatro combinaciones de `(open length = 1, close length = 1)`, `(open length > 1, close length = 1)`, `(open
 length = 1, close length > 1)` y `(open length > 1, close length > 1)`. 
@@ -568,7 +568,7 @@ Con todas las entradas y salidas analizadas, es hora de derivar casos de prueba 
 
 Apliquemos la siguiente estrategia: 
 
-1. Prueba null y vacíos solo una vez. 
+1. Prueba `null` y vacíos solo una vez. 
 
 2. Prueba con un solo dígito solo una vez. 
 
@@ -580,7 +580,7 @@ Apliquemos la siguiente estrategia:
 
 Veamos los casos de prueba específicos: 
 
-* Null y vacíos
+* `Null` y vacíos
 
   - T1: `left`  null 
   - T2: `left` vacío 
