@@ -63,7 +63,7 @@ void noWordsAtAll() {  // 2
 
 **Pregunta:** Explica qué hacen las líneas 1, 2 del código. Presenta un informe generado por JaCoCo (www.jacoco.org/jacoco) o otra herramienta de código de tu preferencia en el ide del curso.  
 
-Continuando con el ejemplo, escribimos un caso de prueba que ejercita la partición `"palabras que terminan en 'r'" de la siguiente manera. 
+Continuando con el ejemplo, escribimos un caso de prueba que ejercita la partición  `palabras que terminan en 'r'` de la siguiente manera:
 
 ```
 @Test
@@ -81,7 +81,7 @@ Si hay partes del código que aún no están cubiertas, repetiremos el proceso: 
 
 En base a lo que acabamos de hacer, definamos un enfoque simple que cualquier desarrollador puede seguir: 
 
-1.Realiza pruebas basadas en especificaciones 
+1. Realiza pruebas basadas en especificaciones 
 
 2. Lee la implementación y comprenda las principales decisiones de codificación tomadas por el desarrollador
 
@@ -120,7 +120,9 @@ Un desarrollador que tiene como objetivo lograr la cobertura de línea necesita 
 
 #### Cobertura de ramas
 
-La cobertura de ramas tiene en cuenta el hecho de que las instrucciones de ramas (`ifs`, `fors`, `whiles` etc.) hacen que el programa se comporte de diferentes maneras, dependiendo de cómo se evalúe la instrucción. Para una declaración `if(a && b)` simple, tener un caso de prueba T1 que haga que la declaración `if` sea verdadera y otro caso de prueba T2 que haga que la declaración sea falsa es suficiente para considerar la rama cubierta. 
+La cobertura de ramas tiene en cuenta el hecho de que las instrucciones de ramas (`ifs`, `fors`, `whiles` etc.) hacen que el programa se comporte de diferentes maneras, dependiendo de cómo se evalúe la instrucción. 
+
+Para una declaración `if(a && b)` simple, tener un caso de prueba T1 que haga que la declaración `if` sea verdadera y otro caso de prueba T2 que haga que la declaración sea falsa es suficiente para considerar la rama cubierta. 
 
 La figura siguiente ilustra un gráfico de flujo de control (CFG) del programa `CountWords`.
 
@@ -155,7 +157,7 @@ Un desarrollador que apunta a la cobertura de rutas cubre todas las rutas posibl
 
 En un solo programa con tres condiciones, donde cada condición podría evaluarse independientemente como `true` o `false`, tendríamos 8 caminos para cubrir. 
 
-En un programa con 10 condiciones, el número total de combinaciones serían 1024. En otras palabras, ¡necesitaríamos idear más de mil pruebas! 
+En un programa con 10 condiciones, el número total de combinaciones serían 1024. En otras palabras, ¡necesitaríamos idear más de mil pruebas!.
 
 La cobertura de ruta también se vuelve más complicada para programas con bucles. 
 En un programa con un bucle ilimitado, el ciclo puede repetirse cientos de veces. 
@@ -168,7 +170,7 @@ Quizás te preguntes qué hacer en el caso de bucles, como `for` y `while`. El b
 
 Piensa en un bucle `while (True)`, que puede no terminar. Para ser rigurosos, tendríamos que probar el programa con el bloque de bucle ejecutado una vez, dos veces, tres veces, y así sucesivamente. 
 
-Imagina un bucle `for(i = 0; i < 10; i++)` con un `break` dentro del cuerpo. Tendríamos que probar qué sucede si el cuerpo del bucle se ejecuta hasta 10 veces. ¿Cómo podemos manejar un bucle de larga duración (que se ejecuta durante muchas iteraciones) o un bucle ilimitado (que se ejecuta un número desconocido de veces)? 
+Imagina un bucle `for(i = 0; i < 10; i++)` con un `break` dentro del cuerpo. Tendríamos que probar qué sucede si el cuerpo del bucle se ejecuta hasta 10 veces. ¿Cómo podemos manejar un bucle de larga duración (que se ejecuta durante muchas iteraciones) o un bucle ilimitado (que se ejecuta un número desconocido de veces)?.
 
 Dado que las pruebas exhaustivas son imposibles, los evaluadores a menudo confían en el criterio de adecuación de los límites del bucle para decidir cuándo dejar de probar un bucle. 
 
@@ -196,7 +198,7 @@ El método devuelve una cadena completada a la izquierda, la cadena original si 
 
 Por ejemplo, si damos `"abc"` como entrada de cadena, un guión `"-"` como cadena a completar  y 5 como tamaño, el programa generará `"--abc"`. 
 
-A un desarrollador de tu equipo se le ocurre la siguiente implementación.  Archivo `LeftPadUtils.java`
+A un desarrollador de tu equipo se le ocurre la siguiente implementación.  Archivo `LeftPadUtils.java`.
 
 
 ```
@@ -282,7 +284,9 @@ El programa devuelve un `String`. El programa tiene un comportamiento específic
 - `padStr` con longitud 1 
 - `size` es precisamente la longitud de `str`
 
-4 Podemos idear pruebas individuales para casos excepcionales como tamaño nulo, vacío y negativo. También tenemos un límite relacionado con `padStr`: podemos ejercitar `padStr` con un solo carácter solo una vez y hacer que todas las demás pruebas usen un `pad` con un solo carácter (de lo contrario, la cantidad de combinaciones sería demasiado grande). 
+4 Podemos idear pruebas individuales para casos excepcionales como tamaño nulo, vacío y negativo. 
+
+También tenemos un límite relacionado con `padStr`: podemos ejercitar `padStr` con un solo carácter solo una vez y hacer que todas las demás pruebas usen un `pad` con un solo carácter (de lo contrario, la cantidad de combinaciones sería demasiado grande). 
 
 Obtenemos las siguientes pruebas: 
 
