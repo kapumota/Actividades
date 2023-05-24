@@ -106,7 +106,7 @@ La herramienta de cobertura de código es una forma automatizada de identificar 
 if (!Character.isLetter(str.charAt(i)) && (last == 's' || last == 'r'))
 ```
 
-Un desarrollador puede decidir cubrir solo la línea; en otras palabras, si una prueba pasa a través de esa línea, el desarrollador la considerará cubierta. Un solo caso de prueba puede hacer esto. 
+Un desarrollador puede decidir cubrir solo la línea,  en otras palabras, si una prueba pasa a través de esa línea, el desarrollador la considerará cubierta. Un solo caso de prueba puede hacer esto. 
 
 Un segundo desarrollador  puede cubrir el `if`  se evalúa como `true` y `false` hacerlo requiere dos casos de prueba. 
 
@@ -122,9 +122,9 @@ Un desarrollador que tiene como objetivo lograr la cobertura de línea necesita 
 
 La cobertura de ramas tiene en cuenta el hecho de que las instrucciones de ramas (`ifs`, `fors`, `whiles` etc.) hacen que el programa se comporte de diferentes maneras, dependiendo de cómo se evalúe la instrucción. 
 
-Para una declaración `if(a && b)` simple, tener un caso de prueba T1 que haga que la declaración `if` sea verdadera y otro caso de prueba T2 que haga que la declaración sea falsa es suficiente para considerar la rama cubierta. 
+Para una declaración `if(a && b)` simple, tener un caso de prueba T1 que haga que la declaración `if` sea `true` y otro caso de prueba T2 que haga que la declaración sea `false` es suficiente para considerar la rama cubierta. 
 
-La figura siguiente ilustra un gráfico de flujo de control (CFG) del programa `CountWords`.
+La figura siguiente ilustra un gráfico de control de flujo (CFG) del programa `CountWords`.
 
 ![](https://github.com/kapumota/Actividades/blob/main/PruebasEstructurales/Imagenes/cobertura1.png)
 
@@ -146,7 +146,7 @@ Es por eso que usamos la  condición + cobertura de  rama, y no solo la cobertur
 
 En el CFG extendido de la figura siguiente, los nodos de rama contienen una sola condición. 
 
-El complicado `if` se divide en tres nodos. Cada condición está en su propio nodo. Cubrir todos los bordes del grafo significa lograr el 100% de `condición +  cobertura de rama`.
+El complicado `if` se divide en tres nodos. Cada condición está en su propio nodo. Cubrir todos los bordes del gráfico significa lograr el 100% de `condición +  cobertura de rama`.
 
 ![](https://github.com/kapumota/Actividades/blob/main/PruebasEstructurales/Imagenes/Cobertura2.png)
 
@@ -182,13 +182,13 @@ Un conjunto de pruebas satisface este criterio si y sólo si para cada bucle:
 
 Con todo esto, ¿debería el caso de prueba obligar al bucle a iterar 2, 5 o 10 veces? Esta decisión requiere una buena comprensión del programa y sus requisitos. Con una comprensión óptima de las especificaciones, deberías poder idear buenas pruebas para el bucle. 
 
-No tengas miedo de crear dos o más pruebas para el caso de "varias veces". Haz lo que tengas que hacer para asegurarte de que el bucle funcione como se esperaba. 
+No tengas miedo de crear dos o más pruebas para el caso de `"varias veces"`. Haz lo que tengas que hacer para asegurarte de que el bucle funcione como se esperaba. 
 
 ### Pruebas estructurales y basadas en especificaciones 
 
 Probemos las pruebas basadas en especificaciones y las pruebas estructurales juntas en un ejemplo del mundo real: la función `leftPad()` de Apache Commons Lang): 
 
-Completa a la izquierda una cadena con una cadena especificada Completa a un tamaño `size`. 
+Completa a la izquierda una cadena con una cadena especificada a un tamaño `size`. 
 
 - `str`: la cadena para completar. Puede ser `null`
 - `size`: el tamaño a completar
@@ -350,9 +350,9 @@ static Stream<Arguments> generator() {
 }
 
 ```
-Ahora buscamos otros casos interesantes para probar. La implementación contiene decisiones interesantes que podemos decidir probar. En particular, observamos un bloque `if (pads <= 0)` con el comentario de código  "devuelve la cadena original cuando sea posible". 
+Ahora buscamos otros casos interesantes para probar. La implementación contiene decisiones interesantes que podemos decidir probar. En particular, observamos un bloque `if (pads <= 0)` con el comentario de código  `"devuelve la cadena original cuando sea posible"`. 
 
-Como evaluadores, puedes decidir probar este comportamiento específico: "si la cadena no se completa, el programa debería devolver la misma instancia de String". 
+Como evaluadores, puedes decidir probar este comportamiento específico: `"si la cadena no se completa, el programa debería devolver la misma instancia de String"`. 
 Eso se puede escribir como una prueba JUnit de la siguiente manera.
 
 ``` 
