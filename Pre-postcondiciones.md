@@ -13,8 +13,7 @@ Aquí nos enfocamos en métodos y constructores en programas orientados a objeto
 Las **precondiciones** de un método (o constructor) se refieren a las restricciones en la entrada del método y los estados de todos los objetos relacionados que deben cumplirse antes de llamar al método. 
 Involucra los parámetros explícitos del método, parámetros implícitos (por ejemplo, variables de instancia en la misma clase) y variables globales. 
 
-La **postcondición** de un método se refiere a las restricciones en la salida del método y los estados de todos los objetos relacionados que el método garantiza cuando regresa. 
-
+La **postcondición** de un método se refiere a las restricciones en la salida del método y los estados de todos los objetos relacionados que el método garantiza cuando retorna. 
 
 La precondición P y la postcondición Q de un método M se pueden representar mediante la fórmula de corrección `{P}M{Q}` también conocida como triples de Hoare. 
 
@@ -43,14 +42,11 @@ Este último se ocupa de las condiciones (por ejemplo, datos de entrada incorrec
 
 Hay dos opciones para manejar la precondición de un método: la precondición asumida y la precondición de validación. 
 
-- Precondición asumida (también conocida como diseño de precondición exigente). El método asume que la precondición siempre es satisfecha por todos los clientes. 
-- Los clientes verifican la precondición antes de llamar al método. 
+- Precondición asumida (también conocida como diseño de precondición exigente). El método asume que la precondición siempre es satisfecha por todos los clientes. Los clientes verifican la precondición antes de llamar al método. 
 
 - Precondición validada (también conocido como diseño de precondición tolerante). La precondición se valida en el cuerpo del método mediante un `if-then` o una estructura de control de equivalencia.
 
-
 La elección de una precondición asumida se adopta en el diseño por contrato. Deben seguirse las reglas de diseño por contrato para utilizar correctamente las precondiciones asumidas. 
-
 
 Al validar la precondición completa en el cuerpo del método, cambiamos la precondición real del método a una tautología (es decir, siempre verdadera) o convertimos el método de una función parcial 
 que no maneja todas las entradas a una función total que maneja todas las entradas. 
@@ -69,9 +65,9 @@ Suponiendo que `row`  y `column`  dadas representan una celda válida del tabler
 La precondición supuesta y la postcondición correspondiente son las siguientes:
 
 ```
-Precondition: 0<=row < TOTALROWS and 
+Precondición: 0<=row < TOTALROWS and
 0 <=column < TOTALCOLUMNS
-Postcondition: return value is either Cell.EMPTY, 
+Postcondición: return value is either Cell.EMPTY, 
 Cell.CROSS, or Cell.NAUGHT
 ``` 
 
@@ -94,22 +90,20 @@ Un caso especial de precondiciones validadas es el manejo de excepciones: el mé
 
 El método `getCell()` anterior se puede implementar de la siguiente manera:
 
-
 ```
 if (row >= 0 && row < TOTALROWS 
  && column >= 0 && column < TOTALCOLUMNS) {
 	   return grid[row][column];
 	} else {
-	   throw new Exception("Out of bound");
+	   throw new Exception("Fuera de límite");
 	}
 }
 
 ```
-**Pregunta:** Escribe la nueve precondición. ¿Se relacionada con la postcondición revisada?.
+**Pregunta:** Escribe la nueva precondición. ¿Se relacionada con la postcondición revisada?.
 
 En TDD, la precondición y la postcondición de un método cambian con el tiempo a medida que evoluciona el proceso de desarrollo. 
  
-
 La precondición y la poscondición en un momento determinado solo implican las suposiciones que subyacen en el código actual. 
 
 Ten en cuenta que un programa TicTacToe puede adoptar la primera versión de `getCell()`, suponiendo que todas las llamadas a `getCell` proporcionen una fila y una columna válidas. 
@@ -133,8 +127,8 @@ Por ejemplo, la precondición y la postcondición a continuación brindan una es
 donde `max` representa el valor de retorno.
 
 ```
-Precondition: list.length>0
-Postcondition: max>= list[i] for each i 
+Precondición: list.length>0
+Postcondición: max>= list[i] for each i 
   (0 ≤ i< list.length), and there exists j 
   (0 ≤ j< list.length) such that max=list[j]
 ```
