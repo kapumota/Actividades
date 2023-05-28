@@ -189,16 +189,40 @@ Definir precondiciones, postcondiciones e invariantes claras (y automatizarlas e
 
 Primero, las aserciones aseguran que los errores se detecten temprano en el entorno de producción. Tan pronto como se viola un contrato, el programa se detiene en lugar de continuar con su ejecución, lo que suele ser una buena idea. El error que obtiene de una violación de aserción es muy específico y sabes exactamente para qué depurar. Este puede no ser el caso sin aserciones. 
 
-Imagina un programa que realiza cálculos. El método que hace el cálculo pesado no funciona bien con números negativos. Sin embargo, en lugar de definir dicha restricción como una precondición explícita, el método devuelve una salida no válida si ingresa un número negativo. Este número no válido luego se pasa a otras partes del sistema, lo que puede provocar otro comportamiento inesperado. Dado que el programa no falla per se, puede ser difícil para el desarrollador saber que la causa raíz del problema fue una violación de la precondición. 
+Imagina un programa que realiza cálculos. El método que hace el cálculo pesado no funciona bien con números negativos. Sin embargo, en lugar de definir dicha restricción como una precondición explícita, el método devuelve una salida no válida si ingresa un número negativo. 
+
+Este número no válido luego se pasa a otras partes del sistema, lo que puede provocar otro comportamiento inesperado. Dado que el programa no falla per se, puede ser difícil para el desarrollador saber que la causa raíz del problema fue una violación de la precondición. 
 
 En segundo lugar, las precondiciones, las postcondiciones y las invariantes brindan a los desarrolladores ideas sobre qué probar. 
 Tan pronto como vemos la precondición `qty > 0`, sabemos que esto es algo para ejercitar a través de pruebas unitarias, de integración o de sistema. 
 
 Por lo tanto, **los contratos no reemplazan las pruebas (unitarias): las complementan**. 
 
-En tercer lugar, estos contratos explícitos facilitan mucho la vida de los consumidores. La clase (o servidor, si se piensa en ella como una aplicación cliente-servidor) hace su trabajo siempre que el consumidor (o cliente) utiliza correctamente sus métodos. Si el cliente usa los métodos del servidor para que se mantengan sus precondiciones, el servidor garantiza que las postcondiciones se mantendrán después de la llamada al método. En otras palabras, el servidor se asegura de que el método entregue lo que promete. 
+En tercer lugar, estos contratos explícitos facilitan mucho la vida de los consumidores. La clase (o servidor, si se piensa en ella como una aplicación cliente-servidor) hace su trabajo siempre que el consumidor (o cliente) utiliza correctamente sus métodos. 
+
+Si el cliente usa los métodos del servidor para que se mantengan sus precondiciones, el servidor garantiza que las postcondiciones se mantendrán después de la llamada al método. En otras palabras, el servidor se asegura de que el método entregue lo que promete. 
 
 Supongamos que un método espera solo números positivos (como precondición)  promete devolver solo números positivos (como postcondición). Como cliente, si pasas un número positivo,  seguro de que el servidor devolverá un número positivo y nunca un número negativo. El cliente, por tanto, no necesita comprobar si la devolución es negativa, simplificando su código. 
 
 Se ve el diseño por contrato como una práctica de prueba per se. Lo veo más como una técnica de diseño. Por eso también se incluye en la parte de desarrollo del flujo de trabajo de prueba del desarrollador. 
+
+#### ¿Deberíamos escribir pruebas para precondiciones, postcondiciones e invariantes? 
+
+En cierto modo, las aserciones, las precondiciones, las postcondiciones y las verificaciones invariantes prueban el código de producción desde adentro. ¿También necesitamos escribir pruebas (unitarias) para ellos? 
+
+Para responder a esta pregunta, veamos la diferencia entre validación y precondiciones. La validación es lo que haces para asegurarte de que los datos sean válidos. Las precondiciones establecen explícitamente bajo qué condiciones se puede invocar un método. 
+
+Normalmente se escriben pruebas automatizadas para la validación si queremos asegurarnos de que los mecanismos de validación estén en su lugar y funcionen como se esperaba. Por otro lado, rara vez se escribe pruebas para las aserciones. Naturalmente, están cubiertas por pruebas que se centran en otras reglas comerciales. 
+
+**Lectura:** Revisar respuesta de Arie van Deursen en Stack Overflow sobre cómo escribir pruebas para aserciones (https://stackoverflow.com/a/6486294/165292). 
+
+**Nota:** Algunas herramientas de cobertura de código no manejan bien las aserciones. JaCoCo, por ejemplo, no puede informar la cobertura completa en las aserciones. 
+Este es otro gran ejemplo de por qué no se debe usar los números de cobertura a ciegas. 
+
+#### Soporte de herramientas
+
+Cada vez hay más compatibilidad con las comprobaciones de las pre/postcondiciones incluso en lenguajes como Java. Por ejemplo, IntelliJ, ofrece las anotaciones `@Nullable` y `@NotNull` (http://mng.bz/QWMe). Puedes anotar tus métodos, atributos o devolver valores con ellos, e IntelliJ te alertará sobre posibles violaciones. 
+
+IntelliJ puede incluso transformar esas anotaciones en comprobaciones `assert` adecuadas en el momento de la compilación. 
+
 
