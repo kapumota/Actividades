@@ -183,3 +183,22 @@ En lugar de `el valor debe ser mayor o igual a 0`, se cambia a `el valor debe se
 
 La forma más sencilla de comprender el impacto de un cambio no es mirar el cambio en sí mismo o la clase en la que se está produciendo el cambio, sino todas las demás clases (o dependencias) que pueden usar la clase cambiante. 
 
+### ¿Cómo se relaciona el diseño por contrato con las pruebas? 
+
+Definir precondiciones, postcondiciones e invariantes claras (y automatizarlas en tu código mediante, por ejemplo, aserciones) ayuda a los desarrolladores de muchas maneras. 
+
+Primero, las aserciones aseguran que los errores se detecten temprano en el entorno de producción. Tan pronto como se viola un contrato, el programa se detiene en lugar de continuar con su ejecución, lo que suele ser una buena idea. El error que obtiene de una violación de aserción es muy específico y sabes exactamente para qué depurar. Este puede no ser el caso sin aserciones. 
+
+Imagina un programa que realiza cálculos. El método que hace el cálculo pesado no funciona bien con números negativos. Sin embargo, en lugar de definir dicha restricción como una precondición explícita, el método devuelve una salida no válida si ingresa un número negativo. Este número no válido luego se pasa a otras partes del sistema, lo que puede provocar otro comportamiento inesperado. Dado que el programa no falla per se, puede ser difícil para el desarrollador saber que la causa raíz del problema fue una violación de la precondición. 
+
+En segundo lugar, las precondiciones, las postcondiciones y las invariantes brindan a los desarrolladores ideas sobre qué probar. 
+Tan pronto como vemos la precondición `qty > 0`, sabemos que esto es algo para ejercitar a través de pruebas unitarias, de integración o de sistema. 
+
+Por lo tanto, **los contratos no reemplazan las pruebas (unitarias): las complementan**. 
+
+En tercer lugar, estos contratos explícitos facilitan mucho la vida de los consumidores. La clase (o servidor, si se piensa en ella como una aplicación cliente-servidor) hace su trabajo siempre que el consumidor (o cliente) utiliza correctamente sus métodos. Si el cliente usa los métodos del servidor para que se mantengan sus precondiciones, el servidor garantiza que las postcondiciones se mantendrán después de la llamada al método. En otras palabras, el servidor se asegura de que el método entregue lo que promete. 
+
+Supongamos que un método espera solo números positivos (como precondición)  promete devolver solo números positivos (como postcondición). Como cliente, si pasas un número positivo,  seguro de que el servidor devolverá un número positivo y nunca un número negativo. El cliente, por tanto, no necesita comprobar si la devolución es negativa, simplificando su código. 
+
+Se ve el diseño por contrato como una práctica de prueba per se. Lo veo más como una técnica de diseño. Por eso también se incluye en la parte de desarrollo del flujo de trabajo de prueba del desarrollador. 
+
