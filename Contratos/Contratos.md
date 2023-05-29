@@ -23,7 +23,7 @@ Ya mencionamos una precondición: el método no acepta números negativos. Una p
 
 Una vez que se establecen las precondiciones y postcondiciones del método, es hora de agregarlas al código fuente. 
 
-Hacerlo puede ser tan simple como una instrucción `if` como se muestra en la siguiente lista.
+Hacerlo puede ser tan simple como una instrucción `if` como se muestra en la siguiente lista:
 
 
 ```
@@ -37,7 +37,7 @@ public class TaxCalculator {
 
 ``` 
 
-La postcondición también se implementa como un simple if. Si algo sale mal, lanzamos una excepción, alertando al consumidor que la postcondición no se cumple
+La postcondición también se implementa como un simple if. Si algo sale mal, lanzamos una excepción, alertando al consumidor que la postcondición no se cumple:
 
 ```
     if(taxValue < 0) { 
@@ -52,11 +52,11 @@ La postcondición también se implementa como un simple if. Si algo sale mal, la
 
 Dejar claras las precondiciones y posteriores en la documentación también es fundamental y muy recomendable. 
 
-**Pregunta:** Escribe el Javadoc del método `calculateTax` describiendo su contrato, en el código anterior.  Revisa el archivo `TaxCalculator.java`.
+**Pregunta:** Escribe el Javadoc del método `calculateTax` describiendo su contrato, de acuerdo al código anterior.  Revisa el archivo `TaxCalculator.java`.
 
 #### La palabra clave assert
 
-El lenguaje Java ofrece la palabra clave `assert`, que es una forma nativa de escribir aserciones. En el ejemplo anterior, en lugar de lanzar una excepción, podríamos escribir `assert value >= 0 : " Valor no puede ser negativo"`. . Si `value` no es mayor o igual a 0, la máquina virtual de Java (JVM) generará un `AssertionError`. 
+El lenguaje Java ofrece la palabra clave `assert`, que es una forma nativa de escribir aserciones. En el ejemplo anterior, en lugar de lanzar una excepción, podríamos escribir `assert value >= 0 : " el valor no puede ser negativo"`. Si `value` no es mayor o igual a 0, la máquina virtual de Java (JVM) generará un `AssertionError`. 
 
 **Pregunta:**  Escribe una versión de `TaxCalculator` usando asserts para ello completa el archivo `TaxCalculator1.java`.
 
@@ -78,7 +78,7 @@ public double calculateTax(double value) {
 Las precondiciones más débiles facilitan que otras clases invoquen el método. Después de todo, sin importar el valor que le pases a `calculateTax`, el programa devolverá algo. 
 Esto contrasta con la versión anterior, donde un número negativo arroja un error. 
 
-**Pregunta:** ¿Puedes aplicar el mismo razonamiento a las postcondiciones? , ¿como relacionas el siguiente listado que devuelve un código de error en lugar de una excepción?
+**Pregunta:** ¿Puedes aplicar el mismo razonamiento a las postcondiciones? , ¿como relacionas el siguiente listado que devuelve un código de error en lugar de una excepción?.
 
 ```
 public double calculateTax(double value) {
@@ -179,7 +179,7 @@ public class Basket {
 }
 ```
 ¿Qué pasa si cambiamos el contrato de una clase o método? Supongamos que el método `calculateTax` que discutimos anteriormente necesita nuevas precondiciones. 
-En lugar de `el valor debe ser mayor o igual a 0`, se cambia a `el valor debe ser mayor o igual a 100`. ¿Qué impacto tendría este cambio en el sistema y nuestras suites de prueba?
+En lugar de `el valor debe ser mayor o igual a 0`, se cambia a `el valor debe ser mayor o igual a 100`. ¿Qué impacto tendría este cambio en el sistema y las suites de prueba?
 
 La forma más sencilla de comprender el impacto de un cambio no es mirar el cambio en sí mismo o la clase en la que se está produciendo el cambio, sino todas las demás clases (o dependencias) que pueden usar la clase cambiante. 
 
@@ -212,9 +212,11 @@ Una decisión de diseño muy importante cuando se modelan contratos es si utiliz
 
 Por ejemplo, el método acepta cualquier valor de entrada, incluido nulo. Este método es fácil de usar para los clientes: cualquier llamada funcionará y el método nunca generará una excepción relacionada con la violación de una precondición (ya que no hay precondiciones que violar). 
 
-Sin embargo, esto supone una carga adicional para el método, ya que tienes que manejar entradas no válidas. Por otro lado, considere a un contrato fuerte: el método solo acepta números positivos y no acepta valores nulos. La carga adicional ahora está del lado del cliente. El cliente debe asegurarse de que no viole las precondiciones del método. Esto puede requerir un código adicional.
+Sin embargo, esto supone una carga adicional para el método, ya que tiene que manejar entradas no válidas. Por otro lado, considere a un contrato fuerte: el método solo acepta números positivos y no acepta valores nulos. La carga adicional ahora está del lado del cliente. 
 
-No hay un camino claro a seguir, y la decisión debe tomarse considerando todo el contexto. 
+El cliente debe asegurarse de que no viole las precondiciones del método. Esto puede requerir un código adicional.
+
+No hay un camino claro a seguir y la decisión debe tomarse considerando todo el contexto. 
 
 #### ¿Validación de entrada, contratos o ambos? 
 
