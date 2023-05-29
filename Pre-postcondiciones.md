@@ -61,7 +61,7 @@ public Cell getCell(int row, int column) {
 }
 
 ```
-Suponiendo que `row`  y `column`  dadas representan una celda válida del tablero de tictactoe, devuelve la celda a la que se hace referencia. 
+Suponiendo que `row`  y `column`  dadas representan una celda válida del tablero de TicTacToe, devuelve la celda a la que se hace referencia. 
 La precondición supuesta y la postcondición correspondiente son las siguientes:
 
 ```
