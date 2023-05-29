@@ -1,6 +1,6 @@
 ## Curso de desarrollo de software
 
-Inicia un repositorio llamado CC-3S2 y dentro una carpeta llamada Actividades. Dentro de esta carpeta abre una carpeta llamada Pre-postcondiciones y coloca todas tus respuestas.
+Inicia un repositorio llamado CC-3S2 y dentro construye una carpeta llamada Actividades. Dentro de esta carpeta inicia una carpeta llamada Pre-postcondiciones y coloca todas tus respuestas.
 
 Esta actividad es individual.
 
@@ -34,13 +34,13 @@ Se pueden especificar como comentarios en el código fuente y/o como parte de la
 
 También pueden codificarse como aserciones ejecutables en el código fuente que expresan condiciones de corrección. 
 
-La violación en tiempo de ejecución de una aserción de precondición o postcondición terminaría la ejecución del programa. Indica una falla inesperada. Es diferente del manejo de excepciones. 
+La violación en tiempo de ejecución de una aserción de precondición o postcondición terminaría la ejecución del programa. Indica una falla inesperada. 
 
-Este último se ocupa de las condiciones (por ejemplo, datos de entrada incorrectos) que se espera que ocurran. 
+Es diferente del manejo de excepciones.  Esto último se ocupa de las condiciones (por ejemplo, datos de entrada incorrectos) que se espera que ocurran. 
 
 #### Precondiciones asumidas frente a precondiciones validadas 
 
-Hay dos opciones para manejar la precondición de un método: la precondición asumida y la precondición de validación. 
+Hay dos opciones para manejar la precondición de un método: la precondición asumida y la precondición validada. 
 
 - Precondición asumida (también conocida como diseño de precondición exigente). El método asume que la precondición siempre es satisfecha por todos los clientes. Los clientes verifican la precondición antes de llamar al método. 
 
@@ -66,9 +66,9 @@ La precondición supuesta y la postcondición correspondiente son las siguientes
 
 ```
 Precondición: 0<=row < TOTALROWS and
-0 <=column < TOTALCOLUMNS
-Postcondición: return value is either Cell.EMPTY, 
-Cell.CROSS, or Cell.NAUGHT
+	0 <=column < TOTALCOLUMNS
+Postcondición: el valor de retorno es Cell.EMPTY, 
+	Cell.CROSS, o Cell.NAUGHT
 ``` 
 
 Una alternativa es validar la precondición en el cuerpo del método de la siguiente manera:
@@ -76,7 +76,7 @@ Una alternativa es validar la precondición en el cuerpo del método de la sigui
 ```
 public Cell getCell(int row, int column) {
 	if (row >= 0 && row < TOTALROWS 
- && column >= 0 && column < TOTALCOLUMNS) {
+ 		&& column >= 0 && column < TOTALCOLUMNS) {
 		return grid[row][column];
 	} else {
 		return null;
@@ -109,6 +109,8 @@ La precondición y la poscondición en un momento determinado solo implican las 
 Ten en cuenta que un programa TicTacToe puede adoptar la primera versión de `getCell()`, suponiendo que todas las llamadas a `getCell` proporcionen una fila y una columna válidas. 
 
 La razón es que `getCell` solo será llamado por `TicTacToeGUI`  que es confiable porque el mismo desarrollador o el mismo equipo lo escribe. 
+
+
 Esto implica que las siguientes pruebas para los criterios de aceptación AC 1.2 y AC 1.3 se vuelven redundantes e inútiles.
 
 ```
@@ -123,28 +125,28 @@ public void testInvalidColumn() {
 
 Las precondiciones  y postcondiciones deben especificarse con precisión, ya sea documentación API escrita o aserciones ejecutables. 
 
-Por ejemplo, la precondición y la postcondición a continuación brindan una especificación rigurosa del método `int max(int [ ], list)`, que devuelve el valor máximo de una lista dada de enteros, 
+Por ejemplo, la precondición y la postcondición a continuación brindan una especificación rigurosa del método `int max(int [ ], lista)`, que devuelve el valor máximo de una lista dada de enteros, 
 donde `max` representa el valor de retorno.
 
 ```
-Precondición: list.length>0
-Postcondición: max>= list[i] for each i 
-  (0 ≤ i< list.length), and there exists j 
-  (0 ≤ j< list.length) such that max=list[j]
+Precondición: lista.length>0
+Postcondición: max>= lista[i] para cada i 
+  	(0 ≤ i< lista.length), y existe j 
+  (0 ≤ j< lista.length) tal que max=lista[j]
 ```
 Esta especificación se puede usar para razonar sobre la corrección de una implementación concreta de `max (lista int [ ])`. Considera el siguiente código:
 
 ```
-int max(int[] list){
-	int result=list[0];
-	for (int i=0; i<list.length-1; i++){
-	     if (result<list[i])
-		result=list[i];
+int max(int[] lista){
+	int resultado=lista[0];
+	for (int i=0; i<lista.length-1; i++){
+	     if (resultado<lista[i])
+		resultado=lista[i];
 	}
-	return result;
+	return resultado;
 }
 ``` 
-**Pregunta:**  Dada `list = [3,2, 5]` ¿se cumple La postcondición ?. La expresión `i < list.length -1` debe cambiarse a `i < list.length` o `i < list.length -1`. 
+**Pregunta:**  Dada `lista = [3,2, 5]` ¿se cumple La postcondición ?. La expresión `i < lista.length -1` debe cambiarse a `i < lista.length` o `i < lista.length -1`. 
 
 También se pueden usar precondiciones y postcondiciones para diseñar casos de prueba. 
 
@@ -202,11 +204,12 @@ public boolean purchase(String drink){
         } 
     ...
 ``` 
-Una máquina expendedora vende varios artículos, como café, refrescos y jugos. 
-Cuando se compra un artículo de café, los cambios esperados incluyen: 
+Una máquina expendedora vende varios artículos, como café, refrescos y jugos. Cuando se compra un artículo de café, los cambios esperados incluyen: 
 
 (a) el conteo de artículos de café se reduce en uno
+
 (b) se devuelve el dinero de cambio 
+
 (c) el depósito se restablece. 
 
 Estos cambios normalmente se especifican como parte de la postcondición. 
