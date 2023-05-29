@@ -1,6 +1,6 @@
 ## Curso de desarrollo de software
 
-Inicia un repositorio llamado CC-3S2 y dentro una carpeta llamada Actividades. Dentro de esta carpeta abre una carpeta llamada DesignContracts y coloca todas tus respuestas.
+Inicia un repositorio llamado CC-3S2 y dentro una carpeta llamada Actividades. Dentro de esta carpeta abre una carpeta llamada DContratos y coloca todas tus respuestas.
 
 Esta actividad es individual.
 
@@ -47,7 +47,7 @@ double b = ...;
 double c = ...;
 TriangleType result = reportTriangle(a,b,c);
 ``` 
-¿cuáles son los resultados para `(90, 45, 45)`, `(120, 40, 20)` y `(50, 60, 70)`= , ¿qué sucede con `(90, -45, 135)` ?. 
+¿Cuáles son los resultados para `(90, 45, 45)`, `(120, 40, 20)` y `(50, 60, 70)`? , ¿qué sucede con `(90, -45, 135)` ?. 
 ¿Quién es el responsable de este fallo, el proveedor o el cliente?. Corrige este error. 
 
 #### Reglas de violación de pre/postcondiciones
@@ -61,7 +61,7 @@ La regla de violación de la postcondición establece que `una violación de la 
 **Pregunta:** En el ejemplo anterior indica una violación de precondición. 
 
 
-Considera `sqrt(double x)` que devuelve la raíz cuadrada de un valor doble no negativo. 
+Considera `sqrt(double x)` que devuelve la raíz cuadrada de un valor double no negativo. 
 
 La poscondición establece que la raíz cuadrada de `x` al cuadrado es aproximadamente igual a `x`.  
 Dos números de punto flotante son aproximadamente iguales si el valor absoluto de su diferencia es lo suficientemente pequeño. 
@@ -81,42 +81,42 @@ assert abs(y*y -x) < épsilon
 ```
 
 
-**Pregunta:** El siguiente método `isVowel` verifica si una letra determinada es una vocal. "Y" a veces se considera una vocal cuando aparece en palabras como `cry`, `fly` y `sky`.
+**Pregunta:** El siguiente método `isVowel` verifica si una letra determinada es una vocal. `Y` a veces se considera una vocal cuando aparece en palabras como `cry`, `fly` y `sky`.
 
 ```
-Precondition: letter ∈ {'a'-'z', 'A'-'Z'}   
-Postcond: true if letter ∈ {'a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'}; otherwise, false
-boolean isVowel(char letter) { 
+Precondition: letra ∈ {'a'-'z', 'A'-'Z'}   
+Postcond: true if letra ∈ {'a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'}; otherwise, false
+boolean isVowel(char letra) { 
       String vowels = "aeiouy&@";
-      char ch = Character.toLowerCase(letter);
-returns vowels.indexOf(ch) >= 0;  
+      char ch = Character.toLowerCase(letra);
+   returns vowels.indexOf(ch) >= 0;  
 }
 ```
 
-Como el  parámetro `letter` es del tipo char, la precondición asume que es una letra mayúscula o minúscula.
+Como el  parámetro `letra` es del tipo char, la precondición asume que es una letra mayúscula o minúscula.
 El siguiente código de cliente primero obtiene un carácter, no necesariamente una letra, y luego llama a `isVowel(letter)`:
 
 ```
-char letter = ...;
-boolean result = isVowel(letter);
+char letra = ...;
+boolean resultado = isVowel(letra);
 ``` 
 
-Si el carácter obtenido es `'A'`, es decir, `letter = 'A', isVowel('A')` devuelve `true`  entonces `result = true`. 
+Si el carácter obtenido es `'A'`, es decir, `letra = 'A', isVowel('A')` devuelve `true`  entonces `resultado = true`. 
 
-Si el carácter es `'Z'`, entonces `result = false`. 
+Si el carácter es `'Z'`, entonces `resultado = false`. 
 
 Para cada una de estas llamadas, se cumple la precondición. 
 
-¿Qué sucede cuando `letter = '@'` ?.
+¿Qué sucede cuando `letra = '@'` ?.
 
 Modifiquemos ligeramente a la siguiente versión, donde falta `'e'`  en la lista de vocales:
 
 ``` 
-Precondition: letter ∈ {'a'-'z', 'A'-'Z'}   
-Postcond: true if letter ∈ {'a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'}; otherwise, false
-boolean isVowel(char letter) { 
+Precondition: letra ∈ {'a'-'z', 'A'-'Z'}   
+Postcond: true if letra ∈ {'a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'}; otherwise, false
+boolean isVowel(char letra) { 
       String vowels = "aiouy"; // e esta perdido
-      char ch = Character.toLowerCase(letter);
+      char ch = Character.toLowerCase(letra);
 returns vowels.indexOf(ch) >= 0;  
 }
 ``` 
@@ -129,11 +129,18 @@ Según la regla de violación de la postcondición, el código de proveedor ante
 
 La regla de la precondición razonable requiere que la precondición aparezca en la documentación oficial distribuida a los autores de los clientes y que la necesidad de la precondición se justifique lógicamente en términos de la especificación, no para la conveniencia de implementación del proveedor. 
 
-En el diseño por contrato, la precondición pretende aclarar qué casos no puede manejar el método en relación con los requisitos lógicos. Por ejemplo, es razonable requerir `p.length > 0` para `sort(int [ ] p)`. Otros buenos ejemplos son `list.length >0` para `max(int[ ] list)` , `not empty()` para `pop()` y `x>=0` para `sqrt(double x)`. 
+En el diseño por contrato, la precondición pretende aclarar qué casos no puede manejar el método en relación con los requisitos lógicos. 
+
+Por ejemplo, es razonable requerir `p.length > 0` para `sort(int [ ] p)`.
+
+Otros buenos ejemplos son `list.length >0` para `max(int[ ] list)` , `not empty()` para `pop()` y `x>=0` para `sqrt(double x)`. 
 
 #### Regla de disponibilidad de precondiciones
 
-La regla de disponibilidad de precondiciones establece que cada cliente del método debe poder verificar su precondición. La precondición no debe utilizar métodos privados ocultos a los clientes. Por ejemplo, los clientes de isVowel(letter) deberían poder llamar a Character.isLetter(letter). Para  la precondición amount>0 y getBalance() >=amount del método withdraw(double amount) en una clase BankAccount, el método getBalance() debe ser visible para los clientes. 
+La regla de disponibilidad de precondiciones establece que cada cliente del método debe poder verificar su precondición. 
+
+La precondición no debe utilizar métodos privados ocultos a los clientes. Por ejemplo, los clientes de `isVowel(letra)` deberían poder llamar a `Character.isLetter(letra)`. 
+Para  la precondición `amount>0` y `getBalance() >=amount` de un método `withdraw(double amount)` en una clase `BankAccount`, el método `getBalance()` debe ser visible para los clientes. 
 
 ### Cambio de Contrato
 
@@ -159,7 +166,9 @@ assert y > 0;
 ``` 
 
 Ahora actualicemos `int f1(int x)` con una nueva precondición `x > 10` mientras mantenemos la postcondición sin cambios. 
-El cliente ya no cumple la nueva precondición sin cambios, el código de cliente aún cumple la precondición. Sin embargo, si la llamada devuelve 0, la aserción después de la llamada falla y  por lo tanto, el código de cliente finaliza de manera anormal. 
+El cliente ya no cumple la nueva precondición sin cambios, el código de cliente aún cumple la precondición. 
+
+Sin embargo, si la llamada devuelve 0, la aserción después de la llamada falla y  por lo tanto, el código de cliente finaliza de manera anormal. 
 
 #### Regla de cambio de contrato 
 
@@ -189,7 +198,8 @@ Si la nueva precondición (o postcondición) no es ni más débil ni más extra�
 
 **Pregunta:**
 
-Considera `int [ ] genRandomIntegers(int count)` que devuelve una lista de enteros aleatorios. Su precondición y postcondición son `count >0` y `list.length = count`, respectivamente (`list` denota el valor devuelto). El código del cliente es el siguiente:
+Considera `int [ ] genRandomIntegers(int count)` que devuelve una lista de enteros aleatorios. 
+Su precondición y postcondición son `count >0` y `list.length = count`, respectivamente (`list` denota el valor devuelto). El código del cliente es el siguiente:
 
 ```
 int count =2; // calculado
@@ -199,7 +209,7 @@ for (int i = 0; i < count; i ++){
 }
 ```
 
-¿Qué sucede si modificamos `genRandomIntegers`. mantenemos la precondición pero cambiamos la postcondición a `list.length=count-1`?.  
+¿Qué sucede si modificamos `genRandomIntegers`. manteniendo la precondición pero cambiando la postcondición a `list.length=count-1`?.  
 
 #### Cambio de contrato en desarrollo incremental
 
@@ -211,7 +221,7 @@ Lo contrario no es necesariamente cierto: una versión original correcta no gara
 
 Esto se puede formalizar de la siguiente manera: `(P2 => Q2) => (P1 => Q1)` donde `P1` y `Q1` son la precondición y postcondición originales y `P2` y `Q2` son las nuevas. 
 
-La regla de una nueva precondición igual o más débil (es decir, `P1 => P2`) y una nueva postcondición igual o más fuerte (es decir, `Q1 => Q2`) es una condición suficiente pero no necesaria del argumento de corrección anterior. La prueba se da al final de esta sección. 
+La regla de una nueva precondición igual o más débil (es decir, `P1 => P2`) y una nueva postcondición igual o más fuerte (es decir, `Q1 => Q2`) es una condición suficiente pero no necesaria del argumento de corrección anterior. 
 
 Considera el siguiente método `getCell()` en el programa TicTacToe.
 
