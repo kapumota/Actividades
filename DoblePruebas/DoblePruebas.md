@@ -4,10 +4,11 @@ Inicia un repositorio llamado CC-3S2 y dentro una carpeta llamada Actividades. D
 
 Esta actividad es individual.
 
-## Dobles de pruebas, - mocks y stubs: 
+## Dobles de pruebas - mocks y stubs 
 
 En esta actividad, vamos a resolver un desafío de prueba común. ¿Cómo se prueba un objeto que depende de otro objeto? ¿Qué hacemos si ese colaborador es difícil de configurar con datos de prueba? 
 Hay varias técnicas disponibles para ayudarnos con esto y se basan en los principios SOLID que aprendimos anteriormente. 
+
 Podemos usar la idea de la inyección de dependencia para permitirnos reemplazar los objetos de colaboración con otros especialmente escritos para ayudarnos a escribir una prueba.
 
 Estos nuevos objetos se denominan dobles de pruebas y aprenderemos sobre dos tipos importantes de dobles de pruebas. 
@@ -40,7 +41,6 @@ Este es un código bastante simple, con solo un puñado de líneas ejecutables. 
 
 **Pregunta:** ¿Cómo escribiríamos una prueba para esto? Específicamente, ¿cómo escribiríamos la aseveración? 
  
-
 Los desafíos de probar el manejo de errores
 
 Probar el código que maneja las condiciones de error es otro desafío. A modo ilustrativo, imaginemos un código que nos avise cuando la batería de el dispositivo portátil se esté agotando:
@@ -116,8 +116,6 @@ public class StubNumeroAleatorio implement NumerosAleatorios {
 	}
 }
 ``` 
-
-
 #### Haciendo la versión del código de producción
 
 Para hacer que la clase `LanzamientoDados` funcione correctamente en producción, necesitamos inyectar una fuente de números aleatorios. Una clase adecuada sería la siguiente: 
@@ -164,13 +162,139 @@ public class appLanzamientoDados {
 	}
 }
 ``` 
-
-
 Puedes ver en el código anterior que inyectamos una instancia de la clase `NumerosGeneradosAleatoriamente` de la versión de producción en la clase `LanzamientoDados`. 
 
-Frameworks como Spring (https://spring. io/), Google Guice (https://github.com/google/guice) y el CDI de Java integrado (https://docs.oracle.com/javaee/6/tutorial/doc/giwhl.html) proporcionar formas de minimizar el repetitivo de crear dependencias y conectarlas, usando anotaciones. 
+Frameworks como Spring, [Google Guice](https://github.com/google/guice) y el [CDI de Java integrado](https://docs.oracle.com/javaee/6/tutorial/doc/giwhl.html) proporcionan formas de minimizar el repetitivo de crear dependencias y conectarlas usando anotaciones. 
 
 Usar DIP para intercambiar un objeto de producción por un doble de prueba es una técnica muy poderosa. Este doble de prueba es un ejemplo de un tipo de doble conocido como **stub**. 
 
+####  Uso de stubs
 
+Los stubs siempre reemplazan un objeto que no podemos controlar con una versión solo de prueba que podemos controlar. Siempre producen valores de datos conocidos para que el código bajo prueba los consuma.
+Admiten un `pull models` para obtener objetos de otros lugares. 
+
+Pero ese no es el único mecanismo por el cual los objetos pueden colaborar. Algunos objetos utilizan los `push models`. 
+
+En este caso, cuando llamamos a un método en el SUT, esperamos que llame a otro  método en algún otro objeto. 
+
+La prueba debe confirmar que esta llamada de método realmente tuvo lugar.  Esto es algo con lo que los stubs no pueden ayudar y necesita un enfoque diferente.
+
+### Uso de mocks para verificar interacciones 
+
+Los mocks son una especie de dobles de prueba que registran las interacciones. A diferencia de los stubs, que proporcionan objetos conocidos al SUT, un mock simplemente registrará las interacciones que tiene el SUT con el mock. Es la herramienta perfecta para responder a la pregunta: 
+
+`¿El SUT llamó al método correctamente? `
+
+Esto resuelve el problema de las interacciones entre el SUT y su colaborador. El SUT ordena al colaborador que haga algo en lugar de solicitarle algo. 
+Un mock proporciona una forma de verificar que emitió ese comando, junto con cualquier comando necesario. 
+
+Vemos el código de prueba conectando un objeto mock al SUT. El paso `Act` hará que el SUT ejecute código que esperamos que interactúe con su colaborador. 
+Hemos cambiado a ese colaborador por un `mock`, que registrará el hecho de que se invocó un determinado método. 
+
+#### Ejemplo
+
+Supongamos que se espera que el SUT envíe un correo electrónico a un usuario. Una vez más, usaremos el Principio de Inversión de Dependencia para crear una abstracción del servidor de correo como interfaz: 
+
+``` 
+public interface MailServer {
+         void sendEmail(String recipiente, String tema,
+               	String texto);
+}
+
+```
+
+El código anterior muestra una interfaz simplificada solo adecuada para enviar un correo electrónico de texto corto. 
+
+Para probar el SUT que llamó al método `sendEmail()` en esta interfaz, escribiríamos una clase `MockMailServer`:
+
+``` 
+public class MockMailServer implements MailServer {
+     boolean fueLlamado;
+     String actualRecipiente;
+     String actualTema;
+    String actualTexto;
+    @Override
+    public void sendEmail(String recipiente, String tema,
+                      	String texto) {
+        fueLlamado= true;
+        actualRecipiente = recipiente;
+        actualTema = tema;
+        actualTexto = texto;
+	}
+}
+``` 
+
+**Pregunta:** El código de prueba puede usar los campos dados anteriormente para formar la aserción. La prueba simplemente tiene que conectar este objeto mock  al SUT, hacer que el SUT ejecute el código que esperamos llamar al método `sendEmail()` y luego verificar que lo hizo.  Explica el resultado conseguido.
+
+```
+@Test
+public void sendsWelcomeEmail() {
+   var mailServer = new MockMailServer();
+    var notificaciones = new UserNotifications(mailServer);
+   notificaciones.welcomeNewUser();
+   assertThat(mailServer.fueLlamado).isTrue();
+   assertThat(mailServer.actualRecipiente)
+     	.isEqualTo("test@example.com");
+    assertThat(mailServer.actualTema)
+     	.isEqualTo(“Bienvenido!");
+     assertThat(mailServer.actualTexto)
+     	.contains("Bienvenido a tu cuenta");
+}
+``` 
+Los dobles de prueba no siempre son apropiados para su uso. Veamos algunos problemas a tener en cuenta al usar dobles de prueba.
+
+Los objetos mocks son un tipo útil de dobles de prueba, como hemos visto. Pero no siempre son el enfoque correcto. Hay algunas situaciones en las que debemos evitar activamente el uso de mocks.
+
+#### Caso 1
+
+Si usamos un objeto mock para representar una abstracción, entonces estamos cumpliendo con eso. El problema potencial ocurre porque es demasiado fácil crear un objeto mock para un detalle de implementación, no una abstracción. Si hacemos esto, terminamos encerrando el código en una implementación y estructura específicas. 
+
+Una vez que una prueba se acopla a un detalle de implementación específico, cambiar esa implementación requiere un cambio en la prueba. 
+
+Si la nueva implementación tiene los mismos resultados que la anterior, la prueba aún debería pasar. Las pruebas que dependen de detalles de implementación específicos o estructuras de código impiden activamente la refactorización y la adición de nuevas características. 
+
+#### Caso 2
+
+No se deben usar mocks  como un sustituto de una clase concreta escrita fuera de tu equipo. 
+
+#### Caso 3 
+
+Un objeto de valor es un objeto que no tiene una identidad específica, se define solo por los datos que contiene. Algunos ejemplos incluirían un número entero o un objeto de cadena. 
+
+Estos objetos pueden tener algunos comportamientos complejos dentro de sus métodos pero, en principio, los objetos de valor deberían ser fáciles de crear. No hay ningún beneficio en crear un objeto mock para reemplazar uno de estos objetos de valor. En su lugar, crea el objeto de valor y utilízalo en tus pruebas.
+
+#### Caso 4
+
+Los dobles de prueba solo se pueden usar donde podemos inyectarlos. Esto no siempre es posible. Si el código que queremos probar crea una clase concreta usando la  palabra clave `new` entonces no podemos reemplazarlo con un doble: 
+
+``` 
+public class UserGreeting {
+     private final UserProfiles profiles
+    	= new UserProfilesPostgres();
+	
+public String formatGreeting(UserId id) {
+    	return String.format("Hola y bienvenido %s",
+            	profiles.fetchNicknameFor(id));
+	}
+}
+``` 
+**Pregunta:** ¿Hay una forma directa de inyectar un doble de prueba con este diseño?.
+ 
+#### No pruebes el mock
+
+Probar el mock es una frase que se usa para describir una prueba con demasiadas suposiciones integradas en un doble de prueba. Supongamos que escribimos un stub que representa algún acceso a la base de datos, pero ese stub contiene cientos de líneas de código para emular consultas específicas detalladas a esa base de datos. Cuando escribimos las aserciones de prueba, todas se basarán en las consultas detalladas que emulamos en el mock. 
+
+Ese enfoque probará que la lógica del SUT responde a esas consultas. Pero el stub ahora asume mucho sobre cómo funcionará el código de acceso a datos real. 
+
+El stub y el código de acceso a datos reales pueden desfasarse rápidamente. Esto da como resultado una prueba unitaria inválida que pasa pero con respuestas cortadas que ya no pueden suceder en la realidad. 
+
+### Cuándo usar objetos mocks 
+
+Los mocks son útiles cuando el SUT usa un `push models` y solicita una acción de algún otro componente, donde no hay una respuesta obvia, como cuando : 
+
+- Se solicita una acción desde un servicio remoto, como enviar un correo electrónico a un servidor de correo 
+- Se inserta o elimina datos de una base de datos 
+- Se envía un comando a través de un socket TCP o una interfaz serial 
+- Se invalida un caché 
+- Se escribe información en un archivo de registro.
 
