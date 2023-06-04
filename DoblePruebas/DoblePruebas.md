@@ -282,7 +282,9 @@ public String formatGreeting(UserId id) {
  
 #### No pruebes el mock
 
-Probar el mock es una frase que se usa para describir una prueba con demasiadas suposiciones integradas en un doble de prueba. Supongamos que escribimos un stub que representa algún acceso a la base de datos, pero ese stub contiene cientos de líneas de código para emular consultas específicas detalladas a esa base de datos. Cuando escribimos las aserciones de prueba, todas se basarán en las consultas detalladas que emulamos en el mock. 
+Probar el mock es una frase que se usa para describir una prueba con demasiadas suposiciones integradas en un doble de prueba. Supongamos que escribimos un stub que representa algún acceso a la base de datos, pero ese stub contiene cientos de líneas de código para emular consultas específicas detalladas a esa base de datos. 
+
+Cuando escribimos las aserciones de prueba, todas se basarán en las consultas detalladas que emulamos en el mock. 
 
 Ese enfoque probará que la lógica del SUT responde a esas consultas. Pero el stub ahora asume mucho sobre cómo funcionará el código de acceso a datos real. 
 
