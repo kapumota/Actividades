@@ -17,4 +17,5 @@
 15. Diseño de contratos
 16. Pruebas basadas en propiedades
 17. TDD-5 - stubs y mocks
-18. TDD-6 - Arquitectura Hexagonal
+18. Introducci
+19. TDD-6 - Arquitectura Hexagonal
