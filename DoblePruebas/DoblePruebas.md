@@ -2,11 +2,14 @@
 
 Inicia un repositorio llamado CC-3S2 y dentro una carpeta llamada Actividades. Dentro de esta carpeta abre una carpeta llamada `DoblePruebas` y coloca todas tus respuestas.
 
-Esta actividad es individual.
+Esta actividad es individual. 
+
+Configurar la versión de gradle en esta actividad a una versión compatible del SDK.
 
 ## Dobles de pruebas - mocks y stubs 
 
 En esta actividad, vamos a resolver un desafío de prueba común. ¿Cómo se prueba un objeto que depende de otro objeto? ¿Qué hacemos si ese colaborador es difícil de configurar con datos de prueba? 
+
 Hay varias técnicas disponibles para ayudarnos con esto y se basan en los principios SOLID que aprendimos anteriormente. 
 
 Podemos usar la idea de la inyección de dependencia para permitirnos reemplazar los objetos de colaboración con otros especialmente escritos para ayudarnos a escribir una prueba.
@@ -21,8 +24,9 @@ Repasemos estos desafíos con algunos ejemplos breves.
 
 #### Los desafíos de probar el comportamiento irrepetible 
 
-Hemos aprendido que los pasos básicos de una prueba TDD son Organizar, Actuar y Afirmar (Arrange, Act, Assert). Le pedimos al objeto que actúe y luego aseveramos que ocurre un resultado esperado. 
-Pero, ¿qué sucede cuando ese resultado es impredecible? 
+Hemos aprendido que los pasos básicos de una prueba TDD son Organizar, Actuar y Afirmar (Arrange, Act, Assert). 
+
+Le pedimos al objeto que actúe y luego aseveramos que ocurre un resultado esperado.  Pero, ¿qué sucede cuando ese resultado es impredecible? 
 
 ``` 
 import java.util.random.RandomGenerator;
@@ -41,7 +45,7 @@ Este es un código bastante simple, con solo un puñado de líneas ejecutables. 
 
 **Pregunta:** ¿Cómo escribiríamos una prueba para esto? Específicamente, ¿cómo escribiríamos la aseveración? 
  
-Los desafíos de probar el manejo de errores
+#### Los desafíos de probar el manejo de errores
 
 Probar el código que maneja las condiciones de error es otro desafío. A modo ilustrativo, imaginemos un código que nos avise cuando la batería de el dispositivo portátil se esté agotando:
 
@@ -60,6 +64,7 @@ public class BatteryMonitor {
 ### El propósito del double de prueba 
 
 Un doble de prueba de software es un objeto que hemos escrito específicamente para que sea fácil de usar en una prueba unitaria. 
+
 En la prueba, inyectamos el doble de prueba en el SUT en el paso Arrange. En el código de producción, inyectamos en el objeto de producción que el doble de prueba había reemplazado. 
 
 Reconsideremos el  ejemplo anterior de `LanzamientoDados`. ¿Cómo refactorizaríamos ese código para que sea más fácil de probar? 
@@ -90,7 +95,7 @@ public LanzamientoDados(NumerosAleatorios r){
 }
 ```
 
-3. Escribe una prueba, usando un doble de prueba para reemplazar la fuente NumerosAleatorios: 
+3. Escribe una prueba, usando un doble de prueba para reemplazar la fuente `NumerosAleatorios`: 
 
 ```
 import org.junit.jupiter.api.Test;
@@ -101,7 +106,7 @@ class LanzamientoDadosTest {
     	var stub = new StubNumeroAleatorio();
     	var lanzado = new LanzamientoDados(stub);
     	var actual = lanzado.asText();
-    			assertThat(actual).isEqualTo("Sacastes un	5");
+    			assertThat(actual).isEqualTo("Sacastes un  5");
    }
 }
 ```   
@@ -110,9 +115,9 @@ En esta prueba, vemos las secciones habituales `Arrange`, `Act` y `Assert`. La n
 
 ```
 public class StubNumeroAleatorio implement NumerosAleatorios {
-	@Override
-	public int nextInt(int upperBoundExclusive) {
-    	return 4; 
+    @Override
+       public int nextInt(int upperBoundExclusive) {
+    	   return 4; 
 	}
 }
 ``` 
@@ -123,8 +128,7 @@ Para hacer que la clase `LanzamientoDados` funcione correctamente en producción
 ```
 public class NumerosGeneradosAleatoriamente implements NumerosAleatorios
 {
-    private final RandomGenerator rnd =
-                   	RandomGenerator.getDefault();
+    private final RandomGenerator rnd = RandomGenerator.getDefault();
 	@Override
 	public int nextInt(int upperBoundExclusive) {
     return rnd.nextInt(upperBoundExclusive);
@@ -133,7 +137,9 @@ public class NumerosGeneradosAleatoriamente implements NumerosAleatorios
 
 ```
 
-Ahora podemos usar esto para crear la versión de producción del código. Ya cambiamos la clase LanzamientoDados para permitirnos inyectar cualquier implementación adecuada de la interfaz `NumerosAleatorios`. Para el código de prueba, inyectamos un doble de prueba: una instancia de la clase `StubNumerosAleatorios`. 
+Ahora podemos usar esto para crear la versión de producción del código. Ya cambiamos la clase `LanzamientoDados` para permitirnos inyectar cualquier implementación adecuada de la interfaz `NumerosAleatorios`. 
+
+Para el código de prueba, inyectamos un doble de prueba: una instancia de la clase `StubNumerosAleatorios`. 
 
 Para el código de producción, inyectamos una instancia de la clase `NumerosGeneradosAleatoriamente`. El código de producción usará ese objeto para crear números aleatorios reales y no habrá cambios de código dentro de la clase `LanzamientoDados`. 
 
@@ -146,7 +152,7 @@ La **inversión de dependencia** es la técnica de diseño donde creamos una abs
 
 La **inyección de dependencia** es la técnica de tiempo de ejecución en la que proporcionamos una implementación de esa abstracción al código que depende de ella. 
 
-Juntas, estas ideas a menudo se denominan **inversión de control (IoC)**. En Los frameworks  como Spring a veces se denominan contenedores IoC porque brindan herramientas para ayudar a administrar la creación e inyección de dependencias en una aplicación. 
+Juntas, estas ideas a menudo se denominan **inversión de control (IoC)**. En Los frameworks  como **Spring** a veces se denominan contenedores IoC porque brindan herramientas para ayudar a administrar la creación e inyección de dependencias en una aplicación. 
 
 El siguiente código es un ejemplo de cómo usamos `LanzamientoDados` y `NumerosGeneradosAleatoriamente` en producción:
 
@@ -179,6 +185,8 @@ En este caso, cuando llamamos a un método en el SUT, esperamos que llame a otro
 
 La prueba debe confirmar que esta llamada de método realmente tuvo lugar.  Esto es algo con lo que los stubs no pueden ayudar y necesita un enfoque diferente.
 
+Referencia: [Differences Between Push and Pull](https://www.tencentcloud.com/document/product/406/4791).
+
 ### Uso de mocks para verificar interacciones 
 
 Los mocks son una especie de dobles de prueba que registran las interacciones. A diferencia de los stubs, que proporcionan objetos conocidos al SUT, un mock simplemente registrará las interacciones que tiene el SUT con el mock. Es la herramienta perfecta para responder a la pregunta: 
@@ -186,7 +194,7 @@ Los mocks son una especie de dobles de prueba que registran las interacciones. A
 `¿El SUT llamó al método correctamente? `
 
 Esto resuelve el problema de las interacciones entre el SUT y su colaborador. El SUT ordena al colaborador que haga algo en lugar de solicitarle algo. 
-Un mock proporciona una forma de verificar que emitió ese comando, junto con cualquier comando necesario. 
+Un mock proporciona una forma de verificar que se emitió ese comando junto con cualquier comando necesario. 
 
 Vemos el código de prueba conectando un objeto mock al SUT. El paso `Act` hará que el SUT ejecute código que esperamos que interactúe con su colaborador. 
 Hemos cambiado a ese colaborador por un `mock`, que registrará el hecho de que se invocó un determinado método. 
@@ -224,7 +232,11 @@ public class MockMailServer implements MailServer {
 }
 ``` 
 
-**Pregunta:** El código de prueba puede usar los campos dados anteriormente para formar la aserción. La prueba simplemente tiene que conectar este objeto mock  al SUT, hacer que el SUT ejecute el código que esperamos llamar al método `sendEmail()` y luego verificar que lo hizo.  Explica el resultado conseguido.
+**Pregunta:** El código de prueba puede usar los campos dados anteriormente para formar la aserción. 
+
+La prueba simplemente tiene que conectar este objeto mock  al SUT, hacer que el SUT ejecute el código que esperamos llamar al método `sendEmail()` y luego verificar que lo hizo.  
+
+Explica el resultado conseguido.
 
 ```
 @Test
