@@ -54,7 +54,7 @@ public class BatteryMonitor {
    public void warnWhenBatteryPowerLow() {
        if (DeviceApi.getBatteryPercentage() < 10) {
         	System.out.println("Advertencia - Bateria Baja");
-    	}
+    	   }
 	}
 }
 
@@ -87,11 +87,11 @@ public class LanzamientoDados{
              
 public LanzamientoDados(NumerosAleatorios r){
   this.rnd = r; 
-	}
+	     }
 	public String asText() {
     	int lanzado = rnd.nextInt(NUMERO_DE_LADOS) + 1;
     	return String.format("Tu lanzamiento a %d", lanzado);
-	}
+      }
 }
 ```
 
@@ -160,11 +160,11 @@ El siguiente código es un ejemplo de cómo usamos `LanzamientoDados` y `Numeros
 public class appLanzamientoDados {
      public static void main(String[] args) {
         new appLanzamientoDados().run();
-	}
+	  }
 	private void run() {
-    	var rnd = new NumerosGeneradosAleatoriamente();
-    	var lanzado = new LanzamientoDados(rnd);
-    	System.out.println(lanzado.asText());
+    	  var rnd = new NumerosGeneradosAleatoriamente();
+    	   var lanzado = new LanzamientoDados(rnd);
+    	    System.out.println(lanzado.asText());
 	}
 }
 ``` 
