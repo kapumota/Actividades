@@ -30,9 +30,7 @@ Inicia un repositorio llamado CC-3S2 y dentro una carpeta llamada Actividades. D
 
 3 . ¿Cuáles son cuatro buenas razones para usar historias de usuarios para expresar requisitos? 
 
-
 4 . ¿Cuáles pueden ser dos inconvenientes de usar historias de usuario? 
-
 
 5 . ¿Cómo debes manejar un requisito para que un sistema escale y  lo usen 1000 usuarios simultáneos? 
 
