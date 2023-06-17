@@ -2,7 +2,7 @@
 
 **Indicaciones**
 
-Prepara una presentación en formato PPT entre 6 a 12 diapositivas, un cuaderno de jupyter notebook con el kernel apropiado o un proyecto en IntelliJ IDEA o tu editor favorito para exponer en clase. Caga grupo escogerá un grupo distinto.
+Prepara una presentación en formato PPT entre 6 a 12 diapositivas, un cuaderno de jupyter notebook con el kernel apropiado o un proyecto en IntelliJ IDEA o tu editor favorito para exponer en clase. Caga grupo escogerá un tema distinto.
 
 El tiempo de la exposición es 10 minutos por grupos. Cada integrante deberá subir la presentación de manera independiente a su repositorio personal.
 
