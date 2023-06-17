@@ -83,7 +83,9 @@ necesidad de cambiar el original o molestar a sus clientes."
 Pero la herencia promueve un acoplamiento estrecho. En programación, se gusta eliminar estos
 acoplamientos estrechos. Robert C. Martin mejoró la definición y la convirtió en OCP polimórfico. La
 nueva propuesta usa clases base abstractas que usan los protocolos en lugar de una superclase para
-permitir diferentes implementaciones. Estos protocolos están cerrados a la modificación y proporcionan
+permitir diferentes implementaciones. 
+
+Estos protocolos están cerrados a la modificación y proporcionan
 otro nivel de abstracción que permite un acoplamiento débil.
 
 
