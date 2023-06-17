@@ -18,7 +18,6 @@ Esto se debe a que el código no refactorizado tiende a degradarse con dependenc
 
 Por lo tanto, las ventajas incluyen una mejor legibilidad del código y una menor complejidad,  capacidades que pueden mejorar el mantenimiento del código fuente y crear una arquitectura interna más expresiva. 
 
-
 #### Algunos consejos para hacer bien las técnicas de refactorización de código
 La refactorización del código se debe realizar como una serie de pequeños cambios, cada uno de los cuales mejora un poco el código existente y deja el programa en condiciones de funcionamiento. No mezcles un montón de refactorizaciones en un gran cambio. 
 
