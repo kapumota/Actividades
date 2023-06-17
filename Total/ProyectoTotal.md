@@ -1,4 +1,4 @@
-## Proyecto Tictactoe
+## Proyecto Tic-Tac-Toe
 
 ###  Actividad Individual
 
