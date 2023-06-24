@@ -187,7 +187,7 @@ Una imagen no tiene estado, por lo que puedes enviarla a través de la red, alma
 
 Las imágenes están en capas, lo que significa que puedes construir una imagen encima de otra imagen.  
 
- <img src="Imagenes/Capa-imagenes.png" width="400px" height="360px">
+ <img src="Imagenes/Capa-imagenes.png" width="280px" height="230px">
 
 Un contenedor es una instancia en ejecución de una imagen. Podemos crear muchos contenedores a partir de una misma imagen si queremos tener muchas instancias de la misma aplicación. 
 
@@ -318,7 +318,6 @@ Crea un nuevo directorio y dentro de este directorio, crea un archivo `hola.py` 
 ```
  Cierra el archivo. Este es el código fuente de la aplicación.  
 
-
 #### Preparando el entorno 
 
 El entorno se expresa en el Dockerfile. Necesitamos instrucciones para definir lo siguiente:  
@@ -404,639 +403,356 @@ Ten en cuenta que todos los contenedores antiguos están en un estado exit. Hay 
 Todos los estados y las transiciones entre ellos se presentan en el siguiente diagrama: 
 
  
-
+<img src="Imagenes/Estado-contenedor.png" width="560px" height="300px">
  
 
 El diagrama anterior  muestra los comandos de Docker que se usan para cambiar el estado del contenedor de Docker de un estado a otro.  
 
- 
+ Por ejemplo, podemos dejar de ejecutar el contenedor de Ubuntu, como se muestra aquí:  
 
-Por ejemplo, podemos dejar de ejecutar el contenedor de Ubuntu, como se muestra aquí:  
-
- 
-
-$ docker stop 95f29bfbaadc 
-
-$ docker ps 
-
+```
+docker stop 95f29bfbaadc 
+docker ps 
 CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES 
+```
+ 
+**Información:** Siempre hemos usado el comando `docker run` para crear e iniciar un contenedor. Sin embargo, es posible simplemente crear un contenedor sin iniciarlo (con `docker create`).  
 
  
+### Redes docker  
 
-Información: Siempre hemos usado el comando docker run para crear e iniciar un contenedor. Sin embargo, es posible simplemente crear un contenedor sin iniciarlo (con docker create).  
+La mayoría de las aplicaciones en estos días no se ejecutan de forma aislada; necesitan comunicarse con otros sistemas a través de la red. 
+Si queremos ejecutar un sitio web, un servicio web, una base de datos o un servidor de caché dentro de un contenedor Docker, primero debemos comprender cómo ejecutar un servicio y exponer su puerto a otras aplicaciones.  
 
- 
+#### Servicios en uso  
 
- 
+Comencemos con un ejemplo simple y ejecutemos un servidor Tomcat directamente desde Docker Hub, de la siguiente manera: `docker run -d tomcat` 
 
-Redes docker  
+Tomcat es un servidor de aplicaciones web a cuya interfaz de usuario se puede acceder por el puerto 8080. 
+Por lo tanto, si instalas Tomcat podrías navegar en http://localhost:8080. En este caso, sin embargo, Tomcat se ejecuta dentro del contenedor Docker.  
 
- 
+Podemos ver que se está ejecutando, de la siguiente manera:  `docker ps`
 
-La mayoría de las aplicaciones en estos días no se ejecutan de forma aislada; necesitan comunicarse con otros sistemas a través de la red. Si queremos ejecutar un sitio web, un servicio web, una base de datos o un servidor de caché dentro de un contenedor Docker, primero debemos comprender cómo ejecutar un servicio y exponer su puerto a otras aplicaciones.  
+Dado que se ejecuta como un demonio (con la opción -d), no vemos los logs en la consola. No obstante, podemos acceder a él ejecutando el siguiente código:  `docker logs d51ad8634fac` 
 
- 
+Si no hay errores, deberíamos ver muchos logs, lo que indica que Tomcat se ha iniciado y es accesible a través del puerto 8080. 
 
-Servicios en uso  
+Podemos intentar ir a http:// localhost:8080, pero no podremos conectarnos. Esto se debe a que Tomcat se inició dentro del contenedor y estamos tratando de alcanzarlo desde el exterior.  
 
- 
+En otras palabras, podemos alcanzarlo solo si nos conectamos con el comando a la consola en el contenedor y lo verificamos allí. 
 
-Comencemos con un ejemplo simple y ejecutemos un servidor Tomcat directamente desde Docker Hub, de la siguiente manera: 
+¿Cómo hacemos que ejecutar Tomcat sea accesible desde el exterior?  
 
-  
 
-$ docker run -d tomcat 
+Necesitamos iniciar el contenedor, especificando la asignación de puertos con el indicador `-p (--publish)` de la siguiente manera:  
 
- 
-
-Tomcat es un servidor de aplicaciones web a cuya interfaz de usuario se puede acceder por el puerto 8080. Por lo tanto, si instalamos Tomcat en nuestra máquina, podríamos navegar en http://localhost:8080. En nuestro caso, sin embargo, Tomcat se ejecuta dentro del contenedor Docker.  
-
- 
-
- 
-
-Podemos ver que se está ejecutando, de la siguiente manera:  
-
- 
-
-$ docker ps 
-
-… 
-
-d51ad8634fac tomcat "catalina.sh run" Up About a minute 8080/ 
-
-tcp jovial_kare 
-
- 
-
-Dado que se ejecuta como un demonio (con la opción -d), no vemos los logs en la consola de inmediato. No obstante, podemos acceder a él ejecutando el siguiente código:  
-
- 
-
-$ docker logs d51ad8634fac 
-
- 
-
-Si no hay errores, deberíamos ver muchos logs, lo que indica que Tomcat se ha iniciado y es accesible a través del puerto 8080. Podemos intentar ir a http:// localhost:8080, pero no podremos conectarnos. Esto se debe a que Tomcat se inició dentro del contenedor y estamos tratando de alcanzarlo desde el exterior.  
-
-En otras palabras, podemos alcanzarlo solo si nos conectamos con el comando a la consola en el contenedor y lo verificamos allí. ¿Cómo hacemos que ejecutar Tomcat sea accesible desde el exterior?  
-
- 
-
-Necesitamos iniciar el contenedor, especificando la asignación de puertos con el indicador -p (--publish), de la siguiente manera:  
-
- 
-
+```
 -p, --publish <host_port>:<container_port> 
-
- 
+``` 
 
 Entonces, primero detengamos el contenedor en ejecución y comenzamos uno nuevo, así:  
 
- 
-
-$ docker stop d51ad8634fac 
-
-$ docker run -d -p 8080:8080 tomcat 
-
- 
-
+```
+docker stop d51ad8634fac 
+docker run -d -p 8080:8080 tomcat 
+```
 Después de esperar unos segundos, Tomcat debería haberse iniciado y deberíamos poder abrir su página: http://localhost:8080.  
 
+**Nota:** Docker también nos permite publicar en la interfaz de red del host específico con `-p  <ip>:<host_port>:<container_port>` . 
+
+#### Redes de contenedores  
+
+Nos hemos conectado a la aplicación que se está ejecutando dentro del contenedor. De hecho, la conexión es bidireccional porque  ejecutamos los comandos `apt-get install` desde adentro y los paquetes se descargaron de Internet. ¿Cómo es esto posible?  
+
+Si revisas las interfaces de red en tu máquina, puedes ver que una de las interfaces se llama `docker0`, como se ilustra aquí:  
+
+```
+ifconfig docker0 
+```
+
+La interfaz `docker0` es creada por el demonio Docker para conectarse con el contenedor Docker. 
+Ahora, podemos ver qué interfaces se crean dentro del contenedor Tomcat Docker creado con el comando `docker inspect`, de la siguiente manera:  
+
+```
+docker inspect 03d1e6dc4d9e 
+```
  
+Esto imprime toda la información sobre la configuración del contenedor en formato de notación de objetos JavaScript (JSON). 
 
-Información Docker también nos permite publicar en la interfaz de red del host específico con -p  
+Entre otras cosas, podemos encontrar la parte relacionada con la configuración de la red, como se ilustra en el siguiente fragmento de código:  
 
- 
-
-<ip>:<host_port>:<container_port> . 
-
- 
-
-Redes de contenedores  
-
- 
-
-Nos hemos conectado a la aplicación que se está ejecutando dentro del contenedor. De hecho, la conexión es bidireccional porque, si recuerdas los ejemplos anteriores, ejecutamos los comandos apt-get install desde adentro y los paquetes se descargaron de Internet. ¿Cómo es esto posible?  
-
- 
-
-Si revisas las interfaces de red en tu máquina, puedes ver que una de las interfaces se llama docker0, como se ilustra aquí:  
-
- 
-
-$ ifconfig docker0 
-
-docker0 Link encap:Ethernet HWaddr 02:42:db:d0:47:db 
-
-inet addr:172.17.0.1 Bcast:0.0.0.0 Mask:255.255.0.0 
-
-…  
-
- 
-
-La interfaz docker0 es creada por el demonio Docker para conectarse con el contenedor Docker. Ahora, podemos ver qué interfaces se crean dentro del contenedor Tomcat Docker creado con el comando docker inspect, de la siguiente manera:  
-
- 
-
-$ docker inspect 03d1e6dc4d9e 
-
- 
-
-Esto imprime toda la información sobre la configuración del contenedor en formato de notación de objetos JavaScript (JSON). Entre otras cosas, podemos encontrar la parte relacionada con la configuración de la red, como se ilustra en el siguiente fragmento de código:  
-
- 
-
+```
 "NetworkSettings": { 
-
-"Bridge": "", 
-
-"Ports": { 
-
-"8080/tcp": [ 
-
-{ 
-
-"HostIp": "0.0.0.0", 
-
-"HostPort": "8080" 
-
+  "Bridge": "",
+  "Ports": {
+    "8080/tcp": [
+    {
+     "HostIp": "0.0.0.0",
+     "HostPort": "8080" 
+       } 
+      ] 
+   }, 
+  "Gateway": "172.17.0.1", 
+  "IPAddress": "172.17.0.2", 
+   "IPPrefixLen": 16, 
 } 
+```
+Podemos observar que el contenedor Docker tiene una dirección IP de 172.17.0.2 y se comunica con el host Docker con una dirección IP de 172.17.0.1. 
+Esto significa que en el ejemplo anterior, podríamos acceder al servidor Tomcat incluso sin el reenvío de puertos, usando http://172.17.0.2:8080. 
 
-    ] 
+Sin embargo, en la mayoría de los casos, ejecutamos el contenedor Docker en una máquina servidor y queremos exponerlo afuera, por lo que debemos usar la opción `-p`.  
 
-}, 
 
-"Gateway": "172.17.0.1", 
+Ten en cuenta que, de forma predeterminada, los contenedores no abren ninguna ruta desde sistemas externos. 
+Podemos cambiar este comportamiento predeterminado jugando con el indicador `--network` y configurándolo de la siguiente manera:  
 
-"IPAddress": "172.17.0.2", 
 
-"IPPrefixLen": 16, 
+- `bridge (predeterminado)`: red a través del puente Docker predeterminado
+- `none`: sin red
+- `container`: red unida con el otro contenedor (especificado)
+- `host`: pila de red
+- `NETWORK:` red creada por el usuario (usando el comando `docker network create`) 
 
-} 
 
- 
+Las diferentes redes se pueden enumerar y administrar mediante el comando `docker network` de la siguiente manera: `docker network ls` 
 
-Podemos observar que el contenedor Docker tiene una dirección IP de 172.17.0.2 y se comunica con el host Docker con una dirección IP de 172.17.0.1. Esto significa que en el ejemplo anterior, podríamos acceder al servidor Tomcat incluso sin el reenvío de puertos, usando http://172.17.0.2:8080. Sin embargo, en la mayoría de los casos, ejecutamos el contenedor Docker en una máquina servidor y queremos exponerlo afuera, por lo que debemos usar la opción -p.  
+Si especificamos `none` como red, no podremos conectarnos al contenedor y viceversa. El contenedor no tiene acceso de red al mundo exterior. 
 
- 
-
-Ten en cuenta que, de forma predeterminada, los contenedores no abren ninguna ruta desde sistemas externos. Podemos cambiar este comportamiento predeterminado jugando con el indicador --network y configurándolo de la siguiente manera:  
-
- 
-
-bridge (predeterminado): red a través del puente Docker predeterminado  
-
-none: sin red  
-
-container: red unida con el otro contenedor (especificado)  
-
-host: pila de red del host  
-
-NETWORK:  red creada por el usuario (usando el comando docker network create) 
+La opción más popular es la predeterminada `(bridge)` porque nos permite definir explícitamente qué puertos deben publicarse, seguros y accesible.  
 
  
+#### Exponiendo los puertos de los contenedores  
 
-Las diferentes redes se pueden enumerar y administrar mediante el comando docker network, de la siguiente manera: 
+Si profundizamos en la imagen de Tomcat en GitHub (https://github.com/docker-library/tomcat), podemos ver la siguiente línea en el Dockerfile: 
 
- 
-
-docker network ls 
-
- 
-
-Si especificamos none como red, no podremos conectarnos al contenedor, y viceversa; el contenedor no tiene acceso de red al mundo exterior. La opción de host hace que las interfaces de red del contenedor (CNI) sean idénticas al host. Comparten las mismas direcciones IP, por lo que todo lo que comenzó en el contenedor es visible en el exterior. La opción más popular es la predeterminada (bridge) porque nos permite definir explícitamente qué puertos deben publicarse y es seguro y accesible.  
-
- 
-
-Exponiendo puertos de contenedores  
-
- 
-
-Mencionamos algunas veces que el contenedor expone el puerto. De hecho, si profundizamos en la imagen de Tomcat en GitHub (https://github.com/docker-library/tomcat), podemos ver la siguiente línea en el Dockerfile: 
-
- 
-
+```
 EXPOSE 8080 
-
- 
+```
 
 Esta instrucción de Dockerfile estipula que el puerto 8080 debe estar expuesto desde el contenedor. Sin embargo, como ya hemos visto, esto no significa que el puerto se publique automáticamente. La instrucción EXPOSE solo informa a los usuarios qué puertos deben publicar.  
 
- 
+#### Asignación automática de puertos  
 
-Asignación automática de puertos  
+Intentemos ejecutar el segundo contenedor Tomcat sin detener el primero, de la siguiente manera:  `docker run -d -p 8080:8080 tomcat` 
 
- 
+Esto produce un error. En tales casos, tenemos que encargarnos de la unicidad de los puertos por nuestra cuenta o dejar que Docker asigne los puertos automáticamente usando una de las siguientes versiones del comando `publish`:  
 
-Intentemos ejecutar el segundo contenedor Tomcat sin detener el primero, de la siguiente manera:  
+- `-p <container_port>`: publica el puerto del contenedor en el puerto del host no utilizado  
 
- 
+- `-p (--publish-all)`: publica todos los puertos expuestos por el contenedor en los puertos de host no utilizados, de la siguiente manera:  
 
-$ docker run -d -p 8080:8080 tomcat 
-
-0835c95538aeca79e0305b5f19a5f96cb00c5d1c50bed87584cf- 
-
-ca8ec790f241 
-
-docker: Error response from daemon: driver failed program- 
-
-ming external connectivity on endpoint distracted_heyrovsky 
-
-(1b1cee9896ed99b9b804e4c944a3d9544adf72f1ef3f9c9f37b- 
-
-c985e9c30f452): Bind for 0.0.0.0:8080 failed: port is already 
-
-allocated. 
-
- 
-
-Este error puede ser común. En tales casos, tenemos que encargarnos de la unicidad de los puertos por nuestra cuenta o dejar que Docker asigne los puertos automáticamente usando una de las siguientes versiones del comando de publicación:  
-
- 
-
- -p <container_port>: publica el puerto del contenedor en el puerto del host no utilizado  
-
--p (--publish-all): publica todos los puertos expuestos por el contenedor en los puertos de host no utilizados, de la siguiente manera:  
-
- 
-
-$ docker run -d -P tomcat 
-
-078e9d12a1c8724f8aa27510a6390473c1789aa49e7f8b- 
-
-14ddfaaa328c8f737b 
-
-$ docker port 078e9d12a1c8 
-
-8080/tcp -> 0.0.0.0:32772 
-
- 
+  ```
+  docker run -d -P tomcat
+  docker port 078e9d12a1c8
+  8080/tcp -> 0.0.0.0:32772
+  ``` 
 
 Podemos ver que la segunda instancia de Tomcat se ha publicado en el puerto 32772, por lo que se puede navegar en http://localhost:32772.  
 
- 
+### Volúmenes de Docker  
 
-Después de comprender los conceptos básicos de la red de Docker, veamos cómo proporcionar una capa de persistencia para los contenedores de Docker mediante volúmenes de Docker.  
+Los volúmenes de Docker permiten la persistencia y el uso compartido de los datos de un contenedor. 
 
- 
+ <img src="Imagenes/Volumen-docker.png" width="520px" height="200px">
 
-Volúmenes de Docker  
+Los volúmenes también separan claramente el procesamiento de los datos. Comencemos con el siguiente ejemplo:  
 
- 
 
-Un volumen de Docker es el directorio del host de Docker montado dentro del contenedor. Permite que el contenedor escriba en el sistema de archivos del host como si estuviera escribiendo en el suyo propio.  
+1. Especifica un volumen con la opción `-v <host_path>:<container_path>` y luego conecta al contenedor  de la siguiente manera:  
 
- 
+ ```
+  docker run -i -t -v ~/docker_ubuntu:/directorio_host 
+    ubuntu:20.04 /bin/bash 
+```
 
-Los volúmenes de Docker permiten la persistencia y el uso compartido de los datos de un contenedor. Los volúmenes también separan claramente el procesamiento de los datos. Comencemos con el siguiente ejemplo:  
-
- 
-
-1. Especifica un volumen con la opción -v <host_path>:<container_path> y luego conecta al contenedor, de la siguiente manera:  
-
- 
-
-$ docker run -i -t -v ~/docker_ubuntu:/directorio_host 
-
-ubuntu:20.04 /bin/bash 
-
- 
-
-2. Crea un archivo vacío en directorio_host en el contenedor, así:  
-
- 
-
-root@01bf73826624:/# touch /directorio_host/archivo.txt 
-
- 
+2. Crea un archivo vacío en `directorio_host` en el contenedor, así:  `# touch /directorio_host/archivo.txt` 
 
 3. Comprueba si el archivo se creó en el sistema de archivos del host Docker ejecutando el siguiente comando:  
 
+  ```
+   # exit
+   exit
+  ls ~/docker_ubuntu/
+   archivo..txt 
+  ```
+
+4. Detén el contenedor y ejecuta uno nuevo para ver si el archivo todavía estará allí, de la siguiente manera:
+
+  ```
+  docker run -i -t -v ~/docker_ubuntu:/host_directory
+         ubuntu:20.04 /bin/bash`
+  ls /directorio_host/ 
+  exit
+  ```
+5. En lugar de especificar un volumen con el indicador `-v`, es posible especificarlo como una instrucción en el Dockerfile, como en el siguiente ejemplo:  
+
+  ```
+  VOLUME /directorio_host 
+   ```
  
 
-root@01bf73826624:/# exit 
+En este caso, si ejecutamos el contenedor Docker sin el indicador `-v`, la ruta del contenedor `/directorio_host` se asignará al directorio predeterminado del host para volúmenes, `/var/lib/docker/vfs/`. 
 
-exit 
+Esta es una buena solución si entregas una aplicación como una imagen y sabes que requiere almacenamiento permanente por algún motivo (por ejemplo, almacenar registros de aplicaciones).  
 
-$ ls ~/docker_ubuntu/ 
+ Los volúmenes de Docker pueden ser mucho más complicados, especialmente en el caso de las bases de datos.  
 
-archivo..txt 
+Un enfoque muy común para la gestión de datos con Docker es introducir una capa adicional, en forma de contenedores de volumen de datos. 
 
- 
+Un contenedor de volumen de datos es un contenedor Docker cuyo único propósito es declarar un volumen. 
 
-4. Podemos ver que el sistema de archivos se compartió y, por lo tanto, los datos se conservaron de forma permanente. Detén el contenedor y ejecuta uno nuevo para ver si el archivo todavía estará allí, de la siguiente manera:  
+Luego, otros contenedores pueden usarlo (con la opción `--volumes-from <container>`) en lugar de declarar el volumen directamente. Lee más en https://docs.docker.com/storage/volumes/.  
 
- 
+### Uso de nombres en Docker  
 
-$ docker run -i -t -v ~/docker_ubuntu:/directorio_host 
+Hasta ahora, cuando hemos operado en contenedores, siempre hemos usado nombres generados automáticamente. Este enfoque tiene algunas ventajas, como que los nombres sean únicos (sin conflictos de nombres) y automáticos. 
 
-ubuntu:20.04 /bin/bash 
+En muchos casos, sin embargo, es mejor dar un nombre descriptivo a un contenedor o una imagen.  
 
-root@a9e0df194f1f:/# ls /directorio_host/ 
+#### Contenedores de nombres 
 
-archivo.txt 
+Hay dos buenas razones para nombrar un contenedor: la conveniencia y la posibilidad de automatización. Veamos por qué, de la siguiente manera:  
 
-root@a9e0df194f1f:/# exit 
-
- 
-
- 
-
-5. En lugar de especificar un volumen con el indicador -v, es posible especificarlo como una instrucción en el Dockerfile, como en el siguiente ejemplo:  
-
- 
-
-VOLUME /directorio_host 
-
- 
-
-En este caso, si ejecutamos el contenedor Docker sin el indicador -v, la ruta del contenedor /directorio_host se asignará al directorio predeterminado del host para volúmenes, /var/lib/docker/vfs/. Esta es una buena solución si entregas una aplicación como una imagen y sabes que requiere almacenamiento permanente por algún motivo (por ejemplo, almacenar registros de aplicaciones).  
-
- 
-
-Los volúmenes de Docker pueden ser mucho más complicados, especialmente en el caso de las bases de datos.  
-
- 
-
-Información Un enfoque muy común para la gestión de datos con Docker es introducir una capa adicional, en forma de contenedores de volumen de datos. Un contenedor de volumen de datos es un contenedor Docker cuyo único propósito es declarar un volumen. Luego, otros contenedores pueden usarlo (con la opción --volumes-from <container>) en lugar de declarar el volumen directamente. Lee más en https://docs.docker.com/storage/volumes/.  
-
- 
-
-Después de comprender los volúmenes de Docker, veamos cómo podemos usar nombres para que trabajar con imágenes/contenedores de Docker sea más conveniente.  
-
- 
-
-Uso de nombres en Docker  
-
- 
-
-Hasta ahora, cuando hemos operado en contenedores, siempre hemos usado nombres generados automáticamente. Este enfoque tiene algunas ventajas, como que los nombres sean únicos (sin conflictos de nombres) y automáticos (no es necesario hacer nada). En muchos casos, sin embargo, es mejor dar un nombre descriptivo a un contenedor o una imagen.  
-
- 
-
-Contenedores de nombres 
-
- 
-
- Hay dos buenas razones para nombrar un contenedor: la conveniencia y la posibilidad de automatización. Veamos por qué, de la siguiente manera:  
-
- 
-
-Conveniencia: Es más sencillo realizar cualquier operación sobre un contenedor direccionando por su nombre que comprobando los hashes o el nombre autogenerado.  
-
-Automatización: A veces, nos gustaría depender del nombre específico de un contenedor. 
-
- 
+- Conveniencia: es más sencillo realizar cualquier operación sobre un contenedor direccionando por su nombre que comprobando los hashes o el nombre autogenerado.
+- Automatización: a veces, nos gustaría depender del nombre específico de un contenedor. 
 
 Por ejemplo, nos gustaría tener contenedores que dependan unos de otros y que estén enlazados unos con otros. Por lo tanto, necesitamos saber sus nombres.  
 
- 
+Para nombrar un contenedor, usamos el parámetro `--name` de la siguiente manera:  
 
-Para nombrar un contenedor, usamos el parámetro --name, de la siguiente manera:  
+```
+docker run -d --name tomcat tomcat 
+```
 
- 
+Podemos verificar (con `docker ps`) que el contenedor tenga un nombre significativo. Además, como resultado cualquier operación se puede realizar utilizando el 
+nombre del contenedor como en el siguiente ejemplo:  `docker logs tomcat`  
 
-$ docker run -d --name tomcat tomcat 
-
- 
-
-Podemos verificar (con docker ps) que el contenedor tenga un nombre significativo. Además, como resultado, cualquier operación se puede realizar utilizando el nombre del contenedor, como en el siguiente ejemplo:  
-
- 
-
-$ docker logs tomcat  
-
- 
 
 Ten en cuenta que cuando se nombra un contenedor, no pierde su identidad. Todavía podemos dirigirnos al contenedor por su ID de hash generado automáticamente, tal como lo hicimos antes.  
 
+**Nota:** Un contenedor siempre tiene un ID y un nombre. Puede ser abordado por cualquiera de ellos y ambos son únicos.  
+
+
+### Etiquetado de imágenes  
+
+Las imágenes se pueden etiquetar. Ya hicimos esto cuando creamos nuestras propias imágenes, por ejemplo, en el caso de construir la imagen `hola_mundo_python` como se ilustra aquí:  
+
+```
+docker build -t hola_mundo_python . 
+```
  
+El indicador `-t` describe la etiqueta de la imagen. Si no lo usamos, la imagen se construirá sin ninguna etiqueta y como resultado tendríamos que redireccionar por su ID (hash) para poder ejecutar el contenedor. 
 
-Información Un contenedor siempre tiene un ID y un nombre. Puede ser abordado por cualquiera de ellos, y ambos son únicos.  
+La imagen puede tener varias etiquetas y deben seguir esta convención de nomenclatura:  
 
- 
-
-Etiquetado de imágenes  
-
- 
-
-Las imágenes se pueden etiquetar. Ya hicimos esto cuando creamos nuestras propias imágenes, por ejemplo, en el caso de construir la imagen hola_mundo_python, como se ilustra aquí:  
-
- 
-
-$ docker build -t hola_mundo_python . 
-
- 
-
-El indicador -t describe la etiqueta de la imagen. Si no lo usamos, la imagen se construirá sin ninguna etiqueta y, como resultado, tendríamos que redireccionar por su ID (hash) para poder ejecutar el contenedor. La imagen puede tener varias etiquetas y deben seguir esta convención de nomenclatura:  
-
- 
-
+```
 <registry_address>/<image_name>:<version> 
-
- 
+```
 
 Una etiqueta consta de las siguientes partes:  
 
- 
+- `registry_address`: IP y puerto del registro o el nombre de alias
+- `image_name`: nombre de la imagen que se construye, por ejemplo, ubuntu
+- `versión`: una versión de la imagen en cualquier forma, por ejemplo, 20.04, 20170310 
 
-Registry_address: IP y puerto del registro o el nombre de alias  
+Si una imagen se mantiene en el registro oficial de Docker Hub, podemos omitir la dirección del registro. Es por eso que ejecutamos la imagen Tomcat sin ningún prefijo. 
 
-image_name: nombre de la imagen que se construye, por ejemplo, ubuntu  
+La última versión siempre se etiqueta como la última y también se puede omitir, por lo que ejecutamos la imagen de Tomcat sin ningún sufijo.  
 
-versión: una versión de la imagen en cualquier forma, por ejemplo, 20.04, 20170310 
+### Limpieza en Docker
 
- 
+A lo largo de esta actividad, hemos creado una serie de contenedores e imágenes. Sin embargo, esto es solo una pequeña parte de lo que verá en escenarios de la vida real. 
 
-Si una imagen se mantiene en el registro oficial de Docker Hub, podemos omitir la dirección del registro. Es por eso que ejecutamos la imagen Tomcat sin ningún prefijo. La última versión siempre se etiqueta como la última y también se puede omitir, por lo que ejecutamos la imagen de Tomcat sin ningún sufijo.  
+Incluso cuando los contenedores no se están ejecutando, deben almacenarse en el host de Docker. Esto puede provocar rápidamente que se exceda el espacio de almacenamiento y se detenga la máquina. 
 
- 
+¿Cómo podemos abordar esta preocupación?
 
-Limpieza de contenedores  
-
- 
+#### Limpieza de contenedores  
 
 Primero, veamos los contenedores que están almacenados en nuestra máquina. Estos son los pasos que debemos seguir:  
 
- 
 
-1. Para imprimir todos los contenedores (independientemente de su estado), podemos usar el comando docker ps -a, de la siguiente manera:  
-
- 
-
-$ docker ps -a 
-
-CONTAINER ID IMAGE COMMAND 
-
-NAMES 
-
-95c2d6c4424e tomcat "catalina.sh run" 
-
-tcp tomcat 
-
-a9e0df194f1f ubuntu:20.04 "/bin/bash" 
-
-jolly_archimedes 
-
-01bf73826624 ubuntu:20.04 "/bin/bash" 
-
-suspicious_feynman 
-
-... 
-
- 
-
+1. Para imprimir todos los contenedores (independientemente de su estado), podemos usar el comando docker `ps -a` de la siguiente manera:  `docker ps -a`
 2. Para eliminar un contenedor detenido, podemos usar el comando docker rm (si un contenedor se está ejecutando, primero debemos detenerlo), de la siguiente manera:  
 
- 
-
-$ docker rm 47ba1c0ba90e 
-
- 
-
+  ```
+  docker rm 47ba1c0ba90e 
+  ```
 3. Si queremos eliminar todos los contenedores detenidos, podemos usar el siguiente comando:  
 
- 
+  ```
+  docker container prune 
+   ```
+4. También podemos adoptar un enfoque diferente y pedirle al contenedor que se elimine tan pronto como se detenga usando el indicador `--rm`, como en el siguiente ejemplo:  
 
-$ docker container prune 
-
- 
-
-4. También podemos adoptar un enfoque diferente y pedirle al contenedor que se elimine tan pronto como se detenga usando el indicador --rm, como en el siguiente ejemplo:  
-
- 
-
-$ docker run --rm hello-world 
-
- 
+ ```
+ docker run --rm hello-world 
+```
 
 En la mayoría de los escenarios de la vida real, no usamos contenedores detenidos y se dejan solo con fines de depuración.  
 
- 
+#### Limpieza de imágenes  
 
-Limpieza de imágenes  
+Limpiar las imágenes es tan importante como limpiar los contenedores. Pueden ocupar mucho espacio, especialmente en el caso del proceso de CD, cuando cada compilación termina en una nueva imagen de Docker. 
 
- 
+Esto puede resultar rápidamente en un error de no dejar espacio en el dispositivo.  
 
-Limpiar las imágenes es tan importante como limpiar los contenedores. Pueden ocupar mucho espacio, especialmente en el caso del proceso de CD, cuando cada compilación termina en una nueva imagen de Docker. Esto puede resultar rápidamente en un error de no dejar espacio en el dispositivo.  
+Los pasos son indicados aquí:  
 
- 
 
-Los pasos son como delineado aquí:  
-
- 
-
-1. Para verificar todas las imágenes en el contenedor de Docker, podemos usar el comando de imágenes de Docker (docker images), de la siguiente manera:  
-
- 
-
-$ docker images 
-
- 
+1. Para verificar todas las imágenes en el contenedor de Docker, podemos usar el comando de imágenes de Docker (`docker images`), de la siguiente manera:  `docker images` 
 
 2. Para eliminar una imagen, podemos llamar al siguiente comando:  
 
- 
+ ```
+ docker rmi 48b5124b2768 
+ ```
 
-$ docker rmi 48b5124b2768 
+3. En el caso de las imágenes, el proceso de limpieza automática es un poco más complejo. Las imágenes no tienen estados, por lo que no podemos pedirles que se eliminen cuando no se usan.
+   Una estrategia común sería configurar un trabajo de limpieza de `cron`, que elimina todas las imágenes antiguas ya no utilizadas. 
 
- 
+ Podríamos hacer esto usando el siguiente comando: `docker image prune` 
 
-3. En el caso de las imágenes, el proceso de limpieza automática es un poco más complejo. Las imágenes no tienen estados, por lo que no podemos pedirles que se eliminen cuando no se usan. Una estrategia común sería configurar un trabajo de limpieza de cron, que elimina todas las imágenes antiguas y no utilizadas. 
+**Nota**: Si tenemos contenedores que usan volúmenes, entonces, además de imágenes y contenedores, vale la pena pensar en limpiar volúmenes. La forma más fácil de hacer esto es usar el comando `docker volume prune`.  
 
- 
-
- Podríamos hacer esto usando el siguiente comando:  
-
- 
-
-$ docker image prune 
+**Nota**: Usa el comando `docker system prune` para eliminar todos los contenedores, imágenes y redes no utilizados. Además, puedes agregar el parámetro `–volumes` para limpiar volúmenes. 
 
  
+### Descripción general de los comandos de Docker  
 
-Información: Si tenemos contenedores que usan volúmenes, entonces, además de imágenes y contenedores, vale la pena pensar en limpiar volúmenes. La forma más fácil de hacer esto es usar el comando docker volume prune.  
 
- 
+Todos los comandos de Docker se pueden encontrar ejecutando el siguiente comando de ayuda: `docker help` 
 
-Con la sección de limpieza, hemos llegado al final de la descripción principal de Docker. Ahora, hagamos un breve resumen y analicemos los comandos más importantes de Docker. 
 
- 
+Para ver todas las opciones de cualquier comando de Docker en particular, podemos usar la ayuda de `docker help <command>`, como en el siguiente ejemplo:  
 
-Consejo: Use el comando docker system prune para eliminar todos los contenedores, imágenes y redes no utilizados. Además, puede agregar el parámetro –volumes para limpiar volúmenes. 
-
- 
-
-Descripción general de los comandos de Docker  
-
- 
-
-Todos los comandos de Docker se pueden encontrar ejecutando el siguiente comando de ayuda:  
-
- 
-
-$ docker help 
-
- 
-
-Para ver todas las opciones de cualquier comando de Docker en particular, podemos usar la ayuda de docker help <comando>, como en el siguiente ejemplo:  
-
- 
-
-$ docker help run 
-
- 
+```
+docker help run 
+```
 
 También hay una muy buena explicación de todos los comandos de Docker en la página oficial de Docker en https://docs.docker.com/engine/reference/commandline/docker/.   
 
- 
-
 Vale la pena leerlo, o al menos echarle un vistazo.  
 
- 
+ ### Ejercicios 
 
-Ejercicios 
+1. Ejecuta CouchDB como un contenedor de Docker y publica su puerto, de la siguiente manera 
 
- 
+- Ejecuta el contenedor.
+- Publica el puerto de CouchDB.
+- Abre el navegador y verifica que CouchDB esté disponible.  
 
-Ejecuta CouchDB como un contenedor de Docker y publica su puerto, de la siguiente manera 
+**Sugerencia:** Puedes usar el comando `docker search` para encontrar la imagen de CouchDB. 
 
- 
-
- Sugerencia: Puedes usar el comando docker search para encontrar la imagen de CouchDB. 
-
- 
-
-Ejecutar el contenedor.  
-
-Publica el puerto de CouchDB.  
-
-Abra el navegador y verifica que CouchDB esté disponible.  
-
- 
-
-Creas una imagen de Docker con un servicio REST y responda Hola CC-3S2  al localhost:8080/hola. Utiliza el lenguaje y el framework que prefieras.  
-
- 
+2. Crea una imagen de Docker con un servicio REST y responda Hola CC-3S2  al localhost:8080/hola. Utiliza el lenguaje y el framework que prefieras.  
 
 Estos son los pasos que debe seguir:  
 
- 
+- Crea una aplicación de servicio web
+- Crea un Dockerfile para instalar dependencias y librerías.
+- Construye la imagen.
+- Ejecuta el contenedor que está publicando el puerto
+- Comprueba que se está ejecutando correctamente utilizando el navegador (o curl). 
 
-Sugerencia: La forma más fácil de crear un servicio REST es usar Python con Flask (https://flask.palletsprojects.com/). Ten en cuenta que muchos framework web, de forma predeterminada, inician una aplicación solo en la interfaz localhost.  
-
-Para publicar un puerto, es necesario iniciarlo en todas las interfaces (app.run(host='0.0.0.0') en el caso de Flask). 
-
- 
-
-Crea una aplicación de servicio web 
-
-Crea un Dockerfile para instalar dependencias y librerías. 
-
-Construye la imagen.  
-
-Ejecuta el contenedor que está publicando el puerto 
-
-Comprueba que se está ejecutando correctamente utilizando el navegador (o curl). 
 
  
