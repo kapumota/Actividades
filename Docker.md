@@ -163,457 +163,243 @@ Docker es en realidad un ecosistema que incluye una serie de componentes. Vamos 
 
 Veamos el siguiente diagrama, que presenta la arquitectura del motor Docker:
 
+<img src="Imagenes/Arquitectura-docker.png" width="500px" height="400px">
+
 Docker Engine consta de los siguientes tres componentes:
 
-• Un demonio Docker (servidor) ejecutándose en segundo plano
-
-• Un Docker Client que se ejecuta como una herramienta de comando
-
-• Una interfaz de programación de aplicaciones (API) de transferencia de estado representacional (REST) de Docker
-
-
+- Un demonio Docker (servidor) ejecutándose en segundo plano
+- Un Docker Client que se ejecuta como una herramienta de comando
+- Una interfaz de programación de aplicaciones (API) de transferencia de estado representacional (REST) de Docker
 
 Instalar Docker significa instalar todos los componentes para que el demonio Docker se ejecute en un equipo todo el tiempo como un servicio.
 En el caso del ejemplo de `hello-world`, usamos el cliente de Docker para interactuar con el demonio de Docker, sin embargo, podríamos hacer exactamente lo mismo usando la API REST.
 
-Además, en el caso del ejemplo de `hello-world` nos conectamos al demonio Docker local.  
+Además, en el caso del ejemplo de `hello-world` nos conectamos al demonio Docker local. Sin embargo, podríamos usar el mismo cliente para interactuar con el demonio Docker que se ejecuta en una máquina remota.  
 
+Para ejecutar el contenedor Docker en una máquina remota, puedes usar la opción -H:  `docker -H <server_ip>:2375 run hello-world`.  
 
-Sin embargo, podríamos usar el mismo cliente para interactuar con el demonio Docker que se ejecuta en una máquina remota.  
-
- 
-
- 
-
-Consejo: para ejecutar el contenedor Docker en una máquina remota, puedes usar la opción -H:  
-
- 
-
-docker -H <server_ip>:2375 run hello-world.  
-
- 
 
 #### Imágenes y contenedores Docker  
 
-Una imagen es un bloque de construcción sin estado (stateless) en el mundo de Docker. Puedes pensar en una imagen como una colección de todos los archivos necesarios para ejecutar tu aplicación, junto con los pasos sobre cómo ejecutarla. Una imagen no tiene estado, por lo que puedes enviarla a través de la red, almacenarla en el registro, nombrarla, versionarla y guardarla como un archivo. Las imágenes están en capas, lo que significa que puede construir una imagen encima de otra imagen.  
+Una imagen es un bloque de construcción sin estado (stateless) en el mundo de Docker. Puedes pensar en una imagen como una colección de todos los archivos necesarios para ejecutar tu aplicación, junto con los pasos sobre cómo ejecutarla. 
 
- 
+Una imagen no tiene estado, por lo que puedes enviarla a través de la red, almacenarla en un registro, nombrarla, versionarla y guardarla como un archivo. 
 
-Un contenedor es una instancia en ejecución de una imagen. Podemos crear muchos contenedores a partir de una misma imagen si queremos tener muchas instancias de la misma aplicación. Dado que los contenedores tienen estado (stateful), esto significa que podemos interactuar con ellos y realizar cambios en sus estados.  
+Las imágenes están en capas, lo que significa que puedes construir una imagen encima de otra imagen.  
 
- 
+ <img src="Imagenes/Capa-imagenes.png" width="400px" height="360px">
 
-Aplicaciones docker 
+Un contenedor es una instancia en ejecución de una imagen. Podemos crear muchos contenedores a partir de una misma imagen si queremos tener muchas instancias de la misma aplicación. 
 
- 
+Dado que los contenedores tienen estado (stateful), esto significa que podemos interactuar con ellos y realizar cambios en sus estados.  
 
- Se proporcionan muchas aplicaciones en forma de imágenes de Docker que se pueden descargar de Internet. Si conocemos el nombre de la imagen, bastaría con ejecutar de la misma forma que hicimos con el ejemplo de hello-world. ¿Cómo podemos encontrar la imagen de la aplicación deseada en Docker Hub?  
+ ### Aplicaciones docker 
+
+Se proporcionan muchas aplicaciones en forma de imágenes de Docker que se pueden descargar de Internet. 
+
+Si conocemos el nombre de la imagen, bastaría con ejecutar de la misma forma que hicimos con el ejemplo de `hello-world`. ¿Cómo podemos encontrar la imagen de la aplicación deseada en Docker Hub?  
 
 Tomemos MongoDB como ejemplo. Estos son los pasos que debemos seguir:  
 
- 
+1. Si queremos encontrarlo en Docker Hub, tenemos dos opciones, de la siguiente manera:
+   - Busca en la página Explorar de Docker Hub (https://hub.docker.com/search/).
+   - Utiliza el comando `docker search`.  
 
-1. Si queremos encontrarlo en Docker Hub, tenemos dos opciones, de la siguiente manera:  
+   En el segundo caso, podemos realizar la siguiente operación: `docker search mongo` 
 
- 
-
-Busca en la página Explorar de Docker Hub (https://hub.docker.com/search/).  
-
-Utiliza el comando docker search.  
-
-En el segundo caso, podemos realizar la siguiente operación: 
-
-$ docker search mongo 
-
- 
-
-2. Hay muchas opciones interesantes. ¿Cómo elegimos la mejor imagen? Por lo general, el más atractivo es el que no tiene ningún prefijo, ya que significa que es una imagen oficial de Docker Hub y, por lo tanto, debe ser estable y mantenerse. Las imágenes con prefijos no son oficiales, generalmente se mantienen como proyectos de código abierto. En nuestro caso, la mejor opción parece ser mongo, por lo que para ejecutar el servidor MongoDB, podemos ejecutar el siguiente comando:  
-
- 
-
-$ docker run mongo 
-
- 
+2. Hay muchas opciones interesantes. ¿Cómo elegimos la mejor imagen? Por lo general, la más atractiva es el que no tiene ningún prefijo, ya que significa que es una imagen oficial de
+ Docker Hub y por lo tanto, debe ser estable y tiene manteniemiento. Las imágenes con prefijos no son oficiales, generalmente se mantienen como proyectos de código abierto.
+En este caso, la mejor opción parece ser `mongo` por lo que para ejecutar el servidor `MongoDB`, podemos ejecutar el siguiente comando:   `docker run mongo` . 
 
 Eso es todo lo que tenemos que hacer. MongoDB ha comenzado.  
 
+Ejecutar aplicaciones como contenedores Docker es así de simple porque no necesitamos pensar en ninguna dependencia; todos se entregan junto con la imagen. 
+
+Docker puede tratarse como una herramienta útil para ejecutar aplicaciones; sin embargo, el verdadero poder radica en crear tus propias imágenes de Docker que envuelvan los programas con el entorno.  
+
+### Creación de imágenes de Docker  
+
+ En esta sección, veremos cómo crear imágenes de Docker utilizando dos métodos diferentes: 
+
+#### docker commit 
+
+Comencemos con un ejemplo y preparemos una imagen con los kits de herramientas de Git y JDK. Usaremos Ubuntu 20.04 como imagen base. 
+No hay necesidad de crearlo la mayoría de las imágenes base están disponibles en el registro de Docker Hub. Procede de la siguiente forma:  
+
+
+1. Ejecuta un contenedor desde ubuntu:20.04 y conéctelo a tu línea de comando, así: `docker run -i -t ubuntu:20.04 /bin/bash` 
+
+2. Instala el kit de herramientas de Git de la siguiente manera:
+
+   ```
+   # apt-get update
+   # apt-get install -y git
+   ```
+3. Comprueba si el kit de herramientas de Git está instalado ejecutando lo siguiente:
+
+   ```
+   # which git
+   /usr/bin/git 
+   ```
+4. Sal del contenedor, así:  
+    ```
+     root@dee2cb192c6c:/# exit 
+      ```
+5. Verifica qué ha cambiado en el contenedor comparando su identificador (ID)  con la imagen de ubuntu, de la siguiente manera: `docker diff dee2cb192c6c`. 
  
+  El comando anterior debe imprimir una lista de todos los archivos modificados en el contenedor.  
 
-Ejecutar aplicaciones como contenedores Docker es así de simple porque no necesitamos pensar en ninguna dependencia; todos se entregan junto con la imagen. Docker puede tratarse como una herramienta útil para ejecutar aplicaciones; sin embargo, el verdadero poder radica en crear tus propias imágenes de Docker que envuelvan los programas con el entorno.  
 
+6. Commit el contenedor a la imagen, así: `docker commit dee2cb192c6c ubuntu_con_git` 
+
+
+Acabamos de crear una primera imagen de Docker. Enumeremos todas las imágenes del host Docker para ver si la imagen está presente, de la siguiente manera: 
+
+```
+docker images 
+```
  
-
-Información En el servicio Docker Hub, puede encontrar muchas aplicaciones; almacenan millones de imágenes diferentes.  
-
- 
-
-Creación de imágenes de Docker  
-
- 
-
-En esta sección, veremos cómo crear imágenes de Docker utilizando dos métodos diferentes: el comando commit de Docker y una compilación automatizada de Dockerfile.  
-
- 
-
-docker commit 
-
- 
-
-Comencemos con un ejemplo y preparemos una imagen con los kits de herramientas de Git y JDK. Usaremos Ubuntu 20.04 como imagen base. No hay necesidad de crearlo; la mayoría de las imágenes base están disponibles en el registro de Docker Hub. Procede de la siguiente:  
-
- 
-
-1. Ejecuta un contenedor desde ubuntu:20.04 y conéctelo a tu línea de comando, así: 
-
- 
-
-$ docker run -i -t ubuntu:20.04 /bin/bash 
-
- 
-
-Extrajimos la imagen de ubuntu:20.04, la ejecutamos como un contenedor y luego llamamos al comando /bin/bash de forma interactiva (marca -i). Deberías ver la Terminal del contenedor. Dado que los contenedores tienen estado y escritura, podemos hacer lo que queramos en tu Terminal. 
-
- 
-
- 2. Instala el kit de herramientas de Git de la siguiente manera:  
-
- 
-
-root@dee2cb192c6c:/# apt-get update 
-
-root@dee2cb192c6c:/# apt-get install -y git 
-
- 
-
-3. Comprueba si el kit de herramientas de Git está instalado ejecutando lo siguiente: 
-
- 
-
-root@dee2cb192c6c:/# which git 
-
-/usr/bin/git 
-
-4. Salga del contenedor, así:  
-
- 
-
-root@dee2cb192c6c:/# exit 
-
- 
-
-5. Verifica qué ha cambiado en el contenedor comparando su identificador (ID) de contenedor único con la imagen de ubuntu, de la siguiente manera:  
-
- 
-
-$ docker diff dee2cb192c6c 
-
- 
-
-El comando anterior debe imprimir una lista de todos los archivos modificados en el contenedor.  
-
- 
-
-6. Commit el contenedor a la imagen, así: 
-
- 
-
-$ docker commit dee2cb192c6c ubuntu_con_git 
-
- 
-
- Acabamos de crear nuestra primera imagen de Docker. Enumeremos todas las imágenes del host Docker para ver si la imagen está presente, de la siguiente manera: 
-
- 
-
-$docker images 
-
- 
-
 Ahora, si creamos un contenedor a partir de la imagen, tendrás instalada la herramienta Git, como se ilustra en el siguiente fragmento de código:  
 
+```
+docker run -i -t ubuntu_con_git /bin/bash 
+```
  
+### Dockerfile 
 
-$ docker run -i -t ubuntu_con_git /bin/bash 
+Crear de manera manual cada imagen de Docker con el comando `commit` podría ser laborioso, especialmente en el caso de la automatización de compilación y el proceso de CD. 
 
-root@3b0d1ff457d4:/# which git 
+Afortunadamente, hay un lenguaje incorporado para especificar todas las instrucciones que deben ejecutarse para crear una imagen de Docker.  
 
-/usr/bin/git 
+Comencemos con un ejemplo prepararando una imagen `ubuntu_con_python` de la siguiente manera:  
 
-root@3b0d1ff457d4:/# exit 
+1. Crea un nuevo directorio y un archivo llamado **Dockerfile** con el siguiente contenido:  
 
- 
-
-Dockerfile 
-
- 
-
-Crear cada manual de imagen de Docker con el comando commit podría ser laborioso, especialmente en el caso de la automatización de compilación y el proceso de CD. Afortunadamente, hay un lenguaje incorporado para especificar todas las instrucciones que deben ejecutarse para crear una imagen de Docker.  
-
- 
-
-Comencemos con un ejemplo similar al de Git. Esta vez, prepararemos una imagen de ubuntu_con_python, de la siguiente manera:  
-
- 
-
-1. Crea un nuevo directorio y un archivo llamado Dockerfile con el siguiente contenido:  
-
- 
-
-FROM ubuntu:20.04 
-
-RUN apt-get update && \ 
-
-apt-get install -y python 
-
- 
-
+ ```
+ FROM ubuntu:20.04 
+ RUN apt-get update && \ 
+ apt-get install -y python 
+```
 2. Ejecuta el siguiente comando para crear una imagen ubuntu_con_python: 3. Verifica que la imagen se haya creado ejecutando el siguiente comando: 
 
- 
+   ```
+   docker build -t ubuntu_con_python . 
+   ```
+3. Comprueba que la imagen se creó ejecutando el siguiente comando:  `docker images`. 
 
-$ docker build -t ubuntu_con_python . 
+Ahora podemos crear un contenedor a partir de la imagen y verificar que el intérprete de Python existe exactamente de la misma manera que lo hicimos después de ejecutar el comando `docker commit`. 
 
- 
+Ten  en cuenta que la imagen de ubuntu aparece solo una vez, aunque es la imagen base para `ubuntu_con_git` y `ubuntu_con_python`. 
 
-3. Comprueba que la imagen se creó ejecutando el siguiente comando:  
 
- 
+En este ejemplo, usamos las dos primeras instrucciones de Dockerfile, como se describe aquí:  
 
-$ docker images 
-
- 
-
-Ahora podemos crear un contenedor a partir de la imagen y verificar que el intérprete de Python existe exactamente de la misma manera que lo hicimos después de ejecutar el comando docker commit. Ten  en cuenta que la imagen de ubuntu aparece solo una vez, aunque es la imagen base para ubuntu_con_git y ubuntu_con_python. 
-
- 
-
- En este ejemplo, usamos las dos primeras instrucciones de Dockerfile, como se describe aquí:  
-
- 
-
-FROM define una imagen sobre la cual se construirá la nueva imagen  
-
-RUN especifica los comandos que se ejecutarán dentro del contenedor. 
-
- 
+- `FROM` define una imagen sobre la cual se construirá la nueva imagen
+- `RUN` especifica los comandos que se ejecutarán dentro del contenedor. 
 
 Las otras instrucciones ampliamente utilizadas se detallan a continuación:.  
 
- 
-
-COPY/ADD copia un archivo o un directorio en el sistema de archivos de la imagen. 
-
-ENTRYPOINT define qué aplicación debe ejecutarse en el contenedor ejecutable. 
-
- 
+- `COPY/ADD` copia un archivo o un directorio en el sistema de archivos de la imagen.
+- `ENTRYPOINT` define qué aplicación debe ejecutarse en el contenedor ejecutable. 
 
 Puedes encontrar una guía completa de todas las instrucciones de Dockerfile en la página oficial de Docker en https://docs.docker.com/engine/reference/builder/. 
 
 
+### Aplicación Docker completa  
 
- Aplicación Docker completa  
+Como ejemplo, prepararemos, paso a paso, un programa simple de Python `hola-mundo`. Los pasos son siempre los mismos, independientemente del entorno o lenguaje de programación que utilicemos.  
 
- 
+#### Escribiendo la aplicación  
 
-Ya tenemos toda la información necesaria para crear una aplicación completamente funcional como una imagen de Docker. Como ejemplo, prepararemos, paso a paso, un programa simple de Python hola-mundo. Los pasos son siempre los mismos, independientemente del entorno o lenguaje de programación que utilicemos.  
+Crea un nuevo directorio y dentro de este directorio, crea un archivo `hola.py` con el siguiente contenido:  
 
- 
+```
+ print ( "¡Hola mundo desde Python!" ) 
+```
+ Cierra el archivo. Este es el código fuente de la aplicación.  
 
-Escribiendo la aplicación  
 
- 
+#### Preparando el entorno 
 
-Crea un nuevo directorio y, dentro de este directorio, crea un archivo hola.py con el siguiente contenido:  
+El entorno se expresa en el Dockerfile. Necesitamos instrucciones para definir lo siguiente:  
 
- 
-
-print ( "¡Hola mundo desde Python!" ) 
-
- 
-
-Cierra el archivo. Este es el código fuente de nuestra aplicación.  
-
- 
-
-Preparando el entorno 
-
- 
-
- El entorno se expresa en el Dockerfile. Necesitamos instrucciones para definir lo siguiente:  
-
- 
-
-¿Qué imagen base debe usarse?  
-
-¿Cómo instalar el intérprete de Python?  
-
- ¿Cómo incluir hola.py en la imagen ? 
-
-¿Cómo iniciar la aplicación ? 
-
- 
+- ¿Qué imagen base debe usarse?
+- ¿Cómo instalar el intérprete de Python?
+- ¿Cómo incluir `hola.py` en la imagen ?
+- ¿Cómo iniciar la aplicación ? 
 
 En el mismo directorio, crea el Dockerfile, así:  
 
- 
+```
+ FROM ubuntu:20.04 
+ RUN apt-get update && \ 
+ apt-get install -y python 
+ COPY hola.py . 
+ ENTRYPOINT ["python", "hola.py"] 
+```
 
-FROM ubuntu:20.04 
+#### Construyendo la imagen  
 
-RUN apt-get update && \ 
+Ahora, podemos construir la imagen exactamente de la misma manera que lo hicimos antes: `docker build -t hola_mundo_python .` 
 
-apt-get install -y python 
+#### Ejecutando la aplicación  
 
-COPY hola.py . 
+Ejecutamos la aplicación ejecutando el contenedor, así: `docker run hola_mundo_python` 
 
-ENTRYPOINT ["python", "hola.py"] 
+### Variables de entorno  
 
- 
 
-Construyendo la imagen  
+¿Qué pasa si la ejecución de la aplicación depende de algunas condiciones? Por ejemplo, en el caso del servidor de producción, nos gustaría imprimir `Hola` en los logs, no en la consola, o quizás queramos tener diferentes servicios dependientes durante la fase de prueba y la fase de producción. 
 
- 
+ Una solución sería preparar un Dockerfile separado para cada caso, sin embargo, hay una mejor manera: variables de entorno.  
 
-Ahora, podemos construir la imagen exactamente de la misma manera que lo hicimos antes, de la siguiente manera:  
+Para utilizar variables de entorno seguimos los siguientes pasos:  
 
- 
+1. Cambia la secuencia de comandos de Python `hola.py` para usar la variable de entorno de la siguiente manera:  
 
-$ docker build -t hola_mundo_python . 
-
- 
-
-Ejecutando la aplicación  
-
- 
-
-Ejecutamos la aplicación ejecutando el contenedor, así:  
-
- 
-
-$ docker run hola_mundo_python 
-
- 
-
-¡Deberías ver un mensaje amistoso de Python. 
-
- 
-
- Lo más interesante de este ejemplo es que podemos ejecutar la aplicación escrita en Python sin tener instalado el intérprete de Python en nuestro sistema host. Esto es posible porque la aplicación empaquetada como una imagen ya tiene el entorno incluido.  
-
- 
-
-Consejo: Ya existe una imagen con el intérprete de Python en el servicio Docker Hub, por lo que en un escenario real bastaría con utilizarlo.  
-
- 
-
-Variables de entorno  
-
- 
-
-¿Qué pasa si la ejecución de la aplicación depende de algunas condiciones? Por ejemplo, en el caso del servidor de producción, nos gustaría imprimir Hola en los logs, no en la consola, o quizás queramos tener diferentes servicios dependientes durante la fase de prueba y la fase de producción. 
-
- 
-
- Una solución sería preparar un Dockerfile separado para cada caso; sin embargo, hay una mejor manera: variables de entorno.  
-
- 
-
- Para utilizar variables de entorno seguimos los siguientes pasos:  
-
- 
-
-1. Cambia la secuencia de comandos de Python hola.py para usar la variable de entorno, de la siguiente manera:  
-
- 
-
+```
 import os 
-
 print ("Hola mundo dice  %s !" % os.environ['NAME']) 
+```
 
- 
+2. Construye la imagen, así: `docker build -t hola_mundo_python_nombre  .` 
 
-2. Construye la imagen, así:  
-
- 
-
-$ docker build -t hola_mundo_python_nombre  . 
-
- 
-
-3. Ejecuta el contenedor pasando la variable de entorno, así:  
-
- 
-
-$ docker run -e NAME=Ako  hola_mundo_python_nombre 
-
-Hola mundo dice  Ako ! 
-
- 
+3. Ejecuta el contenedor pasando la variable de entorno, así:  `docker run -e NAME=Ako  hola_mundo_python_nombre`.
 
 4. Alternativamente, podemos definir un valor de variable de entorno en Dockerfile, como el siguiente:  
+ ```
+ ENV NAME Ako 
+```
+5. Ejecuta el contenedor sin especificar la opción `-e` de la siguiente manera:  
 
+ ```
+ docker build -t hola_mundo_python_nombre_default .
+ docker run hola_mundo_python_nombre_default 
+``` 
+Las variables de entorno son especialmente útiles cuando necesitamos tener diferentes versiones del contenedor Docker dependiendo de su propósito, por ejemplo, para tener perfiles separados para servidores de producción y pruebas. 
+
+
+#### Estados del contenedor Docker  
+
+Todas las aplicaciones que hemos ejecutado hasta ahora debían hacer algún trabajo y detenerse. Sin embargo, hay aplicaciones que deben ejecutarse continuamente, como los servicios.  
+
+
+Para ejecutar un contenedor en segundo plano, podemos usar la opción `-d (--detach)`. Usemos con la imagen de ubuntu, de la siguiente manera:  
+
+```
+docker run -d -t ubuntu:20.04 
+```
+
+Este comando inició el contenedor de Ubuntu pero no lo adjuntó la consola. Podemos ver que se está ejecutando usando el siguiente comando: `docker ps`. 
+
+
+Este comando imprime todos los contenedores que se encuentran en estado de ejecución. ¿Qué pasa con nuestros contenedores viejos?. Podemos encontrarlos imprimiendo todos los contenedores, así:  
+
+ ```
+ docker ps -a 
+```
  
-
-ENV NAME Ako 
-
- 
-
-5. Ejecuta el contenedor sin especificar la opción -e, de la siguiente manera:  
-
- 
-
-$ docker build -t hola_mundo_python_nombre_default . 
-
-$ docker run hola_mundo_python_nombre_default 
-
-Hola mundo dice  Ako ! 
-
- 
-
- Las variables de entorno son especialmente útiles cuando necesitamos tener diferentes versiones del contenedor Docker dependiendo de su propósito; por ejemplo, para tener perfiles separados para servidores de producción y pruebas. 
-
- 
-
- Información : si una variable de entorno se define tanto en el Dockerfile como en una marca, entonces la marca tiene prioridad.  
-
- 
-
-Estados del contenedor Docker  
-
- 
-
-Se suponía que todas las aplicaciones que hemos ejecutado hasta ahora debían hacer algún trabajo y detenerse; por ejemplo, hemos impreso ¡Hola desde Docker! y salió. Sin embargo, hay aplicaciones que deben ejecutarse continuamente, como los servicios.  
-
- 
-
-Para ejecutar un contenedor en segundo plano, podemos usar la opción -d (--detach). Intentémoslo con la imagen de ubuntu, de la siguiente manera:  
-
- 
-
-$ docker run -d -t ubuntu:20.04 
-
- 
-
-Este comando inició el contenedor de Ubuntu pero no le adjuntó la consola. Podemos ver que se está ejecutando usando el siguiente comando:  
-
- 
-
-$ docker ps 
-
- 
-
-Este comando imprime todos los contenedores que se encuentran en estado de ejecución. ¿Qué pasa con nuestros contenedores viejos, ya salidos? Podemos encontrarlos imprimiendo todos los contenedores, así:  
-
- 
-
-$ docker ps -a 
-
- 
-
- 
-
-Ten en cuenta que todos los contenedores antiguos están en un estado exit. Hay dos estados más que aún no hemos observado: en paused y restarting..  
-
- 
+Ten en cuenta que todos los contenedores antiguos están en un estado exit. Hay dos estados más que aún no hemos observado: `paused` y `restarting`.  
 
 Todos los estados y las transiciones entre ellos se presentan en el siguiente diagrama: 
 
