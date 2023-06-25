@@ -64,7 +64,7 @@ Esto ya hace que sea un poco más fácil trabajar con la aplicación.
 
 Aquí también podemos aplicar el principio de inversión de dependencia. ¿Cómo?.
 
-El mayor beneficio es que podemos intercambiar cualquier pieza de código que pueda acceder a cualquier base de datos, sin cambiar el código de cálculo. Por ejemplo, podríamos cambiar de una base de datos Postgres SQL a una base de datos Mongo NoSQL sin cambiar el código de cálculo. Podemos usar un doble de prueba para la base de datos para que podamos probar el código de cálculo como una prueba unitaria FIRST. 
+El mayor beneficio es que podemos intercambiar cualquier pieza de código que pueda acceder a cualquier base de datos, sin cambiar el código de cálculo. Por ejemplo, podríamos cambiar de una base de datos Postgres SQL a una base de datos Mongo NoSQL sin cambiar el código de cálculo. Podemos usar un doble de prueba para la base de datos para que podamos probar el código de cálculo como una prueba unitaria [FIRST](https://medium.com/@tasdikrahman/f-i-r-s-t-principles-of-testing-1a497acda8d6). 
 
 Estas son ventajas muy significativas, no solo en términos de TDD y pruebas, sino también en términos de cómo se organiza el código. 
 
@@ -74,7 +74,7 @@ Estas son ventajas muy significativas, no solo en términos de TDD y pruebas, si
 
 Ciertamente podemos y la forma general de este diseño se muestra en el siguiente diagrama:  
 
- <img src="Imagenes/Ejemplo3.png" width="520px" height="300px">
+ <img src="Imagenes/Ejemplo3.png" width="520px" height="315px">
 
 El diagrama anterior muestra lo que sucede cuando generalizamos el uso de la inversión de dependencia y la responsabilidad única para una aplicación completa. 
 
@@ -306,3 +306,71 @@ El modelo de dominio se puede escribir utilizando cualquier paradigma de program
 
 La buena noticia es que cualquiera que sea el paradigma que elijamos, podremos escribir el modelo de dominio con éxito. Si bien el código puede tener un aspecto diferente, se puede escribir una funcionalidad equivalente utilizando cualquiera de los paradigmas.  
 
+### Sustitución de dobles de prueba por sistemas externos  
+
+Discutiremos una de las mayores ventajas que la arquitectura hexagonal aporta a TDD: alta capacidad de prueba. También trae algunas ventajas de flujo de trabajo.  
+
+**Sustitución de los adaptadores por dobles de prueba**
+
+La ventaja clave que la arquitectura hexagonal aporta a TDD es que es trivialmente fácil reemplazar todos los adaptadores con dobles de prueba, lo que nos brinda la capacidad de probar todo el modelo de dominio con pruebas de unidades FIRST. 
+ 
+Podemos probar toda la lógica central de la aplicación sin entornos de prueba, bases de datos de prueba o herramientas HTTP como Postman o curl, solo pruebas unitarias rápidas y repetibles. La configuración de prueba se ve así:  
+
+  <img src="Imagenes/Ejemplo4.png" width="560px" height="300px">
+
+Podemos ver que todos los adaptadores han sido reemplazados por dobles de prueba, liberándonos completamente de el entorno de sistemas externos. 
+
+Las pruebas unitarias ahora pueden cubrir todo el modelo de dominio, lo que reduce la necesidad de pruebas de integración. 
+
+Obtenemos varios beneficios al hacer esto:  
+
+- Podemos escribir pruebas TDD primero con facilidad
+- Obtenemos los beneficios de la prueba de la unidad FIRST
+- Libera a el equipo
+
+Una consecuencia de poder probar todo el modelo de dominio es que podemos aplicar TDD y  pruebas unitarias FIRST  a unidades de programa mucho más grandes. La siguiente sección analiza lo que eso significa para nosotros.  
+
+#### Pruebas unitarias de unidades más grandes  
+
+Podemos probar unidades que son tan grandes como una historia de usuario.  
+
+El enfoque combinado de diseño con arquitectura hexagonal y comportamientos de prueba en lugar de detalles de implementación conduce a un sistema de capas interesante. En lugar de tener capas tradicionales, como podríamos tener en una arquitectura de tres niveles, tenemos círculos de comportamiento de nivel cada vez más alto. 
+
+Dentro de el modelo de dominio, encontraremos esas pruebas en pequeño. Pero a medida que nos movemos hacia afuera, hacia la capa adaptadora, encontraremos unidades de comportamiento más grandes.  
+
+**Pruebas unitarias de historias de usuario completas**  
+
+Los puertos en el modelo de dominio forman un límite natural de alto nivel del modelo de dominio. Si repasamos lo que hemos aprendido, veremos que este límite consiste en lo siguiente:  
+
+- La esencia de las solicitudes de los usuarios.
+- La esencia de una respuesta de la aplicación
+- La esencia de cómo se necesita almacenar y acceder a los datos
+- Todo utilizando código libre tecnología  
+
+Esta capa es la esencia de lo que hace la aplicación, libre de los detalles de cómo lo hace. Es nada menos que las propias historias de usuario originales. 
+
+Lo más significativo de este modelo de dominio es que podemos escribir pruebas de  unidad FIRST. Tenemos todo lo que necesitamos para reemplazar los sistemas externos difíciles de probar con simples dobles de prueba. 
+
+Podemos escribir pruebas unitarias que cubran historias de usuario completas, lo que confirma que la lógica central es correcta.  
+
+**Pruebas más rápidas y fiables** 
+
+La arquitectura hexagonal permite que las pruebas unitarias reemplacen algunas de estas pruebas de integración, acelerando las compilaciones y brindando una mayor repetibilidad de las pruebas. 
+
+
+Ahora podemos hacer una prueba de manejo en tres granularidades contra el modelo de dominio:  
+
+- Contra un solo método o función
+- Contra los comportamientos públicos de una clase y de sus colaboradores.
+- Contra la lógica central de toda una historia de usuario  
+
+
+Este es un gran beneficio de la arquitectura hexagonal. El aislamiento de los servicios externos tiene el efecto de empujar la lógica esencial de una historia de usuario al modelo de dominio, donde interactúa con los puertos. 
+
+Como hemos visto, esos puertos por diseño, son trivialmente fáciles de escribir dobles de prueba. 
+
+A medida que cubrimos amplias áreas de funcionalidad con pruebas unitarias, desdibujamos la línea entre integración y prueba unitaria. Eliminamos el trabajo de los desarrolladores que prueban más historias de usuarios al hacer que la prueba sea más fácil. 
+
+El uso de más pruebas unitarias mejora los tiempos de compilación, ya que las pruebas se ejecutan rápidamente y brindan un aprobado/fallido confiable. 
+
+Se necesitan menos pruebas de integración, lo cual es bueno ya que se ejecutan más lentamente y son más propensas a obtener resultados incorrectos.  
