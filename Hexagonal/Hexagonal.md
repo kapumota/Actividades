@@ -280,4 +280,29 @@ Esta abstracción nos ofrece beneficios al poder usar un doble de prueba para es
 
 Nunca se sabe cuándo un servicio externo podría cerrarse o volverse demasiado costoso de usar. Es bueno mantener las opciones abiertas usando la arquitectura hexagonal. 
 
+### Escribir el código de dominio  
+
+Aqui veremos algunas de las cosas en las que debemos pensar mientras escribimos el código para el modelo de dominio. Cubriremos qué tipos de bibliotecas debemos y no debemos usar en el modelo de dominio, cómo tratamos la configuración y la inicialización de la aplicación y también pensaremos en el impacto que tienen los frameworks de trabajo populares.  
+
+**Decidir lo que debería estar en el modelo de dominio** 
+
+ Aplicando la arquitectura hexagonal, elegimos el modelo de dominio para que sea independiente de aquellas cosas que no son esenciales para resolver el problema. Es por eso que los sistemas externos están aislados. 
+
+Teniendo en cuenta esta restricción, podemos tomar cualquier enfoque estándar de análisis y diseño. Somos libres de elegir objetos o descomponerlos en funciones como lo hacemos normalmente. Solo tenemos que preservar esa distinción entre la esencia del problema y los detalles de implementación.  
+
+**Uso de bibliotecas y frameworks en el modelo de dominio** 
+
+El modelo de dominio puede usar cualquier biblioteca o frameworks escrito previamente para ayudar a hacer tu trabajo. Sin embargo, debemos ser conscientes de los frameworks que nos unen al mundo de los sistemas externos y la capa de adaptador. 
+
+Necesitamos invertir las dependencias en esos frameworks, dejándolos ser solo un detalle de implementación de la capa del adaptador.  
+
+**Decidir sobre un enfoque de programación**  
+
+El modelo de dominio se puede escribir utilizando cualquier paradigma de programación. Esta flexibilidad significa que tendremos que decidir qué enfoque utilizar. Esta nunca es una decisión puramente técnica, como tantas cosas en el software. Debemos considerar lo siguiente:  
+
+- Habilidades y preferencias existentes del equipo: ¿Qué paradigma conoce mejor el equipo? ¿Qué paradigma les gustaría usar, dada la oportunidad?
+- Bibliotecas, frameworks y bases de código existentes: si vamos a utilizar código preescrito – y seamos realistas, es casi seguro que lo haremos – entonces, ¿qué paradigma se adaptaría mejor a ese código?
+- Guías de estilo y otros mandatos de código: ¿Estamos trabajando con una guía de estilo o paradigma existente? Si nos pagan por el trabajo, o estamos contribuyendo a un proyecto de código abierto existente – tendremos que adoptar el paradigma que se nos ha propuesto.  
+
+La buena noticia es que cualquiera que sea el paradigma que elijamos, podremos escribir el modelo de dominio con éxito. Si bien el código puede tener un aspecto diferente, se puede escribir una funcionalidad equivalente utilizando cualquiera de los paradigmas.  
 
