@@ -2,7 +2,7 @@
 
 Inicia un repositorio llamado CC-3S2 y dentro una carpeta llamada Actividades. Dentro de esta carpeta completa con código con Mockito la actividad  `DoblePruebas` y coloca todas tus respuestas.
 
-Esta actividad es individual.
+Esta actividad es individual y la continuación de la anterior actividad de doble de pruebas.
 
 ### Trabajando con Mockito
 
@@ -363,6 +363,39 @@ En este caso, todo lo que tiene que hacer el nuevo código es lanzar un error de
 Hacemos esto para informar que algo salió mal mediante el envío de una notificación. Como parte de las consideraciones normales de capas del sistema, queremos reemplazar la excepción original por una
 más general, que se adapta mejor a esta capa de código. 
 
+### Ejercicio con Wordz  
 
+En este ejercicio, aplicaremos lo que hemos aprendido escribiendo una prueba para una clase que elegirá una palabra al azar para que el jugador la adivine de un conjunto de palabras almacenadas. Crearemos una interfaz llamada `WordRepository` para acceder a las palabras almacenadas. Haremos esto a través de un método `fetchWordByNumber(wordNumber)`, donde `wordNumber` identifica una palabra. 
 
+La decisión de diseño aquí es que cada palabra se almacene con un número secuencial a partir de 1 para ayudarnos a elegir una al azar.  
+
+Estaremos escribiendo una clase `WordSelection`, que es responsable de elegir un número aleatorio y usarlo para obtener una palabra del almacenamiento que está etiquetada con ese número. Usaremos la interfaz `NumerosAleatorios` de antes. 
+
+Para este ejemplo, la prueba cubrirá el caso en el que intentamos obtener una palabra de la interfaz de `WordRepository` pero por alguna razón, no está allí. Podemos escribir la prueba de la siguiente manera:  
+
+ 
+```
+@ExtendWith(MockitoExtension.class) 
+public class WordSelectionTest { 
+    @Mock 
+    private WordRepository repository; 
+    @Mock 
+    private NumerosAleatorios random; 
+    @Test 
+
+    public void reportsWordNotFound() { 
+        doThrow(new WordRepositoryException()) 
+                .when(repository) 
+                  .fetchWordByNumber(anyInt()); 
+        var selection = new WordSelection(repository, 
+                                          random); 
+        assertThatExceptionOfType(WordSelectionException.class) 
+                .isThrownBy( 
+                        ()->selection.getRandomWord()); 
+    } 
+
+} 
+```
+
+**Pregunta:**  Implementa el escenario de pruebas para el caso Wordz utilizando el framework Mockito.
 
