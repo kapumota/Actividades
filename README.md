@@ -20,6 +20,6 @@
 18. Uso de Mockito
 19. Introducción a las arquitecturas de software
 20. TDD-6 - Arquitectura Hexagonal
-21. Pruebas de Integración y aceptación
-22. Microservicios
+21. Patrones de microservicios
+22. Pruebas de Integración y aceptación
 23. Introducción a Docker
