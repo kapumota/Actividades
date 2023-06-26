@@ -131,7 +131,9 @@ Esta interfaz es un puerto. Nos brinda una forma general de obtener un informe d
 **Los puertos se conectan a el modelo de dominio**
 
 El modelo de dominio representa las cosas que los usuarios quieren hacer, en código. Cada historia de usuario se describe mediante un código aquí. 
-Idealmente, el código de esta capa utiliza el lenguaje del problema que estamos resolviendo, en lugar de detalles tecnológicos. Cuando hacemos esto bien, este código describe acciones que preocupan a los usuarios en los términos que nos han contado.
+Idealmente, el código de esta capa utiliza el lenguaje del problema que estamos resolviendo, en lugar de detalles tecnológicos. 
+
+Cuando hacemos esto bien, este código describe acciones que preocupan a los usuarios en los términos que nos han contado.
 
 En el centro de toda la aplicación se encuentra el modelo de dominio. Contiene la lógica que da vida a las historias de los usuarios.  
 
@@ -211,6 +213,7 @@ También podemos ver lo que no está presente:
 - `HTTPServletRequest` y `HttpServletResponse` u objetos de marco equivalentes.  
 
 Esta es una representación de modelo de dominio puro de una solicitud de informe de ventas entre dos fechas. No hay indicios de que esto haya venido de la web, un hecho que es muy útil ya que podemos solicitarlo desde otras fuentes de entrada, como una GUI de escritorio o una línea de comandos. 
+
 Aún mejor, podemos crear estos objetos de modelo de dominio muy fácilmente en una prueba unitaria.  
 
 **Abstrayendo la base de datos**  
@@ -459,7 +462,7 @@ when(repository.fetchWordByNumber(WORD_NUMBER_SHINE))
     } 
 } 
 ```
-Explica el funcionamiento de la clase `WordSelection` , de `WordRepository`. de `Numeros aleatorios` y el método `chooseRandomWord()` y de los siguientes códigos:
+Explica el funcionamiento de la clase `WordSelection`, de `WordRepository`, de `Numeros aleatorios` y el método `chooseRandomWord()` y de los siguientes códigos:
 
 ```
 @BeforeEach 
