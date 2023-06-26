@@ -52,7 +52,7 @@ Vimos cómo el principio de responsabilidad única nos guió a dividir el softwa
 
 Aplicando estas ideas a el ejemplo anterior de informe de ventas, llegaríamos a un diseño mejorado, como se muestra en el siguiente diagrama:  
 
-<img src="Imagenes/Ejemplo2.png" width="500px" height="180px">
+<img src="Imagenes/Ejemplo2.png" width="520px" height="180px">
 
 El diagrama anterior muestra cómo hemos aplicado los principios SOLID para dividir el código de informe de ventas. Hemos utilizado el principio de responsabilidad única para dividir la tarea general en tres tareas separadas:  
 
@@ -115,7 +115,7 @@ package com.sales.domain;
 import java.time.LocalDate; 
 public interface Commands { 
     SalesReport calculateForPeriod(LocalDate start, 
-        LocalDate end); 
+       LocalDate end); 
 } 
 ```
 
@@ -364,7 +364,6 @@ Ahora podemos hacer una prueba de manejo en tres granularidades contra el modelo
 - Contra los comportamientos públicos de una clase y de sus colaboradores.
 - Contra la lógica central de toda una historia de usuario  
 
-
 Este es un gran beneficio de la arquitectura hexagonal. El aislamiento de los servicios externos tiene el efecto de empujar la lógica esencial de una historia de usuario al modelo de dominio, donde interactúa con los puertos. 
 
 Como hemos visto, esos puertos por diseño, son trivialmente fáciles de escribir dobles de prueba. 
@@ -374,3 +373,144 @@ A medida que cubrimos amplias áreas de funcionalidad con pruebas unitarias, des
 El uso de más pruebas unitarias mejora los tiempos de compilación, ya que las pruebas se ejecutan rápidamente y brindan un aprobado/fallido confiable. 
 
 Se necesitan menos pruebas de integración, lo cual es bueno ya que se ejecutan más lentamente y son más propensas a obtener resultados incorrectos.  
+
+### Wordz: abstracción de la base de datos  
+
+En esta sección, aplicaremos lo que hemos aprendido a nuestra aplicación Wordz y crearemos un puerto adecuado para obtener las palabras para presentarlas a un usuario.   
+
+El primer trabajo en el diseño del puerto es decidir qué debería estar haciendo. 
+
+Para un puerto de base de datos, debemos pensar en la división entre lo que queremos del modelo de dominio y lo que enviaremos a la base de datos. 
+
+Los puertos que usamos para una base de datos generalmente se denominan **interfaces de repositorio**.  
+
+Tres principios generales deben guiarnos:  
+
+- Piensa en lo que necesita el modelo de dominio: ¿por qué necesitamos estos datos? ¿Para qué será utilizado?
+- No te limites a hacer eco de una implementación de base de datos supuesta
+- Considera cuándo deberíamos aprovechar más el motor de la base de datos. 
+
+Para la aplicación de ejemplo consideremos la tarea de buscar una palabra al azar para que el usuario la adivine. ¿Cómo debemos dividir el trabajo entre el dominio y la base de datos? 
+
+Hay dos amplias opciones:  
+
+- Sea que la base de datos elija una palabra al azar
+- Sea que el modelo de dominio genera un número aleatorio y sea que la base de datos suministre una palabra numerada.  
+
+Tambien podemos tomar otra decisión de diseño aquí. Los números utilizados para identificar una palabra comenzarán en 1 y aumentarán en uno por cada palabra. 
+
+Podemos proporcionar un método en el puerto que devuelva el límite superior de estos números. Luego, estamos listos para definir esa interfaz de repositorio, con una prueba.  
+
+La clase de prueba comienza con la declaración del paquete y las importaciones de biblioteca que necesitamos. 
+
+**Tarea:** Implementa y comprueba el uso del siguiente código: 
+
+
+```
+package com.wordz.domain; 
+import org.junit.jupiter.api.BeforeEach; 
+import org.junit.jupiter.api.Test; 
+import org.junit.jupiter.api.extension.ExtendWith; 
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import static org.assertj.core.api.Assertions.*;
+import static org.mockito.Mockito.when;
+```
+
+Habilita la integración de Mockito con una anotación proporcionada por la biblioteca `junit-jupiter`. Añade la anotación a nivel de clase:  
+
+```
+@ExtendWith(MockitoExtension.class) 
+public class WordSelectionTest { 
+```
+
+Define algunas constantes enteras para la legibilidad: 
+
+```
+private static final int HIGHEST_WORD_NUMBER = 3; 
+private static final int WORD_NUMBER_SHINE = 2;  
+```
+
+Necesitas dos dobles de prueba, que queremos que Mockito genere. Necesitas un stub para el repositorio de palabras y un stub para un generador de números aleatorios.
+Debes agregar campos para estos stubs. Marca los campos con la anotación Mockito `@Mock` para que Mockito  genere los dobles:  
+
+```
+@Mock 
+private WordRepository repository; 
+ @Mock 
+private NumerosAleatorios random; 
+```
+
+Llama al método de prueba `selectsWordAtRandom()`. Explica lo que hace en el código siguiente:
+
+```
+@Test 
+    void selectsWordAtRandom() { 
+        when(repository.highestWordNumber()) 
+            .thenReturn(HIGHEST_WORD_NUMBER); 
+when(repository.fetchWordByNumber(WORD_NUMBER_SHINE)) 
+            .thenReturn("SHINE"); 
+        when(random.next(HIGHEST_WORD_NUMBER)) 
+            .thenReturn(WORD_NUMBER_SHINE); 
+        var selector = new WordSelection(repository, 
+                                         random); 
+        String actual = selector.chooseRandomWord(); 
+        assertThat(actual).isEqualTo("SHINE"); 
+    } 
+} 
+```
+Explica el funcionamiento de la clase `WordSelection` , de `WordRepository`. de `Numeros aleatorios` y el método `chooseRandomWord()` y de los siguientes códigos:
+
+```
+@BeforeEach 
+void beforeEachTest() { 
+    when(repository.highestWordNumber()) 
+                  .thenReturn(HIGHEST_WORD_NUMBER); 
+    when(repository.fetchWordByNumber(WORD_NUMBER_SHINE)) 
+                  .thenReturn("SHINE"); 
+} 
+```
+
+```
+package com.wordz.domain; 
+public interface WordRepository { 
+    String fetchWordByNumber(int number); 
+    int highestWordNumber(); 
+} 
+```
+
+La prueba también revisa la interfaz necesaria para el generador de números aleatorios:  
+
+```
+package com.wordz.domain; 
+public interface NumerosAleatorios{ 
+    int next(int upperBoundInclusive); 
+}
+```
+
+El método `next()` devuelve int en el rango de 1 al número `upperBoundInclusive`. 
+
+Con las interfaces de prueba y puerto definidas, podemos escribir el código del modelo de dominio: 
+
+```
+package com.wordz.domain; 
+public class WordSelection { 
+    private final WordRepository repository; 
+    private final NumerosAleatorios random; 
+    public WordSelection(WordRepository repository, 
+                         NumerosAleatorios random) {
+
+        this.repository = repository; 
+        this.random = random; 
+    } 
+    public String chooseRandomWord() { 
+          int wordNumber = 
+           random.next(repository.highestWordNumber()); 
+        return repository.fetchWordByNumber(wordNumber); 
+    } 
+} 
+```
+Con esto, el código de producción para el modelo de dominio de `WordSelection` está completo.  
+
+
+
