@@ -2,7 +2,7 @@
 
 1. SOLID
 2. Introducción a las pruebas en software -parte 1
-3. Introducción a las pruebas en software -parte 2 - domiciliaria
+3. Introducción a las pruebas en software -parte 2
 4. Historias de usuario y criterios de aceptación
 5. Implementación y proceso de ingeniería del software
 6. TDD-1 - construyendo una aplicación TDD
@@ -18,5 +18,8 @@
 16. Pruebas basadas en propiedades
 17. TDD-5 - stubs y mocks
 18. Uso de Mockito
-19. Introducción a las Arquitecturas de Software
+19. Introducción a las arquitecturas de software
 20. TDD-6 - Arquitectura Hexagonal
+21. Pruebas de Integración y aceptación
+22. Microservicios
+23. Introducción a Docker
