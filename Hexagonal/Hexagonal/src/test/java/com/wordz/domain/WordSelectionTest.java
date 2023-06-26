@@ -11,15 +11,7 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class WordSelectionTest {
-
-    private static final int HIGHEST_WORD_NUMBER = 3 ;
-    private static final int WORD_NUMBER_SHINE = 2 ;
-    @Mock
-    private WordRepository repository;
-
-    @Mock
-    private NumerosAleatorios random;
-
+      // completa...
     @BeforeEach
     void beforeEachTest() {
         when(repository.highestWordNumber()).thenReturn(HIGHEST_WORD_NUMBER);
@@ -29,11 +21,6 @@ public class WordSelectionTest {
 
     @Test
     void selectsWordAtRandom() {
-        when(random.next(HIGHEST_WORD_NUMBER)).thenReturn(WORD_NUMBER_SHINE);
-        var selector = new WordSelection(repository, random);
-
-        String actual = selector.chooseRandomWord();
-
-        assertThat(actual).isEqualTo("SHINE");
+       // completa
     }
 }
