@@ -21,5 +21,8 @@
 19. Introducción a las arquitecturas de software
 20. TDD-6 - Arquitectura Hexagonal
 21. Patrones de microservicios
-22. Pruebas de Integración y aceptación
-23. Introducción a Docker
+22. Introducción a Spring Boot
+23. Uso de microservicios cooperativos
+24. Introducción a Docker
+25. CI/CD
+26. Kubernetes
