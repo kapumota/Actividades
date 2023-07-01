@@ -26,3 +26,4 @@
 24. Introducción a Docker
 25. CI/CD
 26. Kubernetes
+27. Preguntas finales.
