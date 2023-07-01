@@ -1,4 +1,4 @@
-## Curso de desarrollo de sftware
+## Curso de desarrollo de software
 
 ### Introducción a Spring Boot 
 
@@ -33,6 +33,7 @@ Antes de Spring Boot, la forma más común de ejecutar una aplicación Spring er
 La implementación de archivos WAR todavía es compatible con Spring Boot. 
 
 Un archivo fat JAR contiene no solo las clases y los archivos de recursos de la aplicación en sí, sino también todos los archivos JAR de los que depende la aplicación. 
+
 Esto significa que el archivo fat JAR es el único archivo JAR necesario para ejecutar la aplicación, es decir, solo necesitamos transferir un archivo JAR a un entorno en el que 
 queremos ejecutar la aplicación en lugar de transferir el archivo JAR de la aplicación junto con todos los archivos JAR de los que depende la aplicación.  
 
@@ -154,7 +155,7 @@ Spring WebFlux admite dos modelos de programación diferentes:
 - Un nuevo modelo orientado a funciones basado en routers y controladores 
 
 Spring WebFlux también proporciona un cliente HTTP totalmente reactivo, `WebClient` como complemento del cliente `RestTemplate` existente, además de 
-admitir la ejecución en un contenedor de servlet como Apache Tomcat y de servidores web integrados reactivos que no están basados en Servlet, como `Netty` (https://netty.io/). 
+admitir la ejecución en un contenedor de servlet como Apache Tomcat y de servidores web integrados reactivos que no están basados en Servlet, como [Netty](https://netty.io/). 
 
 La especificación Servlet es una especificación en la plataforma Java EE que estandariza cómo desarrollar aplicaciones Java que se comunican mediante protocolos web como HTTP. 
 
@@ -378,6 +379,158 @@ Los conceptos centrales en Spring Cloud Stream son los siguientes:
 
 El sistema de mensajería real que se utilizará se determina en tiempo de ejecución, según lo que se encuentre en el classpath. 
 Spring Cloud Stream viene con convenciones obstinadas sobre cómo manejar la mensajería. 
+
 Estas convenciones se pueden sobreescribir especificando una configuración para funciones de mensajería como 
 grupos de consumidores, partición, persistencia, durabilidad y manejo de errores, por ejemplo, reintentos y gestión de colas de mensajes fallidos. 
 
+#### Ejemplos de código para enviar y recibir mensajes 
+
+Para comprender mejor cómo encaja todo esto, veamos algunos ejemplos de código fuente. 
+
+Spring Cloud Stream viene con dos modelos de programación: un modelo más antiguo y actualmente en desuso basado en el uso de anotaciones (por ejemplo, `@EnableBinding`, `@Output` y `@StreamListener`) y un modelo más nuevo basado en funciones de escritura. 
+
+Para implementar un `publisher`, solo necesitamos implementar la interfaz funcional `java.util.function.Supplier` como `Spring Bean`.  Por ejemplo, el siguiente es un editor 
+que publica mensajes como una cadena: 
+
+```
+ @Bean 
+   public Supplier<String> myPublisher() { 
+         return () -> new Date().toString(); 
+    } 
+```
+Un `suscriber` se implementa como `Spring Bean` implementando la Interfaz funcional `java.util.function.Consumer`. Por ejemplo, el siguiente es un suscriptor que consume mensajes como cadenas: 
+
+```
+@Bean 
+public Consumer<String> mySubscriber() {
+     return s -> System.out.println("ML RECIBIDO: " + s); 
+} 
+```
+
+También es posible definir un Spring Bean que procese mensajes, lo que significa que consume y publica mensajes. Esto se puede hacer implementando la interfaz funcional `java.util.function.Function`. Por ejemplo, un Spring Bean que consume mensajes entrantes y publica un nuevo mensaje después de algún procesamiento (ambos mensajes son cadenas en este ejemplo): 
+
+```
+@Bean 
+public Function<String, String> myProcessor() { 
+     return s -> "ML PROCESADO: " + s; 
+} 
+```
+
+Para que Spring Cloud Stream conozca estas funciones, debemos declararlas mediante la propiedad de configuración `spring.cloud.function.definition`. 
+Por ejemplo, para las tres funciones definidas anteriormente, esto se vería de la siguiente manera: 
+
+```
+spring.cloud.function: 
+  definition: myPublisher;myProcessor;mySubscriber 
+```
+ 
+Finalmente, debemos decirle a Spring Cloud Stream qué destino usar para cada función. Para conectar las tres funciones para que el procesador consuma mensajes del editor 
+y el suscriptor consuma mensajes del procesador, podemos proporcionar la siguiente configuración: 
+
+```
+spring.cloud.stream.bindings: 
+  myPublisher-out-0: 
+    destination: myProcessor-in  
+  myProcessor-in-0: 
+    destination: myProcessor-in 
+  myProcessor-out-0: 
+    destination: myProcessor-out 
+  mySubscriber-in-0: 
+    destination: myProcessor-out
+```
+
+Esto dará como resultado el siguiente flujo de mensajes: 
+
+```
+myPublisher --> myProcessor --> mySubscribe 
+```
+
+Spring Cloud Stream activa un proveedor de forma predeterminada cada segundo, por lo que podríamos esperar un resultado como el siguiente si iniciamos una aplicación Spring Boot que incluye las funciones y la configuración descritas anteriormente: 
+
+```
+ML RECIBIDO: ML PROCESADO: Wed Jan 28 16:28:30 CET 2023 
+ML RECIBIDO: ML PROCESADO: Wed Jan 28 16:28:31 CET 2023 
+ML RECIBIDO: ML PROCESADO: Wed Jan 28 16:28:32 CET 2023 
+ML RECIBIDO: ML PROCESADO: Wed Jan 28 16:28:33 CET 2023
+```
+
+En los casos en los que el `Supplier` deba ser activado por un evento externo en lugar de usar un temporizador, se puede usar la clase auxiliar `StreamBridge`. 
+
+Por ejemplo, si se debe publicar un mensaje en el procesador cuando se llama a una API REST, `sampleCreateAPI` el código podría tener el siguiente aspecto: 
+
+```
+@Autowired 
+private StreamBridge streamBridge; 
+
+@PostMapping 
+void sampleCreateAPI(@RequestBody String body) {
+   streamBridge.send("myProcessor-in-0", body); 
+} 
+```
+
+### Docker 
+
+Docker hizo muy popular el concepto de contenedores como una alternativa liviana a las máquinas virtuales. Un contenedor es en realidad un proceso que usa espacios de nombres de Linux para proporcionar aislamiento entre diferentes contenedores, en términos de su uso de recursos del sistema global como usuarios, procesos, sistemas de archivos y redes. 
+
+Los grupos de control de Linux (también conocidos como cgroups) se utilizan para limitar la cantidad de CPU y memoria que puede consumir un contenedor. 
+
+En comparación con una máquina virtual que usa un hipervisor para ejecutar una copia completa de un sistema operativo en cada máquina virtual, la sobrecarga en un contenedor es una fracción de la sobrecarga en una máquina virtual tradicional. Esto conduce a tiempos de inicio mucho más rápidos y una sobrecarga significativamente menor en términos de uso de CPU y memoria. 
+
+Sin embargo, el aislamiento que se proporciona para un contenedor no se considera tan seguro como el aislamiento que se proporciona para una máquina virtual. 
+
+Los contenedores son muy útiles durante el desarrollo y las pruebas. Ser capaz de iniciar un panorama de sistema completo de microservicios cooperativos y administradores de recursos (por ejemplo, servidores de bases de datos, agentes de mensajería, etc.) con un solo comando para realizar pruebas es simplemente increíble. 
+
+Por ejemplo, podemos escribir scripts para automatizar las pruebas de extremo a extremo de un panorama de microservicios. Un script de prueba puede poner en marcha el panorama de microservicios, ejecutar pruebas con las API expuestas y derribar el panorama. 
+
+Este tipo de secuencia de comandos de prueba automatizada es muy útil, tanto para ejecutarse localmente en una PC de desarrollador antes de enviar el código a un repositorio de código fuente, como para ejecutarse como un paso en un pipeline de entrega. 
+
+Un servidor de compilación puede ejecutar este tipo de pruebas en su proceso continuo de integración e implementación cada vez que un desarrollador inserta código en el repositorio de origen. 
+
+Para el uso de producción, necesitamos un orquestador de contenedores como Kubernetes. 
+
+Para la mayoría de los microservicios que veremos un [Dockerfile](https://iesgn.github.io/curso_docker_2021/sesion6/dockerfile.html) como el siguiente es todo lo que se requiere para ejecutar el microservicio como un contenedor de Docker: 
+
+```
+FROM openjdk:16 
+
+MAINTAINER Kapumota <kapumota@awd.com>  
+
+EXPOSE 8080 
+ADD ./build/libs/*.jar app.jar 
+ENTRYPOINT ["java","-jar","/app.jar"] 
+```
+
+Si queremos iniciar y detener muchos contenedores con un solo comando, [Docker Compose](https://docs.docker.com/compose/) es la herramienta perfecta.
+
+Docker Compose utiliza un archivo YAML para describir los contenedores que se administrarán.
+
+Para los microservicios, podría parecerse a lo siguiente: 
+
+```
+product: 
+ build: microservicios/product-service
+ 
+recommendation: 
+  build: microservicios/recommendation-service 
+  
+review: 
+  build: microservicios/review-service 
+
+composite: 
+  build: microservicios/product-composite-service 
+  ports: 
+     - "8080:8080" 
+```
+     
+Explicamos un poco el código fuente anterior: 
+
+- La directiva `build` se usa para especificar qué Dockerfile usar para cada microservicio. `Docker Compose` lo usará para crear una imagen de Docker y luego lanzará un contenedor de Docker basado en esa imagen de Docker.
+- La directiva de `ports` para el servicio compuesto se usa para exponer el puerto 8080 en el servidor donde se ejecuta Docker. En la máquina de un desarrollador, esto significa que se puede acceder al puerto del servicio compuesto simplemente usando `localhost: 8080`. 
+
+Todos los contenedores en los archivos YAML se pueden administrar con comandos simples como los siguientes: 
+
+- `docker-compose up -d`: inicia todos los contenedores. `-d` significa que los contenedores se ejecutan en segundo plano, sin bloquear la terminal desde donde se ejecutó el comando.
+- `docker-compose down`: detiene y elimina todos los contenedores.
+-  `docker-compose logs -f --tail=0`: imprime los mensajes de registro de todos los contenedores. `-f` significa que el comando no se completará y en su lugar, esperará nuevos mensajes de registro `--tail=0` significa que no queremos ver ningún mensaje de registro anterior, solo los nuevos. 
+
+Para obtener una lista completa de los comandos de Docker Compose, consulta https://docs.docker.com/compose/reference/.
