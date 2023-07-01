@@ -534,3 +534,17 @@ Todos los contenedores en los archivos YAML se pueden administrar con comandos s
 -  `docker-compose logs -f --tail=0`: imprime los mensajes de registro de todos los contenedores. `-f` significa que el comando no se completará y en su lugar, esperará nuevos mensajes de registro `--tail=0` significa que no queremos ver ningún mensaje de registro anterior, solo los nuevos. 
 
 Para obtener una lista completa de los comandos de Docker Compose, consulta https://docs.docker.com/compose/reference/.
+
+### Preguntas
+
+1. ¿Cuál es el propósito de la anotación `@SpringBootApplication`?
+
+2. ¿Cuáles son las principales diferencias entre el antiguo componente Spring para desarrollar servicios REST, Spring Web MVC y el nuevo Spring WebFlux?
+
+3. ¿Cómo ayuda `springdoc-openapi` a un desarrollador a documentar las API REST?
+
+4. ¿Cuál es la función de un repositorio en `Spring Data` y cuál es la implementación más simple posible de un repositorio?
+
+5. ¿Cuál es el propósito de un `binder` en `Spring Cloud Stream`?
+
+6. ¿Cuál es el propósito de `Docker Compose`?.
