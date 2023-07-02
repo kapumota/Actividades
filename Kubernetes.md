@@ -353,3 +353,17 @@ El comando kubectl ofrece un atajo para crear un servicio sin usar YAML. En luga
 ```
 $ kubectl expose deployment calculador2-deployment --type=NodePort --name=calculador2-service  
 ```
+
+### Ejercicios
+
+1. Qué es un clúster de servidores?
+2. ¿Cuál es la diferencia entre un plano de control de Kubernetes y un nodo de Kubernetes?
+3. Nombra al menos tres plataformas en la nube que proporcionen un entorno de Kubernetes listo para usar.
+4. Ejecuta una aplicación `hello world` en el clúster de Kubernetes
+
+- Implemente la aplicación con tres réplicas.
+- Exponga la aplicación con el servicio NodePort.
+- Realiza una solicitud (usando curl) a la aplicación.
+
+5. ¿Cuál es la diferencia entre una implementación y un servicio de Kubernetes?
+6. Nombra al menos dos sistemas de administración de clústeres que no sean Kubernetes.
