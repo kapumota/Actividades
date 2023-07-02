@@ -249,65 +249,50 @@ Pero, ¿cómo accedemos a la aplicación desde el exterior? Ese es el papel de u
 
 Veamos el siguiente diagrama, que presenta la idea de un Pod y un Servicio:  
 
- 
-Los pods se colocan físicamente en diferentes nodos, pero no tiene que preocuparse por esto, ya que Kubernetes se encarga de la orquestación correcta e introduce la abstracción de un Pod y un Servicio. El usuario accede al Service, cuya carga equilibra el tráfico entre las réplicas del Pod.  
-
-Veamos un ejemplo de cómo crear un servicio para nuestra aplicación Calculador. 
-
-Al igual que hicimos para la implementación, comenzamos desde un archivo de configuración YAML. Llamémoslo service.yaml : 
+<img src="Imagenes/Servicios-pod.png" width="480px" height="280px">
 
  
+Los pods se colocan físicamente en diferentes nodos, pero no tiene que preocuparse por esto, ya que Kubernetes se encarga de la orquestación correcta e introduce la abstracción de un Pod y un Servicio. 
 
+El usuario accede a `Service`, cuya carga equilibra el tráfico entre las réplicas del Pod.  
+
+Veamos un ejemplo de cómo crear un servicio para la aplicación `Calculador2`. 
+
+Al igual que hicimos para la implementación, comenzamos desde un archivo de configuración YAML. Llamémoslo `service.yaml` : 
+
+```
 apiVersion: v1 
-
 kind: Service 
-
 metadata: 
-
-  name: calculador-service 
-
+  name: calculador2-service 
 spec: 
-
   type: NodePort 
-
   selector: 
-
-    app: calculador 
-
+    app: calculador2 
   ports: 
-
   - port: 8080 
+```
 
- 
+Esta es una configuración para un servicio simple que equilibra la carga del tráfico a todos los pods que cumplen con los criterios que mencionamos en el selector. 
 
- 
+Para instalar el servicio, ejecuta el siguiente comando: 
 
-Esta es una configuración para un servicio simple que equilibra la carga del tráfico a todos los pods que cumplen con los criterios que mencionamos en el selector. Para instalar el servicio, ejecute el siguiente comando: 
-
- 
-
+```
 $ kubectl apply -f service.yaml 
-
- 
+```
 
 Luego puedes verificar que el servicio se implementa correctamente ejecutando el siguiente comando:  
 
- 
+```
+$ kubectl get service calculador2-service 
+```
 
-$ kubectl get service calculador-service 
+Para verificar que el servicio apunte a las tres réplicas de Pod que creamos en la sección anterior, ejecuta el siguiente comando:  
 
- 
-
-Para verificar que el servicio apunte a las tres réplicas de Pod que creamos en la sección anterior, ejecute el siguiente comando:  
-
- 
-
+```
 $ kubectl describe service calculador-service | grep Endpoints 
+```
+Las direcciones IP, tanto para Services como para el Pod, son internas a la red del clúster de Kubernetes.  
 
- 
 
-De los últimos dos comandos que ejecutamos, podemos ver que el servicio está disponible bajo la dirección IP de 10.19.248.154 y que equilibra la carga del tráfico a tres Pods con las IP de 10.16.1.5, 10.16.2.6 y 10.16.2.7 . Todas estas direcciones IP, tanto para Services como para el Pod, son internas a la red del clúster de Kubernetes.  
-
- 
-
-Información: Para obtener más información sobre los servicios de Kubernetes, visite el sitio web oficial de Kubernetes en https://kubernetes.io/docs/concepts/services-networking/service/.  
+Para obtener más información sobre los servicios de Kubernetes, visita el sitio web oficial de Kubernetes en https://kubernetes.io/docs/concepts/services-networking/service/.  
