@@ -180,82 +180,49 @@ Usando los comandos anteriores, creamos la aplicación, creamos la imagen de Doc
 
 Para iniciar un contenedor Docker en Kubernetes, debemos preparar una configuración de implementación como un archivo YAML. Llamémoslo `deployment.yaml` : 
 
- 
-
+```
 apiVersion: apps/v1 
-
-kind: Deployment 
-
+kind: Deployment                  (1)
 metadata: 
-
-  name: calculador-deployment 
-
+  name: calculador2-deployment    (2)
   labels: 
-
-    app: calculador 
-
+    app: calculador2 
 spec: 
-
-  replicas: 3 
-
-  selector: 
-
+  replicas: 3                     (3)
+  selector:                       (4)
     matchLabels: 
-
-      app: calculador 
-
-  template: 
-
+      app: calculador2 
+  template:                       (5)
     metadata: 
-
-      labels: 
-
-        app: calculador 
-
+      labels:                     (6)
+        app: calculador2 
     spec: 
-
       containers: 
-
-      - name: calculador 
-
-        image: checha/calculador 
-
-        ports: 
-
+      - name: calculador2           (7)
+        image: checha/calculador2   (8)
+        ports:                      (9)
         - containerPort: 8080 
-
+```
  
 
 En esta configuración de YAML, debemos asegurarnos de lo siguiente:  
 
- 
+1. Hemos definido un recurso de Kubernetes del tipo `Deployment` de la versión de la API de Kubernetes `apps/v1`.
+2. El nombre de implementación único es `calculador2-deployment`.
+3. Hemos definido que debe haber exactamente 3 Pods iguales creados.
+4. `selector` define cómo `Deployment` encuentra Pods para administrar, en este caso, solo por la etiqueta.
+5. `template` define la especificación para cada Pod creado.
+6. Cada Pod está etiquetado con `app:calculador2`.
+7. Cada Pod contiene un contenedor Docker llamado calculador.
+8. Se creó un contenedor Docker a partir de la imagen llamado `checha/calculador2`.
+9. El Pod expone el puerto del contenedor 8080.  
 
-Hemos definido un recurso de Kubernetes del tipo Deployment de la versión de la API de Kubernetes apps/v1.  
-
-El nombre de implementación único es calculador-deployment.  
-
-Hemos definido que debe haber exactamente 3 Pods iguales creados.  
-
-selector define cómo Deployment encuentra Pods para administrar, en este caso, solo por la etiqueta. 
-
-template define la especificación para cada Pod creado. 
-
-Cada Pod está etiquetado con la aplicación: calculador.  
-
-Cada Pod contiene un contenedor Docker llamado calculador.  
-
-Se creó un contenedor Docker a partir de la imagen llamado checha/calculador. 
-
-El Pod expone el puerto del contenedor 8080.  
-
- 
 
 Para instalar la implementación, ejecuta el siguiente comando:  
 
- 
-
+```
 $ kubectl apply -f deployment.yaml  
-
+```
  
 
 Puedes verificar que se hayan creado los tres Pods, cada uno con un contenedor Docker: 
