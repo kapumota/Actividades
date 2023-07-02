@@ -160,3 +160,202 @@ Esta es la salida para el escenario de Docker Desktop y es por eso que puedes ve
 
 Tu salida puede ser ligeramente diferente y puede incluir más entradas. Si no ves errores, entonces todo está correcto y podemos comenzar a usar Kubernetes para ejecutar aplicaciones.  
 
+### Uso de Kubernetes  
+
+Tenemos todo el entorno de Kubernetes listo y kubectl configurado. Esto significa que ya es hora de presentar finalmente el poder de Kubernetes e implementar la primera aplicación. 
+
+
+### Implementación de una aplicación  
+
+Para empezar crea la imagen de Docker `checha/calculador` desde [calculador2](https://github.com/kapumota/Actividades/tree/main/calculador2) que debes configurar  a través de los siguientes comandos y comenzar con varias réplicas en Kubernetes.  
+
+```
+$ ./gradlew build
+$ docker build -t calculador2 .
+$ docker run -p 8080:8080 --name calculador2 calculador2
+```
+
+Usando los comandos anteriores, creamos la aplicación, creamos la imagen de Docker y ejecutamos el contenedor de Docker. Después de un tiempo, deberíamos poder abrir el navegador en `http://localhost:8080/sum?a=1&b=2` y ver 3 como resultado.
+
+
+Para iniciar un contenedor Docker en Kubernetes, debemos preparar una configuración de implementación como un archivo YAML. Llamémoslo `deployment.yaml` : 
+
+ 
+
+apiVersion: apps/v1 
+
+kind: Deployment 
+
+metadata: 
+
+  name: calculador-deployment 
+
+  labels: 
+
+    app: calculador 
+
+spec: 
+
+  replicas: 3 
+
+  selector: 
+
+    matchLabels: 
+
+      app: calculador 
+
+  template: 
+
+    metadata: 
+
+      labels: 
+
+        app: calculador 
+
+    spec: 
+
+      containers: 
+
+      - name: calculador 
+
+        image: checha/calculador 
+
+        ports: 
+
+        - containerPort: 8080 
+
+ 
+
+En esta configuración de YAML, debemos asegurarnos de lo siguiente:  
+
+ 
+
+Hemos definido un recurso de Kubernetes del tipo Deployment de la versión de la API de Kubernetes apps/v1.  
+
+El nombre de implementación único es calculador-deployment.  
+
+Hemos definido que debe haber exactamente 3 Pods iguales creados.  
+
+selector define cómo Deployment encuentra Pods para administrar, en este caso, solo por la etiqueta. 
+
+template define la especificación para cada Pod creado. 
+
+Cada Pod está etiquetado con la aplicación: calculador.  
+
+Cada Pod contiene un contenedor Docker llamado calculador.  
+
+Se creó un contenedor Docker a partir de la imagen llamado checha/calculador. 
+
+El Pod expone el puerto del contenedor 8080.  
+
+ 
+
+Para instalar la implementación, ejecuta el siguiente comando:  
+
+ 
+
+$ kubectl apply -f deployment.yaml  
+
+ 
+
+Puedes verificar que se hayan creado los tres Pods, cada uno con un contenedor Docker: 
+
+ 
+
+$ kubectl get pods 
+
+ 
+
+Cada Pod ejecuta un contenedor Docker. Podemos verificar sus registros usando el siguiente comando:  
+
+ 
+
+$ kubectl logs pods/calculador-deployment-dccdf8756-h2l6c  
+
+ 
+
+Debería ver el familiar logotipo de Spring y los registros del servicio web Calculador.  
+
+ 
+
+Información: Para ver una descripción general de los comandos de kubectl, consulta la guía oficial: https://kubernetes.io/docs/reference/kubectl/overview/ .  
+
+ 
+
+Implementación de un servicio de Kubernetes  
+
+ 
+
+Cada Pod tiene una dirección IP en la red interna de Kubernetes, lo que significa que ya puede acceder a cada instancia de calculador desde otro Pod que se ejecuta en el mismo clúster de Kubernetes. Pero, ¿cómo accedemos a la aplicación desde el exterior? Ese es el papel de un servicio (Services)  de Kubernetes. 
+
+ 
+
+Veamos el siguiente diagrama, que presenta la idea de un Pod y un Servicio:  
+
+ 
+
+ 
+
+ 
+
+Los pods se colocan físicamente en diferentes nodos, pero no tiene que preocuparse por esto, ya que Kubernetes se encarga de la orquestación correcta e introduce la abstracción de un Pod y un Servicio. El usuario accede al Service, cuya carga equilibra el tráfico entre las réplicas del Pod.  
+
+ 
+
+Veamos un ejemplo de cómo crear un servicio para nuestra aplicación Calculador. Al igual que hicimos para la implementación, comenzamos desde un archivo de configuración YAML. Llamémoslo service.yaml : 
+
+ 
+
+apiVersion: v1 
+
+kind: Service 
+
+metadata: 
+
+  name: calculador-service 
+
+spec: 
+
+  type: NodePort 
+
+  selector: 
+
+    app: calculador 
+
+  ports: 
+
+  - port: 8080 
+
+ 
+
+ 
+
+Esta es una configuración para un servicio simple que equilibra la carga del tráfico a todos los pods que cumplen con los criterios que mencionamos en el selector. Para instalar el servicio, ejecute el siguiente comando: 
+
+ 
+
+$ kubectl apply -f service.yaml 
+
+ 
+
+Luego puedes verificar que el servicio se implementa correctamente ejecutando el siguiente comando:  
+
+ 
+
+$ kubectl get service calculador-service 
+
+ 
+
+Para verificar que el servicio apunte a las tres réplicas de Pod que creamos en la sección anterior, ejecute el siguiente comando:  
+
+ 
+
+$ kubectl describe service calculador-service | grep Endpoints 
+
+ 
+
+De los últimos dos comandos que ejecutamos, podemos ver que el servicio está disponible bajo la dirección IP de 10.19.248.154 y que equilibra la carga del tráfico a tres Pods con las IP de 10.16.1.5, 10.16.2.6 y 10.16.2.7 . Todas estas direcciones IP, tanto para Services como para el Pod, son internas a la red del clúster de Kubernetes.  
+
+ 
+
+Información: Para obtener más información sobre los servicios de Kubernetes, visite el sitio web oficial de Kubernetes en https://kubernetes.io/docs/concepts/services-networking/service/.  
