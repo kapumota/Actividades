@@ -29,7 +29,7 @@ La popularidad de Kubernetes ha crecido tanto recientemente que usar Kubernetes 
 
 El siguiente gráfico muestra la arquitectura simplificada de Kubernetes: 
 
-<img src="Imagenes/Arquitectura-kubernetes.png" width="490px" height="340px">
+<img src="Imagenes/Arquitectura-kubernetes.png" width="510px" height="340px">
 
 El plano de control de Kubernetes (maestro), que en realidad es un conjunto de servicios de clúster, es responsable de hacer cumplir el estado deseado de tus aplicaciones. 
 En otras palabras, especifica la configuración de implementación de manera declarativa (cuatro réplicas de un servicio web que expone el puerto 8080) y el plano de control 
@@ -141,27 +141,22 @@ El proceso de instalación es relativamente complejo y está fuera del alcance, 
 
  Ahora que tenemos configurado el entorno de Kubernetes, podemos verificar que kubectl está conectado al clúster correctamente y que estamos listos para comenzar a implementar las aplicaciones.  
 
- 
+#### Verificación de la configuración de Kubernetes  
 
-Verificación de la configuración de Kubernetes  
+Independientemente de la instalación del servidor de Kubernetes que elijas, ya deberías tener todo configurado y el cliente de Kubernetes debería estar completo con la URL y las credenciales del clúster. 
 
- 
+Puedes verificar esto con el siguiente comando:  
 
-Independientemente de la instalación del servidor de Kubernetes que elijas, ya deberías tener todo configurado y el cliente de Kubernetes debería estar completo con la URL y las credenciales del clúster. Puedes verificar esto con el siguiente comando:  
-
- 
-
+```
 $ kubectl cluster-info 
 
 Kubernetes control plane is running at https://kubernetes. 
-
 docker.internal:6443 
-
 CoreDNS is running at https://kubernetes.docker.internal:6443/ 
-
 api/v1/namespaces/kube-system/services/kube-dns:dns/proxy 
-
+```
  
+Esta es la salida para el escenario de Docker Desktop y es por eso que puedes ver `localhost`. 
 
-Esta es la salida para el escenario de Docker Desktop y es por eso que puedes ver localhost. Tu salida puede ser ligeramente diferente y puede incluir más entradas. Si no ves errores, entonces todo está correcto y podemos comenzar a usar Kubernetes para ejecutar aplicaciones.  
+Tu salida puede ser ligeramente diferente y puede incluir más entradas. Si no ves errores, entonces todo está correcto y podemos comenzar a usar Kubernetes para ejecutar aplicaciones.  
 
