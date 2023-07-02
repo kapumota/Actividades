@@ -296,3 +296,60 @@ Las direcciones IP, tanto para Services como para el Pod, son internas a la red 
 
 
 Para obtener más información sobre los servicios de Kubernetes, visita el sitio web oficial de Kubernetes en https://kubernetes.io/docs/concepts/services-networking/service/.  
+
+### Exponiendo una aplicación  
+
+
+Para comprender cómo se puede acceder a tu aplicación desde el exterior, debemos comenzar con los tipos de servicios de Kubernetes. 
+
+Puedes utilizar cuatro tipos de servicio diferentes, de la siguiente manera:  
+
+ - ClusterIP (predeterminado): el servicio solo tiene una IP interna.
+ - NodePort: expone el servicio en el mismo puerto de cada nodo del clúster. En otras palabras, cada máquina física (que es un nodo de Kubernetes) abre un puerto que se reenvía al servicio. Luego, puedes acceder a él usando `<NODE-IP>:<NODE-PORT>`.
+ - LoadBalancer: crea un balanceador de carga externo y asigna una IP externa separada para el servicio. Tu clúster de Kubernetes debe admitir balanceadores de carga externos, lo que funciona bien en el caso de las plataformas en la nube, pero es posible que no funcione si usas minikube.
+ - ExternalName: Expone el servicio usando un nombre DNS (especificado por `externalName` en la especificación).  
+
+Si quieres usar LoadBalancer que parece ser la solución más simple, tiene dos inconvenientes:  
+
+- Primero, no siempre está disponible, por ejemplo, si se implementó Kubernetes en minikube.
+- En segundo lugar, las direcciones IP públicas externas suelen ser caras. Una solución diferente es usar un servicio `NodePort`. 
+
+
+Ahora, veamos cómo podemos acceder al servicio.  
+
+Podemos repetir el mismo comando que ya ejecutamos: 
+
+```
+$ kubectl get service calculador2-service
+NAME       TYPE     CLUSTER-IP   EXTERNAL-IP  PORT(S)
+AGE
+calculador2-service NodePort    10.19.248.154 <none>
+8080:32259/TCP 13m
+```
+ 
+Puedes ver que se seleccionó el puerto 32259 como puerto de nodo. Esto quiere decir que podemos acceder al servicio `Calculador2` usando ese puerto y la IP de cualquiera de los nodos de Kubernetes.  
+
+La dirección IP de tu nodo de Kubernetes depende de tu instalación. Si usas Docker Desktop, entonces tu IP de nodo es localhost . 
+
+En el caso de minikube, puedes comprobarlo con el comando `minikube ip`. 
+
+En el caso de las plataformas en la nube o la instalación local, puedes verificar las direcciones IP con el siguiente comando:  
+
+```
+$ kubectl get nodes -o jsonpath='{ $.items[*].status. addresses[?(@.type=="ExternalIP")].address }' 
+```
+ 
+
+Para verificar que puedes acceder a `Calculador2` desde el exterior, ejecuta el siguiente comando:  
+
+```
+$ curl <NODE-IP>:32047/sum?a=1\&b=2 
+```
+ 
+Hicimos una solicitud HTTP a una de las instancias de contenedor de `Calculador2` y devolvió la respuesta correcta, lo que significa que implementamos con éxito la aplicación en Kubernetes.  
+
+El comando kubectl ofrece un atajo para crear un servicio sin usar YAML. En lugar de la configuración que usamos, podría ejecutar el siguiente comando: 
+
+```
+$ kubectl expose deployment calculador2-deployment --type=NodePort --name=calculador2-service  
+```
