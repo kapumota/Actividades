@@ -255,8 +255,11 @@ Para simplificar un poco la creación de todos los microservicios con un solo co
 ```
 **Pregunta:** comprueba todos estos resultados y muestra los resultados obtenido. 
 
-28 actionable tasks: 28 executed 
+Con los esqueletos para los microservicios creados con Spring Initializr y creados con éxito con Gradle, estamos listos para agregar algo de código a los microservicios.
 
-Con los proyectos de esqueleto para los microservicios creados con Spring Initializr y creados con éxito con Gradle, estamos listos para agregar algo de código a los microservicios en la siguiente sección. 
 
-Desde una perspectiva de DevOps, es posible que no se prefiera una configuración de varios proyectos. En cambio, para permitir que cada microservicio tenga su propio ciclo de compilación y lanzamiento, probablemente sería preferible configurar un pipeline de compilación separada para cada proyecto de microservicio. Sin embargo, para los fines de este curso, utilizaremos la configuración de varios proyectos para que sea más fácil construir e implementar todo el entorno del sistema con un solo comando. 
+Desde una perspectiva de DevOps, es posible que no se prefiera una configuración de varios proyectos. 
+En cambio, para permitir que cada microservicio tenga su propio ciclo de compilación y lanzamiento, probablemente sería preferible configurar un **pipeline de compilación separada** 
+para cada proyecto de microservicio. 
+
+Sin embargo, para los fines de este curso, utilizaremos la configuración de varios proyectos para que sea más fácil construir e implementar todo el entorno del sistema con un solo comando. 
