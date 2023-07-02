@@ -29,18 +29,16 @@ La popularidad de Kubernetes ha crecido tanto recientemente que usar Kubernetes 
 
 El siguiente gráfico muestra la arquitectura simplificada de Kubernetes: 
 
-<img src="Imagenes/Arquitectura-kubernetes.png" width="450px" height="270px">
+<img src="Imagenes/Arquitectura-kubernetes.png" width="690px" height="440px">
 
 El plano de control de Kubernetes (maestro), que en realidad es un conjunto de servicios de clúster, es responsable de hacer cumplir el estado deseado de tus aplicaciones. 
-En otras palabras, especifica su configuración de implementación de manera declarativa (cuatro réplicas de un servicio web que expone el puerto 8080) y el plano de control 
+En otras palabras, especifica la configuración de implementación de manera declarativa (cuatro réplicas de un servicio web que expone el puerto 8080) y el plano de control 
 es responsable de que esto suceda. 
 
 Un nodo de Kubernetes, por otro lado, es un trabajador. Puedes verlo simplemente como un host de docker con un proceso especial de Kubernetes (llamado kubelet) instalado.  
 
-
 Desde la perspectiva del usuario, proporciona una configuración de implementación declarativa en forma de archivo YAML y la pasa al plano de control de Kubernetes a través de su API. 
 Luego, el plano de control lee la configuración e instala la implementación. 
-
 
 Kubernetes introduce el concepto de **Pod**, que representa una única unidad de implementación. El Pod contiene contenedores Docker, que se programan juntos. 
 Si bien puedes colocar varios contenedores en un solo Pod, en escenarios reales, verás que la mayoría de los Pods contienen solo un contenedor Docker. 
