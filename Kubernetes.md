@@ -10,19 +10,18 @@ Esta actividad es individual.
 ### Introducción a la clustering de servidores  
 
 Un clúster de servidores es un conjunto de computadoras conectadas que funcionan juntas de tal manera que se pueden usar de manera similar a un solo sistema. 
-Los servidores suelen estar conectados a través de la red local mediante una conexión lo suficientemente rápida como para garantizar que los servicios que se ejecutan se distribuyan. 
+Los servidores suelen estar conectados a través de la red local mediante una conexión lo suficientemente rápida para garantizar que los servicios que se ejecutan se distribuyan. 
 
 Un clúster de servidor simple se presenta en el siguiente diagrama:  
 
 <img src="Imagenes/Server-cluster.png" width="380px" height="230px">
 
- 
 Un usuario accede al clúster a través de un host maestro, que expone la API del clúster. 
+
 Existen múltiples nodos que actúan como recursos informáticos, lo que significa que son los encargados de ejecutar las aplicaciones.
 
 El maestro, por otro lado, es responsable de todas las demás actividades, como el proceso de orquestación, el descubrimiento de servicios, el equilibrio de carga y la detección de fallas de nodos.  
 
- 
 ### Introducción a Kubernetes 
 
 [Kubernetes](https://kubernetes.io/es/) es un sistema de administración de clústeres de código abierto que fue diseñado originalmente por Google. 
@@ -30,17 +29,22 @@ La popularidad de Kubernetes ha crecido tanto recientemente que usar Kubernetes 
 
 El siguiente gráfico muestra la arquitectura simplificada de Kubernetes: 
 
+<img src="Imagenes/Arquitectura-kubernetes.png" width="450px" height="270px">
 
 El plano de control de Kubernetes (maestro), que en realidad es un conjunto de servicios de clúster, es responsable de hacer cumplir el estado deseado de tus aplicaciones. 
 En otras palabras, especifica su configuración de implementación de manera declarativa (cuatro réplicas de un servicio web que expone el puerto 8080) y el plano de control 
 es responsable de que esto suceda. 
-Un nodo de Kubernetes, por otro lado, es un trabajador. Puedes verlo simplemente como un host de contenedor (Docker) con un proceso especial de Kubernetes (llamado kubelet) instalado.  
+
+Un nodo de Kubernetes, por otro lado, es un trabajador. Puedes verlo simplemente como un host de docker con un proceso especial de Kubernetes (llamado kubelet) instalado.  
 
 
 Desde la perspectiva del usuario, proporciona una configuración de implementación declarativa en forma de archivo YAML y la pasa al plano de control de Kubernetes a través de su API. 
 Luego, el plano de control lee la configuración e instala la implementación. 
+
+
 Kubernetes introduce el concepto de **Pod**, que representa una única unidad de implementación. El Pod contiene contenedores Docker, que se programan juntos. 
 Si bien puedes colocar varios contenedores en un solo Pod, en escenarios reales, verás que la mayoría de los Pods contienen solo un contenedor Docker. 
+
 Los pods se crean y eliminan dinámicamente según los cambios de requisitos que se expresan en las actualizaciones de configuración de YAML.  
 
 #### Descripción general de las características de Kubernetes 
