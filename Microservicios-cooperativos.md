@@ -263,3 +263,79 @@ En cambio, para permitir que cada microservicio tenga su propio ciclo de compila
 para cada proyecto de microservicio. 
 
 Sin embargo, para los fines de este curso, utilizaremos la configuración de varios proyectos para que sea más fácil construir e implementar todo el entorno del sistema con un solo comando. 
+
+
+### Agregar API RESTful 
+
+Ahora que tenemos proyectos configurados para los microservicios, agreguemos algunas API RESTful a los tres microservicios principales. 
+
+Primero, agregaremos dos proyectos (`api` y `util`) que contendrán código compartido por los proyectos de microservicios, y luego implementaremos las API RESTful. 
+
+Para agregar un proyecto api, debemos hacer lo siguiente: 
+
+1. Configuraremos un proyecto Gradle separado donde podemos colocar las definiciones de API. También se definen varias clases de excepción.
+2. Luego crearemos un proyecto `util` que pueda contener algunas clases auxiliares que comparten los microservicios, por ejemplo, para manejar errores de manera uniforme. 
+
+#### El proyecto API 
+
+El proyecto `api` se empaquetará como una librería, es decir, no tendrá su propia clase de aplicación `main`. 
+Desafortunadamente, Spring Initializr no admite la creación de proyectos de libreróa. En su lugar, un proyecto de librería o biblioteca debe crearse manualmente desde cero.  
+
+La estructura de un proyecto de librería es la misma que para un proyecto de aplicación, excepto que ya no tenemos la clase de aplicación `main`, así como algunas diferencias menores en el archivo `build.gradle`. 
+El complemento de Gradle `org.springframework.boot` se reemplaza con una sección `implementation platform`: 
+
+```
+ext { 
+     springBootVersion = '3.1.1' 
+} 
+
+dependencias { 
+     implementation platform ("org.springframework.boot:spring-boot-
+dependencies:${springBootVersion}") 
+```
+
+Esto nos permite retener la administración de dependencias de Spring Boot mientras reemplazamos la construcción de un archivo fat JAR  en el paso de construcción 
+con la creación de un archivo JAR normal que solo contiene las clases y los archivos de propiedades del proyecto. 
+
+La estructura de las clases de Java es muy similar para los tres microservicios principales, por lo que solo analizaremos el código fuente del servicio `product`. 
+
+Primero, veremos la interfaz Java de `ProductService.java`, como se muestra en el siguiente código: 
+
+```
+package com.kapumota.api.core.product; 
+import org.springframework.web.bind.annotation.GetMapping; 
+import org.springframework.web.bind.annotation.PathVariable;  
+public interface ProductService { 
+
+  @GetMapping ( 
+    value = "/product/{productId}", 
+    produces = "application/json") 
+    Product getProduct(@PathVariable int productId); 
+} 
+```
+
+**Pregunta:** Explica el funcionamiento de la declaración de la interfaz Java. 
+
+El método devuelve un objeto `Product` una clase simple con las variables miembro correspondientes a los atributos de `Product`. 
+`Product.java` tiene el siguiente aspecto (con constructores y métodos `getter` excluidos): 
+
+```
+public class Product { 
+   private final int productId; 
+   private final String name; 
+   private final int weight; 
+   private final String serviceAddress; 
+} 
+```  
+
+El proyecto API también contiene las clases de excepción `InvalidInputException` y `NotFoundException`. 
+
+#### El proyecto util 
+
+El proyecto util se empaquetará como una biblioteca de la misma manera que el proyecto `api`.  
+
+El proyecto contiene las siguientes clases de utilidad: `GlobalControllerExceptionHandler`, `HttpErrorInfo` y `ServiceUtil`. 
+
+Excepto por el código en `ServiceUtil.java`, estas clases son clases de utilidad reutilizables que podemos usar para asignar excepciones de Java a códigos de estado HTTP adecuados.  
+
+El objetivo principal de `ServiceUtil.java` es averiguar el nombre de host, la dirección IP y el puerto que utiliza el microservicio. La clase expone un método, `getServiceAddress()`, que los microservicios pueden usar para encontrar su nombre de host, dirección IP y puerto.
