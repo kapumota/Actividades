@@ -14,9 +14,12 @@ Los servidores suelen estar conectados a través de la red local mediante una co
 
 Un clúster de servidor simple se presenta en el siguiente diagrama:  
 
+<img src="Imagenes/Server-cluster.png" width="380px" height="230px">
+
  
 Un usuario accede al clúster a través de un host maestro, que expone la API del clúster. 
 Existen múltiples nodos que actúan como recursos informáticos, lo que significa que son los encargados de ejecutar las aplicaciones.
+
 El maestro, por otro lado, es responsable de todas las demás actividades, como el proceso de orquestación, el descubrimiento de servicios, el equilibrio de carga y la detección de fallas de nodos.  
 
  
