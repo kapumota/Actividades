@@ -29,7 +29,7 @@ La popularidad de Kubernetes ha crecido tanto recientemente que usar Kubernetes 
 
 El siguiente gráfico muestra la arquitectura simplificada de Kubernetes: 
 
-<img src="Imagenes/Arquitectura-kubernetes.png" width="690px" height="440px">
+<img src="Imagenes/Arquitectura-kubernetes.png" width="490px" height="340px">
 
 El plano de control de Kubernetes (maestro), que en realidad es un conjunto de servicios de clúster, es responsable de hacer cumplir el estado deseado de tus aplicaciones. 
 En otras palabras, especifica la configuración de implementación de manera declarativa (cuatro réplicas de un servicio web que expone el puerto 8080) y el plano de control 
@@ -91,7 +91,7 @@ Aunque Kubernetes en sí mismo es un sistema de clústeres complejo, existen alg
 
 **Docker Desktop**  
 
-[Docker Desktop](https://www.docker.com/products/docker-desktop/) es una aplicación que se utiliza para configurar un entorno Docker local en macOS o Windows. 
+[Docker Desktop](https://www.docker.com/products/docker-desktop/), es una aplicación que se utiliza para configurar un entorno Docker local en macOS o Windows. 
 
 Como se sabe, el demonio Docker solo puede ejecutarse de forma nativa en Linux, por lo que para otros sistemas operativos, se debe ejecutarlo en una máquina virtual.
 
@@ -115,7 +115,7 @@ $ kind create cluster
 
 **minikube**  
 
-[minikube](https://kubernetes.io/es/docs/tutorials/hello-minikube/) es una herramienta de línea de comandos que inicia un entorno de Kubernetes completamente funcional dentro de una máquina virtual. Está respaldado por un hipervisor de VM, por lo que debe tener instalado VirtualBox, Hyper-V, VMware o una herramienta similar. 
+[minikube](https://kubernetes.io/es/docs/tutorials/hello-minikube/), es una herramienta de línea de comandos que inicia un entorno de Kubernetes completamente funcional dentro de una máquina virtual. Está respaldado por un hipervisor de VM, por lo que debe tener instalado VirtualBox, Hyper-V, VMware o una herramienta similar. 
 
 Las instrucciones para instalar minikube dependen de tu sistema operativo, y puedes encontrar instrucciones para cada uno en https://minikube.sigs.k8s.io/docs/start/.  
 
@@ -129,25 +129,17 @@ $ minikube start
  
 minikube inicia un clúster de Kubernetes y configura automáticamente el cliente de Kubernetes con la URL y las credenciales del clúster. 
 
- 
+#### Plataformas en la nube 
 
-Plataformas en la nube 
+Kubernetes se ha vuelto tan popular que la mayoría de las plataformas de computación en la nube lo brindan como un servicio. 
 
- 
+[Google Cloud Platform](https://cloud.google.com/?hl=es-419) (GCP), que te permite crear un clúster de Kubernetes en unos minutos. Otras plataformas en la nube, como [Microsoft Azure](https://azure.microsoft.com/es-es), [Amazon Web](https://aws.amazon.com/es/) Services (AWS) e [IBM Cloud](https://cloud.ibm.com/login), también tienen Kubernetes . .  
 
-Kubernetes se ha vuelto tan popular que la mayoría de las plataformas de computación en la nube lo brindan como un servicio. El líder aquí es Google Cloud Platform (GCP), que te permite crear un clúster de Kubernetes en unos minutos. Otras plataformas en la nube, como Microsoft Azure, Amazon Web Services (AWS) e IBM Cloud, también tienen Kubernetes . Echemos un vistazo más de cerca a las tres soluciones más populares: GCP, Azure y AWS.  
+Instalar Kubernetes desde cero en tus propios servidores tiene sentido si no quieres depender de plataformas en la nube o si las políticas de seguridad de tu empresa no lo permiten. 
 
- 
+El proceso de instalación es relativamente complejo y está fuera del alcance, pero puedes encontrar todos los detalles en la documentación oficial en https://kubernetes.io/docs/setup/production-environment/.  
 
-Instalaciones de Kubernetes 
-
- 
-
-Instalar Kubernetes desde cero en tus propios servidores tiene sentido si no quieres depender de plataformas en la nube o si las políticas de seguridad de tu empresa no lo permiten. El proceso de instalación es relativamente complejo y está fuera del alcance, pero puedes encontrar todos los detalles en la documentación oficial en https://kubernetes.io/docs/setup/production-environment/.  
-
- 
-
-Ahora que tenemos configurado el entorno de Kubernetes, podemos verificar que kubectl está conectado al clúster correctamente y que estamos listos para comenzar a implementar nuestras aplicaciones.  
+ Ahora que tenemos configurado el entorno de Kubernetes, podemos verificar que kubectl está conectado al clúster correctamente y que estamos listos para comenzar a implementar las aplicaciones.  
 
  
 
