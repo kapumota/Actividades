@@ -223,53 +223,38 @@ Para instalar la implementación, ejecuta el siguiente comando:
 ```
 $ kubectl apply -f deployment.yaml  
 ```
- 
 
 Puedes verificar que se hayan creado los tres Pods, cada uno con un contenedor Docker: 
 
- 
-
+```
 $ kubectl get pods 
+```
+Cada Pod ejecuta un contenedor Docker. 
 
+Podemos verificar sus registros usando el siguiente comando:  
+
+```
+$ kubectl logs pods/calculador2-deployment-dccdf8756-h2l6c  
+```
  
+Debería ver el familiar logotipo de Spring y los registros del servicio web `Calculador2`.  
 
-Cada Pod ejecuta un contenedor Docker. Podemos verificar sus registros usando el siguiente comando:  
+Para ver una descripción general de los comandos de kubectl, consulta la guía oficial: https://kubernetes.io/docs/reference/kubectl/overview/ .  
 
- 
+ ### Implementación de un servicio de Kubernetes  
 
-$ kubectl logs pods/calculador-deployment-dccdf8756-h2l6c  
+Cada Pod tiene una dirección IP en la red interna de Kubernetes, lo que significa que ya puede acceder a cada instancia de calculador desde otro Pod que se ejecuta en el mismo clúster de Kubernetes. 
 
- 
-
-Debería ver el familiar logotipo de Spring y los registros del servicio web Calculador.  
-
- 
-
-Información: Para ver una descripción general de los comandos de kubectl, consulta la guía oficial: https://kubernetes.io/docs/reference/kubectl/overview/ .  
-
- 
-
-Implementación de un servicio de Kubernetes  
-
- 
-
-Cada Pod tiene una dirección IP en la red interna de Kubernetes, lo que significa que ya puede acceder a cada instancia de calculador desde otro Pod que se ejecuta en el mismo clúster de Kubernetes. Pero, ¿cómo accedemos a la aplicación desde el exterior? Ese es el papel de un servicio (Services)  de Kubernetes. 
-
- 
+Pero, ¿cómo accedemos a la aplicación desde el exterior? Ese es el papel de un servicio (Services)  de Kubernetes. 
 
 Veamos el siguiente diagrama, que presenta la idea de un Pod y un Servicio:  
 
  
-
- 
-
- 
-
 Los pods se colocan físicamente en diferentes nodos, pero no tiene que preocuparse por esto, ya que Kubernetes se encarga de la orquestación correcta e introduce la abstracción de un Pod y un Servicio. El usuario accede al Service, cuya carga equilibra el tráfico entre las réplicas del Pod.  
 
- 
+Veamos un ejemplo de cómo crear un servicio para nuestra aplicación Calculador. 
 
-Veamos un ejemplo de cómo crear un servicio para nuestra aplicación Calculador. Al igual que hicimos para la implementación, comenzamos desde un archivo de configuración YAML. Llamémoslo service.yaml : 
+Al igual que hicimos para la implementación, comenzamos desde un archivo de configuración YAML. Llamémoslo service.yaml : 
 
  
 
