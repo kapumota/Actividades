@@ -53,7 +53,7 @@ de todos modos en el caso de macOS y Windows. Además, Ubuntu es uno de los sist
 
 #### Instalación en una máquina local  
 
-El proceso de instalación de Docker es sencillo y se describe en detalle en su página oficial: https://docs.docker.com/get-docker/.  
+El proceso de instalación de Docker en Linux es sencillo y se describe en detalle en la página oficial: https://docs.docker.com/engine/install/ubuntu/.  
 
 #### Escritorio Docker 
 
