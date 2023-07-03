@@ -225,15 +225,15 @@ La versión de Gradle que se usa está determinada por la propiedad `distributio
 
 Para simplificar un poco la creación de todos los microservicios con un solo comando, podemos configurar una compilación de varios proyectos en Gradle. Los pasos son los siguientes: 
 
-1 Primero, creamos el archivo `settings.gradle` que describe qué proyectos debe construir Gradle: 
+1. Primero, creamos el archivo `settings.gradle` que describe qué proyectos debe construir Gradle: 
 
   ```
   include ':microservicios:product-service' 
   include ':microservicios:review-service' 
   include ':microservicios:recommendation-service' 
   include ':microservicios:product-composite-service' 
-  ``` 
-2 A continuación, copiamos los archivos ejecutables de Gradle que se generaron a partir de uno de los proyectos para que podamos reutilizarlos para las compilaciones de varios proyectos: 
+  ```
+2. A continuación, copiamos los archivos ejecutables de Gradle que se generaron a partir de uno de los proyectos para que podamos reutilizarlos para las compilaciones de varios proyectos: 
 
 ```
  cp -r microservicios/product-service/gradle . 
@@ -346,14 +346,14 @@ Ahora podemos comenzar a implementar las API en los microservicios principales-
 
  La implementación es muy similar para los tres microservicios principales, por lo que solo analizaremos el código fuente del servicio `product`. Veamos cómo hacemos esto: 
 
- 1. Necesitamos agregar los proyectos `api` y `util` como dependencias del archivo `build.gradle`, en el proyecto del servicio `product`: 
+1. Necesitamos agregar los proyectos `api` y `util` como dependencias del archivo `build.gradle`, en el proyecto del servicio `product`: 
 
    ```
    dependencies { 
      implementation project(':api') 
      implementation project(':util') 
    ```
- 2. Para habilitar la función de configuración automática de Spring Boot para detectar Spring Beans en los proyectos de `api` y `util`, también debemos agregar una
+2. Para habilitar la función de configuración automática de Spring Boot para detectar Spring Beans en los proyectos de `api` y `util`, también debemos agregar una
      anotación `@ComponentScan` a la clase de aplicación `main`, que incluye los paquetes de los proyectos de `api` y `util`: 
 
    ```
@@ -361,7 +361,7 @@ Ahora podemos comenzar a implementar las API en los microservicios principales-
     @ComponentScan ("com. kapumota")
     public class ProductServiceApplication { 
   ```
- 3. A continuación, creamos el archivo de implementación de servicio, `ProductServiceImpl.java`, para implementar la interfaz de Java, `ProductService` desde el proyecto `api` y anotar la clase con `@RestController` para que Spring llame a los métodos de esta clase de acuerdo con las asignaciones especificadas en la clase `interface`: 
+3. A continuación, creamos el archivo de implementación de servicio, `ProductServiceImpl.java`, para implementar la interfaz de Java, `ProductService` desde el proyecto `api` y anotar la clase con `@RestController` para que Spring llame a los métodos de esta clase de acuerdo con las asignaciones especificadas en la clase `interface`: 
 
   ```
   package com.kapumota.microservicios.core.product.services; 
