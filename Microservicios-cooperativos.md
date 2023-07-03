@@ -356,53 +356,53 @@ Ahora podemos comenzar a implementar las API en los microservicios principales-
 2. Para habilitar la función de configuración automática de Spring Boot para detectar Spring Beans en los proyectos de `api` y `util`, también debemos agregar una
      anotación `@ComponentScan` a la clase de aplicación `main`, que incluye los paquetes de los proyectos de `api` y `util`: 
 
-   ```
-    @SpringBootApplication 
-    @ComponentScan ("com. kapumota")
-    public class ProductServiceApplication { 
-  ```
+     ```
+      @SpringBootApplication 
+      @ComponentScan ("com. kapumota")
+      public class ProductServiceApplication { 
+    ```
+
 3. A continuación, creamos el archivo de implementación de servicio, `ProductServiceImpl.java`, para implementar la interfaz de Java, `ProductService` desde el proyecto `api` y anotar la clase con `@RestController` para que Spring llame a los métodos de esta clase de acuerdo con las asignaciones especificadas en la clase `interface`: 
 
-  ```
-  package com.kapumota.microservicios.core.product.services; 
-  @RestController
-   public class ProductServiceImpl implements ProductService { 
-  } 
-  ```
+   ```
+   package com.kapumota.microservicios.core.product.services; 
+   @RestController
+    public class ProductServiceImpl implements ProductService { 
+   } 
+   ```
 4. Para poder usar la clase `ServiceUtil` del proyecto `util`, la inyectaremos en el constructor, de la siguiente manera: 
   
-  ```
-  private final ServiceUtil serviceUtil;
-  @Autowired 
-   public ProductServiceImpl(ServiceUtil serviceUtil) { 
-   this.serviceUtil = serviceUtil; 
- } 
- ```
+   ```
+   private final ServiceUtil serviceUtil;
+   @Autowired 
+    public ProductServiceImpl(ServiceUtil serviceUtil) { 
+      this.serviceUtil = serviceUtil; 
+   } 
+   ```
 5. Ahora, podemos implementar la API sobreescribiendo el método `getProduct()` desde la interfaz en el proyecto API: 
 
- ```
- @Override 
-  public Product getProduct(int productId) { 
-     return new Product(productId, "nombre-" + productId, 123, 
-     serviceUtil.getServiceAddress()); 
-} 
-```
+   ```
+     @Override 
+      public Product getProduct(int productId) { 
+       return new Product(productId, "nombre-" + productId, 123, 
+       serviceUtil.getServiceAddress()); 
+     } 
+   ```
 
 Dado que actualmente no estamos usando una base de datos, simplemente devolvemos una respuesta codificada basada en la entrada de `productId`, junto con la dirección de servicio proporcionada por la clase `ServiceUtil`. 
 
 Para obtener el resultado final, incluido el registro y la gestión de errores, consulta `ProductServiceImpl.java`. 
 
-
 6. Finalmente, también necesitamos configurar algunas propiedades de tiempo de ejecución: qué puerto usar y el nivel deseado de registro.
    Esto se agrega al archivo de propiedades `application.yml`: 
 
-```
-server.port: 7001 
-logging: 
-level: 
-root: INFO 
-com.kapumota.microservicios: DEBUG 
-```
+   ```
+    server.port: 7001 
+    logging: 
+      level: 
+        root: INFO 
+        com.kapumota.microservicios: DEBUG 
+   ```
 
 Ten en cuenta que el archivo `application.properties` vacío generado por Spring Initializr se reemplazó por un archivo YAML, `application.yml`. 
 
@@ -410,12 +410,12 @@ Los archivos YAML brindan una mejor compatibilidad para agrupar propiedades rela
 
 7. Podemos probar el servicio `producto` por sí solo. Crea e inicie el microservicio con los siguientes comandos:
   
-  ```
-./gradlew build
-java -jar microservicios/product-service/build/libs/*.jar &
- ```
+    ```
+      ./gradlew build
+      java -jar microservicios/product-service/build/libs/*.jar &
+    ```
 8. Realiza una llamada de prueba al servicio `product`.
-9. Finalmente, deten el servicio `product`: `kill $(jobs -p)`
+9. Finalmente, deten el servicio `product`: `kill $(jobs -p)`.
 
 Ahora hemos creado, ejecutado y probado el primer microservicio único. 
 
