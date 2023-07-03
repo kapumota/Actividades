@@ -17,6 +17,8 @@ la carga de configurar una aplicación Spring utilizando un archivo de configura
 
 En 2014, se lanzó Spring Boot v1.0, que solucionó estos problemas. 
 
+Para poder instalar Spring Boot puedes utilizar la [documentación])(https://docs.spring.io/spring-boot/docs/2.0.0.M5/reference/html/getting-started-installing-spring-boot.html) o utilizar [SDKMAN!](https://sdkman.io/), que se puede usar para administrar varias versiones de varios SDK binarios, incluidos Groovy y Spring Boot CLI.
+
 ### Convención sobre configuración y archivos JAR  
 
 Spring Boot tiene como objetivo el desarrollo rápido de aplicaciones Spring listas para la producción a partir de configurar los módulos principales de Spring Framework y 
