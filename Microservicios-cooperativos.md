@@ -8,6 +8,7 @@ Al final de esta actividad, tendremos una API RESTful expuesta por un microservi
 El microservicio compuesto llamará a otros tres microservicios utilizando sus API RESTful para crear una respuesta agregada. 
 
 Inicia un repositorio llamado CC-3S2 y dentro una carpeta llamada Actividades. Dentro de esta carpeta completa con código en una carpeta `Microservicios` y coloca todas tus respuestas.
+Utiliza la carpeta sobre  [microservicios cooperativos](https://github.com/kapumota/Actividades/tree/main/Ejemplo-Microservicios) dado en el repositorio del curso.
 
 Esta actividad es grupal.
 
@@ -428,7 +429,7 @@ Dado que no necesitamos el nuevo archivo jar simple, se ha desactivado su creaci
 ```
 java -jar microservicios/product-service/buils/libs/*.jar
 ```
-La creación del nuevo archivo jar simple se ha deshabilitado agregando las siguientes líneas en el archivo `build.gradle` para cada microservicio:
+La creación del nuevo archivo jar simple se puede deshabilitar agregando las siguientes líneas en el archivo `build.gradle` para cada microservicio:
 
 ```
 jar {
