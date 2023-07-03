@@ -339,3 +339,99 @@ El proyecto contiene las siguientes clases de utilidad: `GlobalControllerExcepti
 Excepto por el código en `ServiceUtil.java`, estas clases son clases de utilidad reutilizables que podemos usar para asignar excepciones de Java a códigos de estado HTTP adecuados.  
 
 El objetivo principal de `ServiceUtil.java` es averiguar el nombre de host, la dirección IP y el puerto que utiliza el microservicio. La clase expone un método, `getServiceAddress()`, que los microservicios pueden usar para encontrar su nombre de host, dirección IP y puerto.
+
+### Implementando la API 
+
+Ahora podemos comenzar a implementar las API en los microservicios principales-
+
+ La implementación es muy similar para los tres microservicios principales, por lo que solo analizaremos el código fuente del servicio `product`. Veamos cómo hacemos esto: 
+
+ 1. Necesitamos agregar los proyectos `api` y `util` como dependencias del archivo `build.gradle`, en el proyecto del servicio `product`: 
+
+   ```
+   dependencies { 
+     implementation project(':api') 
+     implementation project(':util') 
+   ```
+ 2. Para habilitar la función de configuración automática de Spring Boot para detectar Spring Beans en los proyectos de `api` y `util`, también debemos agregar una
+     anotación `@ComponentScan` a la clase de aplicación `main`, que incluye los paquetes de los proyectos de `api` y `util`: 
+
+   ```
+    @SpringBootApplication 
+    @ComponentScan ("com. kapumota")
+    public class ProductServiceApplication { 
+  ```
+ 3. A continuación, creamos el archivo de implementación de servicio, `ProductServiceImpl.java`, para implementar la interfaz de Java, `ProductService` desde el proyecto `api` y anotar la clase con `@RestController` para que Spring llame a los métodos de esta clase de acuerdo con las asignaciones especificadas en la clase `interface`: 
+
+  ```
+  package com.kapumota.microservicios.core.product.services; 
+  @RestController
+   public class ProductServiceImpl implements ProductService { 
+  } 
+  ```
+4. Para poder usar la clase `ServiceUtil` del proyecto `util`, la inyectaremos en el constructor, de la siguiente manera: 
+  
+  ```
+  private final ServiceUtil serviceUtil;
+  @Autowired 
+   public ProductServiceImpl(ServiceUtil serviceUtil) { 
+   this.serviceUtil = serviceUtil; 
+ } 
+ ```
+5. Ahora, podemos implementar la API sobreescribiendo el método `getProduct()` desde la interfaz en el proyecto API: 
+
+ ```
+ @Override 
+  public Product getProduct(int productId) { 
+     return new Product(productId, "nombre-" + productId, 123, 
+     serviceUtil.getServiceAddress()); 
+} 
+```
+
+Dado que actualmente no estamos usando una base de datos, simplemente devolvemos una respuesta codificada basada en la entrada de `productId`, junto con la dirección de servicio proporcionada por la clase `ServiceUtil`. 
+
+Para obtener el resultado final, incluido el registro y la gestión de errores, consulta `ProductServiceImpl.java`. 
+
+
+6. Finalmente, también necesitamos configurar algunas propiedades de tiempo de ejecución: qué puerto usar y el nivel deseado de registro.
+   Esto se agrega al archivo de propiedades `application.yml`: 
+
+```
+server.port: 7001 
+logging: 
+level: 
+root: INFO 
+com.kapumota.microservicios: DEBUG 
+```
+
+Ten en cuenta que el archivo `application.properties` vacío generado por Spring Initializr se reemplazó por un archivo YAML, `application.yml`. 
+
+Los archivos YAML brindan una mejor compatibilidad para agrupar propiedades relacionadas en comparación con los archivos `.properties`.
+
+7. Podemos probar el servicio `producto` por sí solo. Crea e inicie el microservicio con los siguientes comandos:
+  
+  ```
+./gradlew build
+java -jar microservicios/product-service/build/libs/*.jar &
+ ```
+8. Realiza una llamada de prueba al servicio `product`.
+9. Finalmente, deten el servicio `product`: `kill $(jobs -p)`
+
+Ahora hemos creado, ejecutado y probado el primer microservicio único. 
+
+**Pregunta:** Realiza los mismos procedimientos para los otros servicios de la actividad.
+
+A partir de Spring Boot v2.5.0, se crean dos archivos jar cuando se ejecuta el comando de compilación `./gradlew`: el archivo jar ordinario, más un archivo jar simple que contiene solo los archivos de clase resultantes de compilar los archivos Java en la aplicación Spring Boot. 
+
+Dado que no necesitamos el nuevo archivo jar simple, se ha desactivado su creación para que sea posible hacer referencia al archivo jar normal mediante un comodín al ejecutar la aplicación Spring Boot, por ejemplo:
+
+```
+java -jar microservicios/product-service/buils/libs/*.jar
+```
+La creación del nuevo archivo jar simple se ha deshabilitado agregando las siguientes líneas en el archivo `build.gradle` para cada microservicio:
+
+```
+jar {
+  enabled = false
+}
+```
