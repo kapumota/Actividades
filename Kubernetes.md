@@ -356,7 +356,7 @@ $ kubectl expose deployment calculador2-deployment --type=NodePort --name=calcul
 
 ### Ejercicios
 
-1. Qué es un clúster de servidores?
+1. ¿Qué es un clúster de servidores?
 2. ¿Cuál es la diferencia entre un plano de control de Kubernetes y un nodo de Kubernetes?
 3. Nombra al menos tres plataformas en la nube que proporcionen un entorno de Kubernetes listo para usar.
 4. Ejecuta una aplicación `hello world` en el clúster de Kubernetes
